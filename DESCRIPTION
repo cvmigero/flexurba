@@ -4,7 +4,9 @@ Title: An open-source R package to flexibly reconstruct the Degree of Urbanisati
 Version: 0.0.1.0
 Authors@R:
   c(
-    person("Author", "Name", , "authors@email.com", role=c("aut", "cre"), comment=c(ORCID = "XXX"))
+    person("Céline", "Van Migerode", , "celine.vanmigerode@kuleuven.be", role=c("aut", "cre"), comment=c(ORCID = "0000-0002-4023-7665")),
+    person("Ate", "Poorthuis", , "ate.poorthuis@kuleuven.be", role=c("aut"), comment=c(ORCID = "0000-0002-3808-7493")),
+    person("Ben", "Derudder", , "ben.derudder@kuleuven.be", role=c("aut"), comment=c(ORCID = "0000-0001-6195-8544"))
   )
 Description: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification.
 RoxygenNote: 7.2.3

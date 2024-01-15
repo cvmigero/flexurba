@@ -25,7 +25,9 @@ The Degree of Urbanisation (DEGURBA) is an operational definition of cities, tow
 
 Against this backdrop, we developed the `flexurba` package: a **flex**ible reconstruction of the DEG**URBA** algorithm. The package encompasses the first open implementation of DEGURBA's algorithm in any programming language. It provides flexibility to the user to customise the parameters in the algorithm and evaluate the consequences of certain implementation choices. The user can construct alternative versions of DEGURBA by changing the minimum population thresholds, and even more 'hidden' implementation details, such as the contiguity requirements and edge smoothing rules.
 
-For an extensive description of the package and its contribution: see \<*insert link to paper\>*.
+For an extensive description of the package and its contribution: see \<*the paper is currently still under review, the link to the paper will be added here if published\>*. 
+
+For the source code of the package: see [the GitLab repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/celine/flexurba). The documentation of all functions can be found [on this website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
 
 ## Degree of Urbanisation
 

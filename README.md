@@ -39,7 +39,13 @@ DEGURBA by changing the minimum population thresholds, and even more
 edge smoothing rules.
 
 For an extensive description of the package and its contribution: see
-\<*insert link to paper\>*.
+\<*the paper is currently still under review, the link to the paper will
+be added here if published\>*.
+
+For the source code of the package: see [the GitLab
+repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/celine/flexurba).
+The documentation of all functions can be found [on this
+website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
 
 ## Degree of Urbanisation
 
