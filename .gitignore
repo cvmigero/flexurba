@@ -2,12 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-src/*.o
-src/*.so
-src/*.dll
-runtest/
-.Rdata
 .httr-oauth
 .DS_Store
-.ipynb_checkpoints/
-docs
