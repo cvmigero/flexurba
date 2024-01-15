@@ -1,0 +1,116 @@
+---
+title: "2. Multiple parameter configurations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{2. Multiple parameter configurations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+One of the key contributions of the `flexurba` package is that it allows to *flexibly* reconstruct the Degree of Urbanisation classification. This means that the package enables users to adapt the standard specifications in the algorithm and construct alternative versions of the classification.
+
+The following vignette demonstrates how `flexurba` can be used to construct alternative grid cell classifications by systematically varying different parameter settings.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Load the required data
+
+As illustration, we will generate multiple variations of the grid cell classification for Belgium. First, we load the pre-processed population, built-up area and land grid in the data object `data_belgium`.
+
+```{r setup}
+library(flexurba)
+
+# load the data
+data_belgium <- load_grid_data_belgium()
+```
+
+### Create a list of parameter configurations
+
+Next, we need to create a list with the different parameter configurations. Suppose we want to create a grid cell classification with each combination of the following parameters values:
+
+-   An urban centre population density thresholds of 1500 and 2000:
+    -   `UC_density_threshold = 1500`
+    -   `UC_density_threshold = 2000`
+-   An urban centre population size thresholds of 50 000 and 75 000:
+    -   `UC_size_threshold = 50000`
+    -   `UC_size_threshold = 75000`
+-   Urban centres constructed with gap filling and edge smoothing, and without gap filling and edge smoothing
+    -   `UC_gap_fill = TRUE` and `UC_edge_smooth = TRUE`
+    -   `UC_gap_fill = FALSE` and `UC_edge_smooth = FALSE`
+
+This can be established with the following code. First, the standard DEGURBA parameter settings are loaded in the data object `standard_param`.
+
+```{r}
+standard_param <- get_grid_parameters()
+```
+
+Next, we create variables with the different parameter values, as defined above:
+
+```{r}
+UC_density_variations <- c(1500, 2000)
+UC_size_variations <- c(50000, 75000)
+UC_gapsmooth_variations <- c(TRUE, FALSE)
+```
+
+Finally, a list is created with the final parameter configurations by inserting the alternative parameter values in the object `standard_param` with the standard parameter settings:
+
+```{r}
+# create an empty list to save the different parameter configurations
+parameter_variations <- list()
+
+# iterate over each combination of parameter values
+# and save the configuration in the list
+i <- 1
+
+for (density in UC_density_variations) {
+  for (size in UC_size_variations) {
+    for (gapsmooth in UC_gapsmooth_variations) {
+      # get standard parameters
+      parameters <- standard_param
+
+      # adapt the parameters values
+      parameters$UC_density_threshold <- density
+      parameters$UC_size_threshold <- size
+      parameters$UC_gap_fill <- gapsmooth
+      parameters$UC_smooth_edge <- gapsmooth
+
+      # save in the list
+      parameter_variations[[i]] <- parameters
+
+      i <- i + 1
+    }
+  }
+}
+```
+
+### Execute the different parameter configurations
+
+Finally, the grid classification with each of these parameter configurations is executed and plotted as follows:
+
+```{r}
+# create a list to save the classifications
+classifications <- list()
+plots <- list()
+
+# create the grid classification and plot the result
+for (i in seq_along(parameter_variations)) {
+  classifications[[i]] <- classify_grid(
+    data = data_belgium,
+    parameters = parameter_variations[[i]]
+  )
+
+  plots[[i]] <- plot_grid(classifications[[i]],
+    title = paste0(
+      "Grid classification (", parameter_variations[[i]]$UC_density_threshold, ", ",
+      parameter_variations[[i]]$UC_size_threshold, ", ",
+      parameter_variations[[i]]$UC_gap_fill, ")"
+    )
+  )
+}
+plots
+```

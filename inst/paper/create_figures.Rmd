@@ -1,0 +1,244 @@
+---
+title: "paper_figures"
+output: html_document
+date: "2023-06-29"
+---
+
+## Create the figures
+
+Code example 1:
+
+```{r}
+library(flexurba)
+# get the required data
+data_belgium <- load_grid_data_belgium()
+
+# (A) with the standard parameters
+classification_1 <- classify_grid(data_belgium)
+
+# (B) with decreased population density and size thresholds
+# for urban centres (UC) and urban clusters (UCL)
+classification_2 <- classify_grid(data_belgium,
+  parameters = list(
+    UC_density_threshold = 1000,
+    UC_size_threshold = 30000,
+    UCL_density_threshold = 200,
+    UCL_size_threshold = 3000
+  )
+)
+
+# (C) with queens contiguity (8-cell connectivity) for urban centres
+classification_3 <- classify_grid(data_belgium,
+  parameters = list(UC_contiguity_rule = 8)
+)
+
+# (D) without the built-up area criterium for urban centres
+classification_4 <- classify_grid(data_belgium,
+  parameters = list(UC_built_criterium = FALSE)
+)
+```
+
+Figure 1:
+
+```{r}
+library(sf)
+library(ggplot2)
+library(here)
+library(dplyr)
+library(shadowtext)
+library(ggpubr)
+
+# create plots of the classifications
+plot1 <- plot_grid(classification_1) +
+  ggspatial::annotation_scale(
+    pad_x = grid::unit(0.08, "npc"),
+    pad_y = grid::unit(0.10, "npc"),
+    width_hint = 0.10,
+    height = grid::unit(0.05, "cm"),
+    bar_cols = c("black")
+  )
+
+plot2 <- plot_grid(classification_2) +
+  ggspatial::annotation_scale(
+    pad_x = grid::unit(0.08, "npc"),
+    pad_y = grid::unit(0.10, "npc"),
+    width_hint = 0.10,
+    height = grid::unit(0.05, "cm"),
+    bar_cols = c("black")
+  )
+
+plot3 <- plot_grid(classification_3) +
+  ggspatial::annotation_scale(
+    pad_x = grid::unit(0.08, "npc"),
+    pad_y = grid::unit(0.10, "npc"),
+    width_hint = 0.10,
+    height = grid::unit(0.05, "cm"),
+    bar_cols = c("black")
+  )
+
+plot4 <- plot_grid(classification_4) +
+  ggspatial::annotation_scale(
+    pad_x = grid::unit(0.08, "npc"),
+    pad_y = grid::unit(0.10, "npc"),
+    width_hint = 0.10,
+    height = grid::unit(0.05, "cm"),
+    bar_cols = c("black")
+  )
+```
+
+```{r}
+# create plots of the population per km²
+
+# get population data and add water cells as NA
+pop <- data_belgium$pop %>% terra::crop(classification_1)
+terra::set.values(pop, which(classification_1[] == 0), NA)
+names(pop) <- c("layer")
+
+# get color ramp
+colfunc <- colorRampPalette(c("white", "black"))
+
+# construct plot
+popplot <- ggplot2::ggplot() +
+  tidyterra::geom_spatraster(data = pop, ggplot2::aes(fill = layer)) +
+  scale_fill_gradientn(
+    colours = colfunc(5),
+    values = c(0, 0.1, 0.2, 0.3, 0.5, 1),
+    na.value = "#acd3df"
+  ) +
+  ggplot2::labs(fill = "Population \nper km²") +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    legend.position = "bottom",
+    plot.margin = grid::unit(c(0, 0, 0, 0.7), "cm"),
+    plot.title = ggplot2::element_text(hjust = 0.5),
+    legend.key.size = unit(0.02, "npc"),
+    legend.title = element_text(size = 7),
+    legend.text = element_text(size = 5),
+  ) +
+  ggspatial::annotation_scale(
+    pad_x = grid::unit(0.08, "npc"),
+    pad_y = grid::unit(0.10, "npc"),
+    width_hint = 0.10,
+    height = grid::unit(0.05, "cm"),
+    bar_cols = c("black")
+  )
+```
+
+```{r}
+# create reference plot
+
+# load countries and cities
+countries <- sf::st_read("countries.geojson", quiet = TRUE)
+cities <- sf::st_read("cities.geojson", quiet = TRUE)
+
+# create labels of cities, and offset the position
+labels <- cities
+st_geometry(labels) <- st_sfc(
+  ifelse(labels$city_ascii %in% c("Aalst", "Bruges"),
+    st_sfc(st_geometry(labels) - st_sfc(st_point(c(10000, 10000)))),
+    st_sfc(st_geometry(labels) - st_sfc(st_point(c(-12000, -10000))))
+  ),
+  crs = st_crs(labels$geometry)
+)
+
+# construct plot
+refplot <- ggplot() +
+  geom_sf(
+    data = countries,
+    fill = NA,
+    colour = "#2F2F2F"
+  ) +
+  geom_sf(
+    data = cities,
+    color = "#2F2F2F",
+    size = 1
+  ) +
+  geom_shadowtext(
+    data = labels, aes(
+      x = st_coordinates(geometry)[, 1],
+      y = st_coordinates(geometry)[, 2],
+      label = city_ascii
+    ),
+    bg.color = "white", color = "black", size = 2
+  ) +
+  xlim(192000, 485000) +
+  ylim(5821000, 6030000) +
+  theme_void() +
+  ggspatial::annotation_scale(
+    pad_x = grid::unit(0.08, "npc"),
+    pad_y = grid::unit(0.10, "npc"),
+    width_hint = 0.10,
+    height = grid::unit(0.05, "cm"),
+    bar_cols = c("black")
+  ) +
+  theme(
+    plot.margin = unit(c(0, 0, 0, 0.7), "cm")
+  )
+```
+
+```{r}
+# arrange the plots
+arr <- ggarrange(
+  ggarrange(
+    plot1, plot2, plot3, plot4,
+    ncol = 2,
+    nrow = 2,
+    labels = c(" A", " B", " C", " D"),
+    common.legend = TRUE,
+    legend = "bottom",
+    label.y = 0.89
+  ),
+  ggarrange(
+    popplot, refplot,
+    nrow = 2
+  ),
+  widths = c(2.2, 1),
+  align = "v"
+)
+
+# save the plot
+ggsave("figure1.png", arr, width = 8, height = 4.8)
+arr
+```
+
+Code example 2
+
+```{r}
+library(flexurba)
+
+# get the required data
+data_belgium <- load_grid_data_belgium()
+classification <- classify_grid(data_belgium)
+
+# (A) spatial units classification at the finest GADM level (= Belgian municipalities)
+units_1 <- preprocess_units(
+  units = flexurba::units_belgium,
+  classification = classification,
+  pop = data_belgium$pop
+)
+units_classification_1 <- classify_units(units_1)
+
+# (B) spatial units classification at the GADM level 3 (= Belgian districts)
+units_2 <- preprocess_units(
+  units = flexurba::units_belgium,
+  classification = classification,
+  pop = data_belgium$pop,
+  dissolve_units_by = "GID_3"
+)
+units_classification_2 <- classify_units(units_2, id = "GID_3")
+```
+
+Figure 2:
+
+```{r}
+# create plots
+plot1 <- plot_units(units_1$units, units_classification_1, scalebar = TRUE)
+plot2 <- plot_units(units_2$units, units_classification_2, scalebar = TRUE)
+
+# arrange in one plot
+arr <- ggarrange(plot1, plot2, ncol = 2, nrow = 1, labels = c(" A", " B"), common.legend = TRUE, legend = "bottom", label.y = 1)
+
+# save the plot
+ggsave("figure2.png", arr, width = 5, height = 2)
+arr
+```

@@ -1,0 +1,41 @@
+Package: flexurba
+Type: Package
+Title: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification
+Version: 0.0.1.0
+Authors@R:
+  c(
+    person("Author", "Name", , "authors@email.com", role=c("aut", "cre"), comment=c(ORCID = "XXX"))
+  )
+Description: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification.
+RoxygenNote: 7.2.3
+Imports: 
+    data.table,
+    dplyr,
+    exactextractr,
+    fastmatch,
+    geos,
+    jsonlite,
+    magrittr,
+    nngeo,
+    Rcpp,
+    sf,
+    terra (>= 1.7-3),
+    utils
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Encoding: UTF-8
+LinkingTo: 
+    Rcpp
+License: MIT + file LICENSE
+Suggests: 
+    ggplot2,
+    ggspatial,
+    grid,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    tidyterra
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr

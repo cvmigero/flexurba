@@ -1,0 +1,48 @@
+url: "https://spatial-networks-lab.pages.gitlab.kuleuven.be/research-projects/celine/package-dou/"
+template:
+  bootstrap: 5
+reference: 
+- title: Grid cell classification
+- contents:
+  - preprocess_grid
+  - classify_grid
+  - classify_grid_urban_centres
+  - classify_grid_urban_clusters
+  - classify_grid_rural
+  - classify_grid_water
+
+- title: Spatial units classification
+- contents:
+  - preprocess_units
+  - classify_units
+
+
+- title: Download data from GHSL website
+- contents:
+  - download_GHSLdata
+  - crop_GHSLdata
+  
+- title: Datasets
+- contents:
+  - GHSL_tiles
+  - GHSL_tiles_per_region
+  - units_belgium
+  - load_grid_data_belgium
+
+- title: Plotting functions
+- contents:
+  - plot_grid
+  - plot_units
+  
+- title: Utility functions classification
+- contents:
+  - apply_majority_rule
+  - get_optimal_builtup
+  - get_grid_parameters
+  
+- title: General raster operations
+- contents:
+  - fill_gaps
+  - get_adjacent
+  - get_clusters
+  - get_patches

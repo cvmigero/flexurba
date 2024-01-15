@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "paper02",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:ESRI::54009" } },
+"features": [
+{ "type": "Feature", "properties": { "city": "Gent", "city_ascii": "Ghent", "lat": 51.0536, "lng": 3.7253, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Flanders", "capital": "minor", "population": 265086.0, "id": 1056062897 }, "geometry": { "type": "Point", "coordinates": [ 279392.0247503236169, 5983355.990330985747278 ] } },
+{ "type": "Feature", "properties": { "city": "Antwerp", "city_ascii": "Antwerp", "lat": 51.2178, "lng": 4.4003, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Flanders", "capital": "minor", "population": 529247.0, "id": 1056168623 }, "geometry": { "type": "Point", "coordinates": [ 329275.501581382064614, 6000399.079533851705492 ] } },
+{ "type": "Feature", "properties": { "city": "Charleroi", "city_ascii": "Charleroi", "lat": 50.4, "lng": 4.4333, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Wallonia", "capital": "minor", "population": 201816.0, "id": 1056263311 }, "geometry": { "type": "Point", "coordinates": [ 335432.914772819378413, 5915295.915074802935123 ] } },
+{ "type": "Feature", "properties": { "city": "Brussels", "city_ascii": "Brussels", "lat": 50.8467, "lng": 4.3525, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Brussels-Capital Region", "capital": "primary", "population": 1743000.0, "id": 1056469830 }, "geometry": { "type": "Point", "coordinates": [ 327350.133694257761817, 5961849.162890696898103 ] } },
+{ "type": "Feature", "properties": { "city": "Bruges", "city_ascii": "Bruges", "lat": 51.2089, "lng": 3.2242, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Flanders", "capital": "minor", "population": 118509.0, "id": 1056953902 }, "geometry": { "type": "Point", "coordinates": [ 241297.120181588164996, 5999475.879264217801392 ] } },
+{ "type": "Feature", "properties": { "city": "Liège", "city_ascii": "Liege", "lat": 50.6397, "lng": 5.5706, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Wallonia", "capital": "minor", "population": 196623.0, "id": 1056513284 }, "geometry": { "type": "Point", "coordinates": [ 420134.237046169932, 5940296.739527164958417 ] } },
+{ "type": "Feature", "properties": { "city": "Aalst", "city_ascii": "Aalst", "lat": 50.9383, "lng": 4.0392, "country": "Belgium", "iso2": "BE", "iso3": "BEL", "admin_name": "Flanders", "capital": "minor", "population": 88854.0, "id": 1056695813 }, "geometry": { "type": "Point", "coordinates": [ 303409.851938756357413, 5971375.144124387763441 ] } },
+{ "type": "Feature", "properties": { "city": "Lille", "city_ascii": "Lille", "lat": 50.6278, "lng": 3.0583, "country": "France", "iso2": "FR", "iso3": "FRA", "admin_name": "Hauts-de-France", "capital": "admin", "population": 234475.0, "id": 1250071961 }, "geometry": { "type": "Point", "coordinates": [ 230693.62905718915863, 5939056.669187911786139 ] } }
+]
+}
