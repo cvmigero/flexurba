@@ -43,7 +43,7 @@ For an extensive description of the package and its contribution: see
 be added here if published\>*.
 
 For the source code of the package: see [the GitLab
-repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/celine/flexurba).
+repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba).
 The documentation of all functions can be found [on this
 website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
 
@@ -94,7 +94,7 @@ The `flexurba` package can be installed as follows:
 
 ``` r
 install.packages("remotes")
-remotes::install_local("package-flexurba.zip", upgrade = "always")
+remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba", host="https://gitlab.kuleuven.be/", upgrade = "always")
 ```
 
 *Important notes for installation:*
