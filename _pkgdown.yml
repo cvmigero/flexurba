@@ -1,8 +1,6 @@
 url: "https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/"
 template:
   bootstrap: 5
-  includes:
-    after_navbar: <img src="man/figures/funding.png" width="150px;">
 navbar:
   structure:
     left:  [reference, articles]
