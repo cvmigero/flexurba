@@ -33,11 +33,11 @@ Worldwide, there are 2951 cells classified differently. These represent a mere 0
 
 The discrepancies in the grid cell classification are likely caused by the three following issues.
 
-#### 1. Difference in coding language and potential misinterpretation of the documentation
+#### 1. Difference in coding language
 
-First, differences in coding languages and versions of software libraries (e.g., GDAL) can lead to minor inconsistencies in the resulting classification. 
+First, differences in coding languages and versions of software libraries can lead to minor inconsistencies in the resulting classification. 
 
-#### 2. Potential misinterpretation of the DEGURBA documentation.
+#### 2. Potential misinterpretation
 
 Second, there might be a misinterpretation of the official DEGURBA documentation from our end. This, in some way, highlights the importance of openly sharing exact source code alongside verbatim documentation. By publicly releasing the `flexurba` package, we hope to resolve discrepancies caused by misinterpretation with the input of the geospatial community and/or feedback of the developers of the official DEGURBA methodology. Please feel free to create an issue on the GitLab repository when you find a potential bug or inconsistency in the source code.
 

@@ -9,6 +9,8 @@ Authors@R:
     person("Ben", "Derudder", , "ben.derudder@kuleuven.be", role=c("aut"), comment=c(ORCID = "0000-0001-6195-8544"))
   )
 Description: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification.
+URL: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
+BugReports: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba/-/issues
 RoxygenNote: 7.2.3
 Imports: 
     data.table,
