@@ -9,7 +9,7 @@ Authors@R:
     person("Ben", "Derudder", , "ben.derudder@kuleuven.be", role=c("aut"), comment=c(ORCID = "0000-0001-6195-8544"))
   )
 Description: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification.
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports: 
     data.table,
     dplyr,
