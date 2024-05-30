@@ -1,6 +1,27 @@
-url: "https://spatial-networks-lab.pages.gitlab.kuleuven.be/research-projects/celine/package-dou/"
+url: "https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/"
 template:
   bootstrap: 5
+navbar:
+  structure:
+    left:  [reference, articles]
+    right: [search, code]
+  components:
+    code:
+      icon: fa-code
+      href: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
+      aria-label: Source Code
+home:
+  sidebar:
+    structure: [links, citation, authors, license, funding]
+    components:
+      funding:
+        title: Funding
+        text: <small>The development of this package is supported by Research Foundation Flanders (grant number 11P4224N), by patronage funding provided to KU Leuven for carrying out scientific research into urban processes and change, and partly by Internal Funds KU Leuven grant number STG/20/021. </small>
+
+repo:
+  url:
+    home: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
+    
 reference: 
 - title: Grid cell classification
 - contents:

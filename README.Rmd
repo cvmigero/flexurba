@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 ```
 
 # Flexurba
-
 **An open-source R package to flexibly reconstruct the Degree of Urbanisation classification**
 
 <!-- badges: start -->

@@ -4,3 +4,5 @@
 .Ruserdata
 .httr-oauth
 .DS_Store
+pkgdown
+docs
