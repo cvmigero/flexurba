@@ -39,7 +39,7 @@ DEGURBA by changing the minimum population thresholds, and even more
 edge smoothing rules.
 
 For an extensive description of the package and its contribution: see
-\<*the paper in press, the link will be provided once published\>*.
+\<*currently in press, the link will be provided once published\>*.
 
 For the source code of the package: see [the GitLab
 repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba).
