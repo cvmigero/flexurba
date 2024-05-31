@@ -300,7 +300,7 @@ compute_share_in_classes <- function(pop, units_grid, classification, population
   }
   
   # compute total population / area per unit
-  df_list[[i]] <- terra::zonal(pop, units_grid, fun = func)
+  df_list[[i]] <- terra::zonal(pop, units_grid, fun = func, na.rm=TRUE)
   
   i <- i + 1
   
@@ -314,7 +314,8 @@ compute_share_in_classes <- function(pop, units_grid, classification, population
                   updatevalue = updatevalue
       ),
       units_grid,
-      fun = func
+      fun = func,
+      na.rm=TRUE
     )
     
     i <- i + 1
