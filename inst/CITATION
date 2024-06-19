@@ -1,0 +1,13 @@
+authors <- eval(parse(text = meta$`Authors@R`))
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Flexurba: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification",
+  author   = authors,
+  journal  = "Environment and Planning B: Urban Analytics and City Science",
+  year     = 2024,
+  volume   = 0,
+  number   = 0,
+  pages    = 0,
+  doi      = "10.1177/23998083241262545"
+)

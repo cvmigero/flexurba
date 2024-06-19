@@ -38,8 +38,13 @@ DEGURBA by changing the minimum population thresholds, and even more
 ‘hidden’ implementation details, such as the contiguity requirements and
 edge smoothing rules.
 
-For an extensive description of the package and its contribution: see
-\<*currently in press, the link will be provided once published\>*.
+For an extensive description of the package and its contribution, please
+consult the following journal article:
+
+Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An
+open-source R package to flexibly reconstruct the Degree of Urbanisation
+classification. *Environment and Planning B: Urban Analytics and City
+Science, 0*(0). <https://doi.org/10.1177/23998083241262545>
 
 For the source code of the package: see [the GitLab
 repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba).
