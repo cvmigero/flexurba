@@ -30,17 +30,25 @@ library(flexurba)
 library(terra)      # package used for processing raster data
 library(ggplot2)    # package used for plotting
 library(tidyterra)  # package used for plotting raster data
+```
 
+```{r, eval=FALSE}
 # create a directory to save the data
 dir.create('data-ghana')
 ```
 
 Then, go to the [WorldPop download page](https://hub.worldpop.org/geodata/summary?id=49691) in your browser, download the population grid, and place it in the `data-ghana` folder. After doing that, we can read and plot the population grid as follows.
 
-```{r, message=FALSE}
+```{r, echo=FALSE, results=FALSE}
+worldpop_ghana <- terra::rast(system.file('extdata', 'data-ghana', 'gha_ppp_2020_UNadj_constrained.tif', package='flexurba'))
+```
+
+```{r, eval=FALSE}
 # load the population grid
 worldpop_ghana <- terra::rast('data-ghana/gha_ppp_2020_UNadj_constrained.tif')
+```
 
+```{r, message=FALSE}
 # plot the population grid
 ggplot() +
   # add the raster data
@@ -80,7 +88,7 @@ Besides the population grid, we also need a built-up area and land grid to execu
 
 First, we download the global GHSL built-up and land grid with the function `download_GHSLdata()`.
 
-```{r}
+```{r, eval=FALSE}
 # download the GHSL data on a global scale and save it in
 # the directory "data-global"
 download_GHSLdata(output_directory = "data-global", 
@@ -90,7 +98,7 @@ download_GHSLdata(output_directory = "data-global",
 
 Then, we crop these global grids to the same geographical extent as our WorldPop population grid (`worldpop_ghana`) and save them in the folder `data-ghana` under the filenames `BUILT_S.tif` and `LAND.tif`.
 
-```{r}
+```{r, eval=FALSE}
 # built-up grid
 built_grid <- terra::crop(rast('data-global/BUILT_S.tif'), 
             terra::ext(worldpop_ghana), 
@@ -100,12 +108,14 @@ built_grid <- terra::crop(rast('data-global/BUILT_S.tif'),
 land_grid <- terra::crop(rast('data-global/LAND.tif'), 
             terra::ext(worldpop_ghana), 
             filename='data-ghana/LAND.tif')
-
-# now we can remove the global grid files
-unlink("data-global", recursive = TRUE)
 ```
 
 Let's take a look at the properties of the built-up and land grids. We see that the `resolution` of these grids is 1000 m, that the grids are already in the Mollweide coordinate system (see `coord. ref.`), and that the grids are perfectly aligned (see `dimensions` and `extent`).
+
+```{r, echo=FALSE, results=FALSE}
+built_grid <- terra::rast(system.file('extdata', 'data-ghana', 'BUILT_S.tif', package='flexurba'))
+land_grid <- terra::rast(system.file('extdata', 'data-ghana', 'LAND.tif', package='flexurba'))
+```
 
 ```{r}
 built_grid
@@ -135,7 +145,7 @@ ext(worldpop_ghana) == ext(built_grid) &&  ext(worldpop_ghana) == ext(land_grid)
 
 Great! Then, we save the preprocessed population grid as follows.
 
-```{r}
+```{r, eval=FALSE}
 # save the grid
 writeRaster(worldpop_ghana ,'data-ghana/POP.tif')
 ```
@@ -144,7 +154,7 @@ writeRaster(worldpop_ghana ,'data-ghana/POP.tif')
 
 Now that we have the population grid in the right format, we can use it to construct the grid cell classification of DEGURBA. The function `classify_grid()` reads the `POP.tif` (which contains our population grid), `BUILT_S.tif` and `LAND.tif` from the `data-ghana` folder and constructs the grid classification.
 
-```{r}
+```{r, eval=FALSE}
 # construct classification
 classification1 <- classify_grid('data-ghana')
 
@@ -152,11 +162,13 @@ classification1 <- classify_grid('data-ghana')
 plot_grid(classification1)
 ```
 
+![](figures/ghana2.png){alt="Ghana classification 2"}
+
 Note that our population grid only contained counts inside Ghana, so the classification outside the country's borders might be inaccurate. It is advised to mask this classification layer with Ghana's country borders for further processing.
 
 From here, you can start further analyses with the `flexurba` package. You can for example construct a spatial units classification in cities, towns, and rural analysis based on this grid classification (for more details and examples, see `vignette("vig1-level2")`), or you could explore different population thresholds as follows:
 
-```{r}
+```{r, eval=FALSE}
 # increase the population thresholds for urban centres
 classification2 <- classify_grid('data-ghana', 
                                 parameters = c(
@@ -167,6 +179,8 @@ classification2 <- classify_grid('data-ghana',
 # plot the classification
 plot_grid(classification2)
 ```
+
+![](figures/ghana2.png){alt="Ghana classification 2"}
 
 ## References
 
