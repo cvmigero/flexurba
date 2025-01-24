@@ -8,9 +8,21 @@
 #' @param zones 
 #' @param operator
 #' @param smoothing 
-#' @return SpatRaster with the urban areas
+#' @return named list with the following elements:
+#' - `rboundaries`: SpatRaster
+#' - `vboundaries`: sf object
+#' - `threshold`: dataframe with per zone zone the threshold value that is applied
 #' @examples
+#' proxies <- load_proxies_belgium()
 #' 
+#' # use the 95 percentile value of the population as threshold
+#' pop_above_p95 <- apply_relative_threshold(proxies$pop, 'p95')
+#' plot(pop_above_p95$rboundaries)
+#' 
+#' # use the 95 percentile value per province as threshold
+#' province_zones <- convert_zones_to_grid(flexurba::units_belgium, proxies$pop, 'GID_2')
+#' pop_above_p95_per_prov <- apply_relative_threshold(proxies$pop, 'p95', zones=province_zones)
+#' plot(pop_above_p95_per_prov$rboundaries)
 #' @export
 apply_relative_threshold <- function(grid, fun, ..., zones=NULL, operator='greater_than', smoothing=TRUE){
   
@@ -25,7 +37,7 @@ apply_relative_threshold <- function(grid, fun, ..., zones=NULL, operator='great
     zones <- grid %>% init(1) 
   } else if (inherits(zones, "sf")) {
     zones <- convert_zones_to_grid(zones, grid) 
-  } else if (is.character(zones) & endsWith(zones, '.tif')){
+  } else if (is.character(zones) && endsWith(zones, '.tif')){
     zones <- terra::rast(zones)
   } else if (is.character(zones)){
     zones <- convert_zones_to_grid(zones, grid)
@@ -33,11 +45,21 @@ apply_relative_threshold <- function(grid, fun, ..., zones=NULL, operator='great
   zones <- as.numeric(zones)
   
   
-  # function is maximum, minimum or mean
-  if (fun %in% c('max', 'min', 'mean')){
+  # if fun is a custom function
+  if (inherits(fun, 'function')){
+    threshold_per_zone <- tryCatch({
+      terra::zonal(grid, zones, fun, ..., na.rm=TRUE)
+      
+    # if an error occurs, add custom message
+    }, error = function(e) {
+      stop(paste("Invalid function:", e$message))
+    })
+    
+  # if fun is max, min or mean
+  } else if (fun %in% c('max', 'min', 'mean')){
     threshold_per_zone <- terra::zonal(grid, zones, fun, na.rm=TRUE)
     
-    # function is median
+  # if function is median
   } else if (fun == "median"){
     threshold_per_zone <- terra::zonal(grid, zones, function(x) {
       quantile(x, probs=0.5, na.rm = TRUE)
@@ -55,17 +77,18 @@ apply_relative_threshold <- function(grid, fun, ..., zones=NULL, operator='great
     })
     
     # error
-  } else if (is.character(fun)){
+  } else {
     stop("Invalid argument: fun should be 'min', 'max', 'mean', 'median', or 
          'pX' where X is a percentile value (e.g., p25 for the 
          25% percentile value")
-  } else {
-    threshold_per_zone <- terra::zonal(grid, zones, fun, ..., na.rm=TRUE)
   }
   
-  threshold_per_zone <- as.matrix(threshold_per_zone)
+  threshold_matrix <- as.matrix(threshold_per_zone)
   
-  threshold_raster <- terra::classify(zones, threshold_per_zone)
+  threshold_raster <- terra::classify(zones, threshold_matrix)
   
-  return(apply_absolute_threshold(grid, threshold_raster, operator, smoothing))
+  applied_threshold <- apply_absolute_threshold(grid, threshold_raster, operator, smoothing)
+  applied_threshold$threshold <- threshold_per_zone
+  
+  return(applied_threshold)
 }

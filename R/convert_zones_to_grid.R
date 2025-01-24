@@ -7,12 +7,12 @@
 #' @param id character. The column that contains the values of the zones. If `NULL` the first column is used.
 #' @return SpatRaster with the zones
 #' @examples
-#' # load grid and units data for belgium
-#' data_belgium <- load_grid_data_belgium()
-#' units <- flexurba::units_belgium
+#' # load data for urban proxies and zones 
+#' proxies <- load_proxies_belgium()
+#' zones <- flexurba::units_belgium
 #' 
 #' # convert Belgian provinces ('GID_2') to a zonal grid
-#' gridded_zones <- convert_zones_to_grid(units, data_belgium$pop, 'GID_2')
+#' gridded_zones <- convert_zones_to_grid(zones, proxies$pop, 'GID_2')
 #' terra::plot(gridded_zones)
 #' @export
 convert_zones_to_grid <- function(zones, referencegrid, id=NULL){

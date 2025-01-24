@@ -6,10 +6,21 @@
 #' @param threshold 
 #' @param operator 
 #' @param smoothing 
-#' @return SpatRaster with the urban areas
+#' @return named list with the following elements:
+#' - `rboundaries`: SpatRaster
+#' - `vboundaries`: sf object
+#' - `threshold`: the threshold value used to construct the boundaries
 #' @examples
-#' data_belgium <- load_grid_data_belgium()
+#' proxies <- load_proxies_belgium()
 #' 
+#' pop_above_1500 <- apply_absolute_threshold(proxies$pop, 1500)
+#' terra::plot(pop_above_1500$boundaries)
+#' 
+#' built_above_20 <- apply_absolute_threshold(proxies$built, 0.20)
+#' terra::plot(built_above_20$boundaries)
+#' 
+#' light_above_30 <- apply_absolute_threshold(proxies$light, 30)
+#' terra::plot(light_above_30$boundaries)
 #' @export
 apply_absolute_threshold <- function(grid, threshold, operator='greater_than', smoothing=TRUE){
   
@@ -38,5 +49,9 @@ apply_absolute_threshold <- function(grid, threshold, operator='greater_than', s
     boundaries <- apply_majority_rule_R2022A(boundaries)
   }
   
-  return(list(boundaries=boundaries, threshold=threshold))
+  return(list(
+    rboundaries=boundaries,
+    vboundaries=sf::st_as_sf(as.polygons(boundaries)),
+    threshold=threshold)
+    )
 }
