@@ -4,6 +4,7 @@
 #' TODO
 #' @param grid 
 #' @param fun 
+#' @param ... additional arguments passed to fun, such as `na.rm=TRUE`
 #' @param zones 
 #' @param operator
 #' @param smoothing 
@@ -11,7 +12,7 @@
 #' @examples
 #' 
 #' @export
-apply_relative_threshold <- function(grid, fun, zones=NULL, operator='greater_than', smoothing=TRUE){
+apply_relative_threshold <- function(grid, fun, ..., zones=NULL, operator='greater_than', smoothing=TRUE){
   
   # check if spatraster only has 1 layer
   if (nlyr(grid) > 1){
@@ -22,10 +23,15 @@ apply_relative_threshold <- function(grid, fun, zones=NULL, operator='greater_th
   
   if (is.null(zones)){
     zones <- grid %>% init(1) 
-  } else {
-    zones <- as.numeric(zones)
-    # TODO check if zones are valid? and convert to spatraster if shp is provided
+  } else if (inherits(zones, "sf")) {
+    zones <- convert_zones_to_grid(zones, grid) 
+  } else if (is.character(zones) & endsWith(zones, '.tif')){
+    zones <- terra::rast(zones)
+  } else if (is.character(zones)){
+    zones <- convert_zones_to_grid(zones, grid)
   }
+  zones <- as.numeric(zones)
+  
   
   # function is maximum, minimum or mean
   if (fun %in% c('max', 'min', 'mean')){
@@ -49,10 +55,12 @@ apply_relative_threshold <- function(grid, fun, zones=NULL, operator='greater_th
     })
     
     # error
-  } else {
+  } else if (is.character(fun)){
     stop("Invalid argument: fun should be 'min', 'max', 'mean', 'median', or 
          'pX' where X is a percentile value (e.g., p25 for the 
          25% percentile value")
+  } else {
+    threshold_per_zone <- terra::zonal(grid, zones, fun, ..., na.rm=TRUE)
   }
   
   threshold_per_zone <- as.matrix(threshold_per_zone)

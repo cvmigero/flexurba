@@ -138,6 +138,17 @@ t6 <- apply_relative_threshold(lights2, 'p99', country_grid)
 ```
 
 ```{r}
+
+writeRaster(t1, here::here('inst/paper/output/t1.tif'))
+writeRaster(t2, here::here('inst/paper/output/t2.tif'))
+writeRaster(t3, here::here('inst/paper/output/t3.tif'))
+writeRaster(t4, here::here('inst/paper/output/t4.tif'))
+writeRaster(t5, here::here('inst/paper/output/t5.tif'))
+writeRaster(t6, here::here('inst/paper/output/t6.tif'))
+
+```
+
+```{r}
 p1 <- create_plot(t1, color[1], '(A) Population > 2000 inhab./km²', FALSE)
 
 p2 <- create_plot(t2, color[2], '(B) Built-up fraction > 10%', FALSE)

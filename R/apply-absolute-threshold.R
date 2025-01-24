@@ -8,6 +8,7 @@
 #' @param smoothing 
 #' @return SpatRaster with the urban areas
 #' @examples
+#' data_belgium <- load_grid_data_belgium()
 #' 
 #' @export
 apply_absolute_threshold <- function(grid, threshold, operator='greater_than', smoothing=TRUE){
@@ -34,9 +35,8 @@ apply_absolute_threshold <- function(grid, threshold, operator='greater_than', s
   }
   
   if (smoothing){
-    # TODO: change this?
     boundaries <- apply_majority_rule_R2022A(boundaries)
   }
   
-  return(boundaries)
+  return(list(boundaries=boundaries, threshold=threshold))
 }
