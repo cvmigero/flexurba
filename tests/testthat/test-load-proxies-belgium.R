@@ -1,5 +1,5 @@
 proxies <- load_proxies_belgium()
 expect_in(names(proxies), c('pop', 'built', 'light'))
-expect_equal(round(mean(values(proxies$pop), na.rm=TRUE)), 320)
-expect_equal(round(mean(values(proxies$built), na.rm=TRUE)*100), 4)
-expect_equal(round(mean(values(proxies$light), na.rm=TRUE)), 4)
+expect_equal(round(mean(terra::values(proxies$pop), na.rm=TRUE)), 320)
+expect_equal(round(mean(terra::values(proxies$built), na.rm=TRUE)*100), 4)
+expect_equal(round(mean(terra::values(proxies$light), na.rm=TRUE)), 4)
