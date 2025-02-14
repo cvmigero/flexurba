@@ -19,7 +19,7 @@ convert_zones_to_grid <- function(zones, referencegrid, id=NULL){
   if (!inherits(zones, "sf")) {
     if (!is.character(zones)) {
       stop('Invalid argument: zones should be the path to a vector layer with 
-           small spatial units, or an object of class "sf"')
+           spatial units, or an object of class "sf"')
     }
     zones <- sf::st_read(zones, quiet = TRUE)
   }
