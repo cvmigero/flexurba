@@ -1,11 +1,11 @@
 proxies <- load_proxies_belgium()
 
-# CONVERT ZONES TO GRID
+# CONVERT regions TO GRID
 units <- flexurba::units_belgium
-expect_equal(length(unique(terra::values(convert_zones_to_grid(units, proxies$pop)))), 582)
-expect_equal(length(unique(terra::values(convert_zones_to_grid(units, proxies$pop, 'GID_2')))), 12) 
-expect_error(convert_zones_to_grid('wrongpath.geojson', proxies$pop))
-expect_error(convert_zones_to_grid(units, proxies$pop, 'wrongid'))
+expect_equal(length(unique(terra::values(convert_regions_to_grid(units, proxies$pop)))), 582)
+expect_equal(length(unique(terra::values(convert_regions_to_grid(units, proxies$pop, 'GID_2')))), 12) 
+expect_error(convert_regions_to_grid('wrongpath.geojson', proxies$pop))
+expect_error(convert_regions_to_grid(units, proxies$pop, 'wrongid'))
 
 
 
@@ -33,26 +33,26 @@ expect_equal(sum(terra::values(light_above_p75$rboundaries), na.rm=TRUE), 18326)
 
 
 # PREDEFINED - RELATIVE
-regions_zones <- convert_zones_to_grid(flexurba::units_belgium, proxies$pop, 'GID_1')
-withzones1 <- apply_threshold(proxies$pop, type='predefined', threshold_value=1500, zones=regions_zones)
-expect_equal(sum(terra::values(withzones1$rboundaries), na.rm=TRUE), 2051)
-expect_equal(withzones1$threshold$threshold_value, c(1500, 1500, 1500))
+regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'GID_1')
+withregions1 <- apply_threshold(proxies$pop, type='predefined', threshold_value=1500, regions=regions)
+expect_equal(sum(terra::values(withregions1$rboundaries), na.rm=TRUE), 2051)
+expect_equal(withregions1$threshold$threshold_value, c(1500, 1500, 1500))
 
-withzones2 <- apply_threshold(proxies$pop, type='predefined', threshold_value=c(1500, 1200, 1000), zones=regions_zones)
-expect_equal(sum(terra::values(withzones2$rboundaries), na.rm=TRUE), 2925)
-expect_equal(withzones2$threshold$threshold_value, c(1500, 1200, 1000))
+withregions2 <- apply_threshold(proxies$pop, type='predefined', threshold_value=c(1500, 1200, 1000), regions=regions)
+expect_equal(sum(terra::values(withregions2$rboundaries), na.rm=TRUE), 2925)
+expect_equal(withregions2$threshold$threshold_value, c(1500, 1200, 1000))
 
 
 # DATA-DRIVEN - RELATIVE
-withzones3 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', zones=flexurba::units_belgium)
-expect_equal(sum(terra::values(withzones3$rboundaries), na.rm=TRUE), 1797)
+withregions3 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', regions=flexurba::units_belgium)
+expect_equal(sum(terra::values(withregions3$rboundaries), na.rm=TRUE), 1797)
 
-withzones4 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', zones=system.file("extdata", "belgium", 'westflanders_units.gpkg', package = "flexurba"))
-expect_equal(sum(terra::values(withzones4$rboundaries), na.rm=TRUE), 188)
+withregions4 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', regions=system.file("extdata", "belgium", 'westflanders_units.gpkg', package = "flexurba"))
+expect_equal(sum(terra::values(withregions4$rboundaries), na.rm=TRUE), 188)
 
-province_zones <- convert_zones_to_grid(flexurba::units_belgium, proxies$pop, 'GID_2')
-withzones5 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', zones=province_zones)
-expect_equal(sum(terra::values(withzones5$rboundaries), na.rm=TRUE), 1683)
+province_regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'GID_2')
+withregions5 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', regions=province_regions)
+expect_equal(sum(terra::values(withregions5$rboundaries), na.rm=TRUE), 1683)
 
 
 

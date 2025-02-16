@@ -1,20 +1,36 @@
-#' Identify urban boundaries by applying an relative threshold 
+#' Identify urban areas by applying a threshold on grid cells
 #'
 #' @description
-#' TODO
+#' The function identifies urban areas by applying a threshold to individual grid cells. Two key decisions must be made regarding the thresholding approach:
+#'
+#' 1. **How is the threshold value determined?**  
+#'    - The threshold can be *predefined by the user* (`type="predefined"`) or *derived from the data* (`type="data-driven"`).
+#'
+#' 2. **Where is the threshold enforced?**  
+#'    - The threshold can be enforced *consistently across the study area* (= absolute approach, `regions=NULL`) or *tailored within specific regions* (= relative approach, `regions` not `NULL`).
+#'
+#' The table below outlines the appropriate combination of function arguments for each approach:
+#'
+#' |           | **Absolute Approach**                                            | **Relative Approach**                                            |
+#' |-------------------------|-----------------------------------------------------------------|-----------------------------------------------------------------|
+#' | **Predefined Value**    | `type="predefined"` with `threshold_value` not `NULL`, and `regions=NULL` | `type="predefined"` with `threshold_value` not `NULL`, and `regions` not `NULL` |
+#' | **Data-Driven Value**   | `type="data-driven"` with `fun` not `NULL`, and `regions=NULL` | `type="data-driven"` with `fun` not `NULL`, and `regions` not `NULL` |
+#'
+#' For more details on these thresholding approaches, including their advantages and limitations, see the section "Thresholding Approaches" below.
+
 #' @param grid SpatRaster
-#' @param type character. Either 'predefined' or 'data-driven'.
-#' @param threshold_value numeric or vector. If `type="predefined"`, this threshold value is applied to derive urban boundaries. Be aware the threshold value should be in the same unit as the grid values. If `zones` is not `NULL`, you can also pass a vector of threshold values which should be applied in the respective zones.
-#' @param fun character / function. If `type="data-driven"`, this function is used to derive the threshold value. Either as character: 'min', 'max', 'mean', 'median', or 'pX' where X is a percentile value (e.g., p25 for the 25% percentile value"), or for relatively small grids a custom function.
+#' @param type character. Either `"predefined"` or `"data-driven"`.
+#' @param threshold_value numeric / vector. This threshold value is employed to derive urban boundaries when `type="predefined"`. Be aware the threshold value should be in the same unit as the grid values. If `regions` is not `NULL`, you can also pass a vector of threshold values which should be applied in the respective regions.
+#' @param fun character / function. This function is used to derive the threshold value from the data when `type="data-driven"`. Either as character: `"min"`, `"max"`, `"mean"`, `"median"`, or `"pX"` where X is a percentile value (e.g., p25 for the 25% percentile value"). It is also possible to provide a custom function for relatively small grids.
 #' @param ... additional arguments passed to fun
-#' @param zones character / SpatRaster / sf object. If  with the zones for which a separate threshold value will be derived.
-#' @param operator  character. Operator used to enforce the threshold. Either 'greater_than', 'greater_or_equal', 'smaller_than', 'smaller_or_equal' or 'equals'.
-#' @param smoothing logical. Whether to smooth the edges of the boundaries. If `TRUE`, the the function `apply_majority_rule` will be employed to smooth the boundaries.
+#' @param regions character / SpatRaster / sf object. If not `NULL`, a different threshold value will be enforced in the separate regions (i.e. relative thresholding approach).
+#' @param operator  character. Operator used to enforce the threshold. Either `"greater_than"`, `"greater_or_equal"`, `"smaller_than"`, `"smaller_or_equal"` or `"equals"`.
+#' @param smoothing logical. Whether to smooth the edges of the boundaries. If `TRUE`, boundaries will be smoothed with the function `apply_majority_rule`.
 #' @return named list with the following elements:
-#' - `rboundaries`: SpatRaster in which cells that are part of an urban unit have a value of '1'
-#' - `vboundaries`: sf object with the urban units as polygons
-#' - `threshold`: dataframe with per zone the threshold value that is applied
-#' - `zones`: SpatRaster with the zones
+#' - `rboundaries`: SpatRaster in which cells that are part of an urban area have a value of '1'
+#' - `vboundaries`: sf object with the urban areas as separate polygons
+#' - `threshold`: dataframe with per region the threshold value that is applied
+#' - `regions`: SpatRaster with the regions that are used
 #' @examples
 #' proxies <- load_proxies_belgium()
 #' 
@@ -25,27 +41,56 @@
 #' 
 #' # option 2: data-driven - absolute threshold
 #' datadriven_absolute <- apply_threshold(proxies$pop, type='data-driven', 
-#'                                        threshold_value='p95')
+#'                                        fun='p90')
 #' terra::plot(datadriven_absolute$rboundaries)
 #' 
 #' # in the examples below we will use Brussels, Flanders and the Walloon 
-#' # Region as separate zones
-#' zones <- convert_zones_to_grid(flexurba::units_belgium, proxies$pop, 'GID_1')
-#' terra::plot(zones)
+#' # Region as separate regions
+#' regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'GID_1')
+#' terra::plot(regions)
 #' 
 #' # option 3: predefined - relative threshold
-#' predefined_relative <- apply_threshold(proxies$pop, type='predefined'
+#' predefined_relative <- apply_threshold(proxies$pop, type='predefined',
 #'                                        threshold_value=c(1500, 1200, 1000),
-#'                                        zones=zones)
+#'                                        regions=regions)
 #' terra::plot(predefined_relative$rboundaries)
 #' 
 #' # option 4: data-driven - relative threshold
-#' datadriven_relative <- apply_threshold(proxies$pop, type='data-driven'
-#'                                        fun='p95,
-#'                                        zones=zones)
+#' datadriven_relative <- apply_threshold(proxies$pop, type='data-driven',
+#'                                        fun='p95',
+#'                                        regions=regions)
 #' terra::plot(datadriven_relative$rboundaries)
+#' 
+#' @section Thresholding approaches:
+#' 
+#' Thresholding approaches for urban delineation can vary across two dimensions: (1) how the threshold value is determined and (2) where the threshold is enforced. 
+#' 
+#' There are two main ways to determine a threshold's value. The value can either be set by the researcher or analyst, typically based on expert knowledge, or it can be derived from the underlying data. There is considerable debate regarding whether predefined or data-driven thresholds should be preferred for urban delineation. Predefined thresholds are easier to understand and implement and thus contribute to a higher degree of transparency. However, their exact value is often difficult to justify conceptually, and their value could be easily changed. Data-driven thresholds, on the other hand, are more complex to manually adjust and are therefore perceived as less arbitrary. Nevertheless, it is important to note that concerns related to arbitrariness are not eliminated as the user still needs to decide on a particular function to derive the data-driven value. In that sense, arbitrariness is, in fact, moved from the user into the delineation method.
+#' 
+#' The second dimension concerns where the threshold is enforced. Thresholds can be applied consistently across the study area (i.e. an absolute approach) or separately in individual regions (i.e. a relative approach). An example of the latter approach is when different thresholds are applied for different countries. This approach allows a threshold to be tailored to the specific urbanisation pattern of a country. Nevertheless, customised thresholds hamper comparability across space. Absolute thresholds allow for more meaningful comparisons as they ensure that urban areas are identified consistently. defined consistently across space. 
+#' 
+#' Combing these two dimensions results in four possible approaches: 
+#' 
+#' 1.	**A predefined, absolute approach** 
+#' 
+#'      The Degree of Urbanisation definition developed by [Dijkstra et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0094119020300838) employs this approach and applies a predefined population density threshold of 1500 inhabitants per km² across the globe. 
+#'      
+#' 2. **A predefined, relative approach** 
+#' 
+#'      The [OECD (2013)](https://www.oecd.org/content/dam/oecd/en/publications/reports/2013/12/oecd-regions-at-a-glance-2013_g1g356f6/reg_glance-2013-en.pdf) defines two predefined thresholds: a minimum of 1000 inhabitants per km² for the United States and Canada, and a threshold of 1500 inhabitants per km² for other OECD countries.
+#'      
+#' 3. **A data-driven, absolute approach** 
+#' 
+#'      For instance, [Jiang et al. (2015)](https://www.tandfonline.com/doi/full/10.1080/13658816.2014.988715) derive a minimum night-time light emission threshold from the data and enforce this threshold consistently across the globe to identify cities. 
+#'      
+#' 4. **A data-driven, relative approach** 
+#' 
+#'      [Combes et al. (2024)](https://documents1.worldbank.org/curated/en/099415311272320571/pdf/IDU0faef6c000aaba0485209f0e08928760d9a57.pdf) derive a separate data-driven population density threshold for each country in Sub-Saharan Africa.
+#'
+#' There is no definitive answer to what should be preferred: predefined or data-driven thresholds, enforced in an absolute or relative manner. Each approach possess unique advantages yet also come with limitations. Ultimately, the applicability should depend on the purpose of the delineation and the context of the application. 
+#' 
 #' @export
-apply_threshold <- function(grid, type="predetermined", threshold_value=NULL, fun=NULL, ..., zones=NULL, operator='greater_than', smoothing=TRUE){
+apply_threshold <- function(grid, type="predetermined", threshold_value=NULL, fun=NULL, ..., regions=NULL, operator='greater_than', smoothing=TRUE){
 
   # check if spatraster only has 1 layer
   if (terra::nlyr(grid) > 1){
@@ -54,61 +99,61 @@ apply_threshold <- function(grid, type="predetermined", threshold_value=NULL, fu
             is derived from and applied to the first layer.')
   }
 
-  # PROCESS ZONES
-  if (is.null(zones)){
-    zones <- grid %>% terra::init(1) 
-  } else if (inherits(zones, "sf")) {
-    zones <- convert_zones_to_grid(zones, grid) 
-  } else if (is.character(zones) && endsWith(zones, '.tif')){
-    zones <- terra::rast(zones)
-  } else if (is.character(zones)){
-    zones <- convert_zones_to_grid(zones, grid)
+  # PROCESS regions
+  if (is.null(regions)){
+    regions <- grid %>% terra::init(1) 
+  } else if (inherits(regions, "sf")) {
+    regions <- convert_regions_to_grid(regions, grid) 
+  } else if (is.character(regions) && endsWith(regions, '.tif')){
+    regions <- terra::rast(regions)
+  } else if (is.character(regions)){
+    regions <- convert_regions_to_grid(regions, grid)
   }
   
-  numzones <- as.numeric(zones)
-  zone_value <- unique(terra::values(zones, na.rm=TRUE)) %>% sort()
-  nr_of_zones <- length(zone_value)
-  zone_levels <- terra::levels(zones)[[1]]
+  numregions <- as.numeric(regions)
+  region_value <- unique(terra::values(regions, na.rm=TRUE)) %>% sort()
+  nr_of_regions <- length(region_value)
+  region_levels <- terra::levels(regions)[[1]]
   
   # CHECK ARGUMENTS
-  check_arguments(type, threshold_value, nr_of_zones, fun)
+  check_arguments(type, threshold_value, nr_of_regions, fun)
   
   
   # PREDEFINED THRESHOLD
   if (type=="predefined"){
-    threshold_per_zone <- cbind(zone_value, threshold_value)
+    threshold_per_region <- cbind(region_value, threshold_value)
    
   
   
   # DATA-DRIVEN THRESHOLD
   } else if (type=="data-driven"){
-    threshold_per_zone <- derive_data_driven_threshold(grid, numzones, fun, ...)
+    threshold_per_region <- derive_data_driven_threshold(grid, numregions, fun, ...)
   } 
   
-  names(threshold_per_zone) <- c("zone_value", "threshold_value")
+  names(threshold_per_region) <- c("region_value", "threshold_value")
   
-  threshold_matrix <- as.matrix(threshold_per_zone)
-  threshold_raster <- terra::classify(zones, threshold_matrix)
+  threshold_matrix <- as.matrix(threshold_per_region)
+  threshold_raster <- terra::classify(regions, threshold_matrix)
   
   applied_threshold <- list()
   applied_threshold$rboundaries <- compare_grid_to_threshold(grid, threshold_raster, 
                                                              operator, smoothing)
   applied_threshold$vboundaries <- sf::st_as_sf(terra::as.polygons(applied_threshold$rboundaries))
   
-  if (all(zone_levels == "")){
-    applied_threshold$threshold = threshold_per_zone
+  if (all(region_levels == "")){
+    applied_threshold$threshold = threshold_per_region
     
-  # add zone name to the dataframe
+  # add region name to the dataframe
   } else {
-    applied_threshold$threshold <- merge(threshold_per_zone, zone_levels, 
-                                         by.x='zone_value', by.y='ID')
+    applied_threshold$threshold <- merge(threshold_per_region, region_levels, 
+                                         by.x='region_value', by.y='ID')
   }
   
   return(applied_threshold)
 }
 
 
-check_arguments <- function(type, threshold_value, nr_of_zones, fun){
+check_arguments <- function(type, threshold_value, nr_of_regions, fun){
   
   if (!(type %in% c("predefined", "data-driven"))){
     stop("Invalid argument: type should be 'predefined' or 'data-driven'")
@@ -122,9 +167,9 @@ check_arguments <- function(type, threshold_value, nr_of_zones, fun){
     }
     
     # check if provided threshold_value is correct format
-    if (!is.numeric(threshold_value) | !(length(threshold_value) %in% c(1, nr_of_zones))){
+    if (!is.numeric(threshold_value) | !(length(threshold_value) %in% c(1, nr_of_regions))){
       stop(paste("Invalid argument: the threshold_value should be a numeric value or a 
-                 vector of values with the same length as the number of zones."))
+                 vector of values with the same length as the number of regions."))
     }
     
     # warning if function is provided
@@ -148,12 +193,12 @@ check_arguments <- function(type, threshold_value, nr_of_zones, fun){
 }
 
 
-derive_data_driven_threshold <- function(grid, zones, fun, ...){
+derive_data_driven_threshold <- function(grid, regions, fun, ...){
   
   # if fun is a custom function
   if (inherits(fun, 'function')){
-    threshold_per_zone <- tryCatch({
-      terra::zonal(grid, zones, fun, ..., na.rm=TRUE)
+    threshold_per_region <- tryCatch({
+      terra::zonal(grid, regions, fun, ..., na.rm=TRUE)
       
       # if an error occurs, add custom message
     }, error = function(e) {
@@ -162,11 +207,11 @@ derive_data_driven_threshold <- function(grid, zones, fun, ...){
     
   # if fun is max, min or mean
   } else if (fun %in% c('max', 'min', 'mean')){
-    threshold_per_zone <- terra::zonal(grid, zones, fun, na.rm=TRUE)
+    threshold_per_region <- terra::zonal(grid, regions, fun, na.rm=TRUE)
     
   # if function is median
   } else if (fun == "median"){
-    threshold_per_zone <- terra::zonal(grid, zones, function(x) {
+    threshold_per_region <- terra::zonal(grid, regions, function(x) {
       terra::quantile(x, probs=0.5, na.rm = TRUE)
     })
     
@@ -176,7 +221,7 @@ derive_data_driven_threshold <- function(grid, zones, fun, ...){
     if (percentile < 0 || percentile > 100){
       stop("Invalid argument: percentile value should be between 0 and 100")
     }
-    threshold_per_zone <- terra::zonal(grid, zones, function(x) {
+    threshold_per_region <- terra::zonal(grid, regions, function(x) {
       terra::quantile(x, probs=percentile/100, na.rm = TRUE)
     })
     
@@ -187,7 +232,7 @@ derive_data_driven_threshold <- function(grid, zones, fun, ...){
            25% percentile value")
   }
   
-  return(threshold_per_zone)
+  return(threshold_per_region)
 }
 
 

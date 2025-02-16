@@ -51,6 +51,7 @@ reference:
   - GHSL_tiles_per_region
   - units_belgium
   - load_grid_data_belgium
+  - load_proxies_belgium
 
 - title: Plotting functions
 - contents:
@@ -62,6 +63,7 @@ reference:
   - apply_majority_rule
   - get_optimal_builtup
   - get_grid_parameters
+  - apply_threshold
   
 - title: General raster operations
 - contents:
@@ -69,3 +71,4 @@ reference:
   - get_adjacent
   - get_clusters
   - get_patches
+  - convert_regions_to_grid

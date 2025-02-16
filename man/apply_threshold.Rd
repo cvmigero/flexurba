@@ -2,7 +2,7 @@
 % Please edit documentation in R/apply-threshold.R
 \name{apply_threshold}
 \alias{apply_threshold}
-\title{Identify urban boundaries by applying an relative threshold}
+\title{Identify urban areas by applying a threshold on grid cells}
 \usage{
 apply_threshold(
   grid,
@@ -10,7 +10,7 @@ apply_threshold(
   threshold_value = NULL,
   fun = NULL,
   ...,
-  zones = NULL,
+  regions = NULL,
   operator = "greater_than",
   smoothing = TRUE
 )
@@ -18,29 +18,107 @@ apply_threshold(
 \arguments{
 \item{grid}{SpatRaster}
 
-\item{type}{character. Either 'predefined' or 'data-driven'.}
+\item{type}{character. Either \code{"predefined"} or \code{"data-driven"}.}
 
-\item{threshold_value}{numeric or vector. If \code{type="predefined"}, this threshold value is applied to derive urban boundaries. Be aware the threshold value should be in the same unit as the grid values. If \code{zones} is not \code{NULL}, you can also pass a vector of threshold values which should be applied in the respective zones.}
+\item{threshold_value}{numeric / vector. This threshold value is employed to derive urban boundaries when \code{type="predefined"}. Be aware the threshold value should be in the same unit as the grid values. If \code{regions} is not \code{NULL}, you can also pass a vector of threshold values which should be applied in the respective regions.}
 
-\item{fun}{character / function. If \code{type="data-driven"}, this function is used to derive the threshold value. Either as character: 'min', 'max', 'mean', 'median', or 'pX' where X is a percentile value (e.g., p25 for the 25\% percentile value"), or for relatively small grids a custom function.}
+\item{fun}{character / function. This function is used to derive the threshold value from the data when \code{type="data-driven"}. Either as character: \code{"min"}, \code{"max"}, \code{"mean"}, \code{"median"}, or \code{"pX"} where X is a percentile value (e.g., p25 for the 25\% percentile value"). It is also possible to provide a custom function for relatively small grids.}
 
 \item{...}{additional arguments passed to fun}
 
-\item{zones}{character / SpatRaster / sf object. If  with the zones for which a separate threshold value will be derived.}
+\item{regions}{character / SpatRaster / sf object. If not \code{NULL}, a different threshold value will be enforced in the separate regions (i.e. relative thresholding approach).}
 
-\item{operator}{character. Operator used to enforce the threshold. Either 'greater_than', 'greater_or_equal', 'smaller_than', 'smaller_or_equal' or 'equals'.}
+\item{operator}{character. Operator used to enforce the threshold. Either \code{"greater_than"}, \code{"greater_or_equal"}, \code{"smaller_than"}, \code{"smaller_or_equal"} or \code{"equals"}.}
 
-\item{smoothing}{logical. Whether to smooth the edges of the boundaries. If \code{TRUE}, the the function \code{apply_majority_rule} will be employed to smooth the boundaries.}
+\item{smoothing}{logical. Whether to smooth the edges of the boundaries. If \code{TRUE}, boundaries will be smoothed with the function \code{apply_majority_rule}.}
 }
 \value{
 named list with the following elements:
 \itemize{
-\item \code{rboundaries}: SpatRaster in which cells that are part of an urban unit have a value of '1'
-\item \code{vboundaries}: sf object with the urban units as polygons
-\item \code{threshold}: dataframe with per zone the threshold value that is applied
-\item \code{zones}: SpatRaster with the zones
+\item \code{rboundaries}: SpatRaster in which cells that are part of an urban area have a value of '1'
+\item \code{vboundaries}: sf object with the urban areas as separate polygons
+\item \code{threshold}: dataframe with per region the threshold value that is applied
+\item \code{regions}: SpatRaster with the regions that are used
 }
 }
 \description{
-TODO
+The function identifies urban areas by applying a threshold to individual grid cells. Two key decisions must be made regarding the thresholding approach:
+\enumerate{
+\item \strong{How is the threshold value determined?}
+\itemize{
+\item The threshold can be \emph{predefined by the user} (\code{type="predefined"}) or \emph{derived from the data} (\code{type="data-driven"}).
+}
+\item \strong{Where is the threshold enforced?}
+\itemize{
+\item The threshold can be enforced \emph{consistently across the study area} (= absolute approach, \code{regions=NULL}) or \emph{tailored within specific regions} (= relative approach, \code{regions} not \code{NULL}).
+}
+}
+
+The table below outlines the appropriate combination of function arguments for each approach:\tabular{lll}{
+    \tab \strong{Absolute Approach} \tab \strong{Relative Approach} \cr
+   \strong{Predefined Value} \tab \code{type="predefined"} with \code{threshold_value} not \code{NULL}, and \code{regions=NULL} \tab \code{type="predefined"} with \code{threshold_value} not \code{NULL}, and \code{regions} not \code{NULL} \cr
+   \strong{Data-Driven Value} \tab \code{type="data-driven"} with \code{fun} not \code{NULL}, and \code{regions=NULL} \tab \code{type="data-driven"} with \code{fun} not \code{NULL}, and \code{regions} not \code{NULL} \cr
+}
+
+
+For more details on these thresholding approaches, including their advantages and limitations, see the section "Thresholding Approaches" below.
+}
+\section{Thresholding approaches}{
+
+
+Thresholding approaches for urban delineation can vary across two dimensions: (1) how the threshold value is determined and (2) where the threshold is enforced.
+
+There are two main ways to determine a threshold's value. The value can either be set by the researcher or analyst, typically based on expert knowledge, or it can be derived from the underlying data. There is considerable debate regarding whether predefined or data-driven thresholds should be preferred for urban delineation. Predefined thresholds are easier to understand and implement and thus contribute to a higher degree of transparency. However, their exact value is often difficult to justify conceptually, and their value could be easily changed. Data-driven thresholds, on the other hand, are more complex to manually adjust and are therefore perceived as less arbitrary. Nevertheless, it is important to note that concerns related to arbitrariness are not eliminated as the user still needs to decide on a particular function to derive the data-driven value. In that sense, arbitrariness is, in fact, moved from the user into the delineation method.
+
+The second dimension concerns where the threshold is enforced. Thresholds can be applied consistently across the study area (i.e. an absolute approach) or separately in individual regions (i.e. a relative approach). An example of the latter approach is when different thresholds are applied for different countries. This approach allows a threshold to be tailored to the specific urbanisation pattern of a country. Nevertheless, customised thresholds hamper comparability across space. Absolute thresholds allow for more meaningful comparisons as they ensure that urban areas are identified consistently. defined consistently across space.
+
+Combing these two dimensions results in four possible approaches:
+\enumerate{
+\item \strong{A predefined, absolute approach}
+
+The Degree of Urbanisation definition developed by \href{https://www.sciencedirect.com/science/article/pii/S0094119020300838}{Dijkstra et al. (2021)} employs this approach and applies a predefined population density threshold of 1500 inhabitants per km² across the globe.
+\item \strong{A predefined, relative approach}
+
+The \href{https://www.oecd.org/content/dam/oecd/en/publications/reports/2013/12/oecd-regions-at-a-glance-2013_g1g356f6/reg_glance-2013-en.pdf}{OECD (2013)} defines two predefined thresholds: a minimum of 1000 inhabitants per km² for the United States and Canada, and a threshold of 1500 inhabitants per km² for other OECD countries.
+\item \strong{A data-driven, absolute approach}
+
+For instance, \href{https://www.tandfonline.com/doi/full/10.1080/13658816.2014.988715}{Jiang et al. (2015)} derive a minimum night-time light emission threshold from the data and enforce this threshold consistently across the globe to identify cities.
+\item \strong{A data-driven, relative approach}
+
+\href{https://documents1.worldbank.org/curated/en/099415311272320571/pdf/IDU0faef6c000aaba0485209f0e08928760d9a57.pdf}{Combes et al. (2024)} derive a separate data-driven population density threshold for each country in Sub-Saharan Africa.
+}
+
+There is no definitive answer to what should be preferred: predefined or data-driven thresholds, enforced in an absolute or relative manner. Each approach possess unique advantages yet also come with limitations. Ultimately, the applicability should depend on the purpose of the delineation and the context of the application.
+}
+
+\examples{
+proxies <- load_proxies_belgium()
+
+# option 1: predefined - absolute threshold
+predefined_absolute <- apply_threshold(proxies$pop, type='predefined',
+                                       threshold_value=1500)
+terra::plot(predefined_absolute$rboundaries)
+
+# option 2: data-driven - absolute threshold
+datadriven_absolute <- apply_threshold(proxies$pop, type='data-driven', 
+                                       fun='p90')
+terra::plot(datadriven_absolute$rboundaries)
+
+# in the examples below we will use Brussels, Flanders and the Walloon 
+# Region as separate regions
+regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'GID_1')
+terra::plot(regions)
+
+# option 3: predefined - relative threshold
+predefined_relative <- apply_threshold(proxies$pop, type='predefined',
+                                       threshold_value=c(1500, 1200, 1000),
+                                       regions=regions)
+terra::plot(predefined_relative$rboundaries)
+
+# option 4: data-driven - relative threshold
+datadriven_relative <- apply_threshold(proxies$pop, type='data-driven',
+                                       fun='p95',
+                                       regions=regions)
+terra::plot(datadriven_relative$rboundaries)
+
 }
