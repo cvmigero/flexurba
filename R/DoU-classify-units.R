@@ -1,4 +1,4 @@
-#' Create the spatial units classification
+#' Create the DEGURBA spatial units classification
 #'
 #' @description
 #' The function reconstructs the spatial units classification of the Degree of Urbanisation based on the grid cell classification.
@@ -43,7 +43,7 @@
 #'
 #' For the official workflow, the three layers should be pre-proccessed by [DoU_preprocess_units()]. In this function, the classification grid and population grid are resampled to a user-defined `resample_resolution` with the nearest neighbor algorithm (the Degree of Urbanisation uses standard a resample resolution of 50 m). In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
 #'
-#' Afterwards, the spatial units classification is constructed with [classify_units()] as follows. The vector layer with small spatial units is rasterised to match the population and classification grid. Based on the overlap of the three grids, the share of population per flexurba grid class is computed per spatial unit with a zonal statistics procedure. The units are subsequently classified according to the classification rules (see above).
+#' Afterwards, the spatial units classification is constructed with [DoU_classify_units()] as follows. The vector layer with small spatial units is rasterised to match the population and classification grid. Based on the overlap of the three grids, the share of population per flexurba grid class is computed per spatial unit with a zonal statistics procedure. The units are subsequently classified according to the classification rules (see above).
 #'
 #' Apart from this, there are two special cases. First, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes (computed with a zonal statistics procedure). Second, if a unit initially could not be rasterised (can occur if the area of the unit < `resample_resolution`), then it is processed separately as follows. The unit is individually rasterised by all touching cells. The unit is classified according to the share of population in the flexurba grid classes in these touching cells. However, to avoid double counting of population, no population is assigned to the unit in the result.
 #'
@@ -53,7 +53,7 @@
 #'
 #' Besides the official workflow of the GHSL, the function also includes an alternative workflow to construct the spatial units classification. The alternative workflow does not require rasterising the spatial units layer, but relies on the overlap between the spatial units layer and the grid layers.
 #'
-#' The three layers should again be preproccessed by the function [DoU_preprocess_units()], but this time without `resampling_resolution`. For the classification in [classify_units()],  the function [exactextractr::exact_extract()] is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
+#' The three layers should again be preproccessed by the function [DoU_preprocess_units()], but this time without `resampling_resolution`. For the classification in [DoU_classify_units()],  the function [exactextractr::exact_extract()] is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
 #'
 #' @examples
 #' # load the grid data
@@ -72,7 +72,7 @@
 #'   pop = data_belgium$pop,
 #'   resample_resolution = 50
 #' )
-#' units_classification1 <- classify_units(data1)
+#' units_classification1 <- DoU_classify_units(data1)
 #' }
 #'
 #' # alternative workflow
@@ -81,7 +81,7 @@
 #'   classification = classification,
 #'   pop = data_belgium$pop
 #' )
-#' units_classification2 <- classify_units(data2, official_workflow = FALSE)
+#' units_classification2 <- DoU_classify_units(data2, official_workflow = FALSE)
 #' DoU_plot_units(data2$units, units_classification2)
 #'
 #' # spatial units classification, dissolved at GADM level 3 (Belgian districts)
@@ -91,10 +91,10 @@
 #'   pop = data_belgium$pop,
 #'   dissolve_units_by = "GID_3"
 #' )
-#' units_classification3 <- classify_units(data3, id = "GID_3")
+#' units_classification3 <- DoU_classify_units(data3, id = "GID_3")
 #' DoU_plot_units(data3$units, units_classification3)
 #' @export
-classify_units <- function(data, id = "UID",
+DoU_classify_units <- function(data, id = "UID",
                            level1 = TRUE,
                            values = NULL,
                            official_workflow = TRUE,
@@ -501,4 +501,33 @@ apply_unit_classification_rules <- function(df, level1 = TRUE, values = c(3, 2, 
       )
     ))
   }
+}
+
+#' Create the DEGURBA spatial units classification
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `classify_units()` has been renamed to `DoU_classify_units()` to create a more consistent API and to better indicate that this function is specifically designed to classify units in the context of the DEGURBA classification`. 
+#' @param data named list with the required data, as returned by the function [DoU_preprocess_units()]
+#' @param id character. Unique column in the `units` data as id for spatial units
+#' @param level1 logical. Whether to classify the spatial units according to first hierarchical level (`TRUE`) or the second hierarchical level (`FALSE`). For more details, see section "Classification rules" below.
+#' @param values vector with the values assigned to the different classes in the resulting units classification:
+#'    - If `level1=TRUE`: the vector should contain the values for (1) cities, (2) town and semi-dense areas and (3) rural areas.
+#'    - If `level1=FALSE`: the vector should contain the values for (1) cities, (2) dense towns, (3) semi-dense towns, (4) suburb or peri-urban areas, (5) villages, (6) dispersed rural areas and (7) mostly uninhabited areas.
+#' @param official_workflow logical. Whether to employ the official workflow of the GHSL (`TRUE`) or the alternative workflow (`FALSE`). For more details, see section "Workflow" below.
+#' @param filename character. Output filename (csv). The resulting classification together with a metadata file (in JSON format) will be saved if `filename` is not `NULL`.
+#' @return dataframe with for each spatial unit the classification and the share of population per grid class
+#' @keywords internal
+#' @export
+classify_units <- function(data, id = "UID",
+                           level1 = TRUE,
+                           values = NULL,
+                           official_workflow = TRUE,
+                           filename = NULL){
+  return(DoU_classify_units(data, id,
+                            level1,
+                            values,
+                            official_workflow,
+                            filename))
 }

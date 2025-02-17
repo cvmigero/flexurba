@@ -62,7 +62,7 @@ DoU_get_optimal_builtup <- function(data, density_threshold = 1500, size_thresho
 #' @description 
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' `get_optimal_builtup()` has been renamed to `DoU_get_optimal_builtup()` to create a more consistent API and to better indicate that this function is specifically designed for detecting the optimal builtup threshold in the context of the DEGURBA classification with `classify_units()`. 
+#' `get_optimal_builtup()` has been renamed to `DoU_get_optimal_builtup()` to create a more consistent API and to better indicate that this function is specifically designed for detecting the optimal builtup threshold in the context of the DEGURBA classification with `DoU_classify_units()`. 
 #' @param  data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]. Ideally, it contains data on a global scale.
 #' @param density_threshold numeric. Minimum population density per permanent land
 #' @param size_threshold numeric. Minimum population size

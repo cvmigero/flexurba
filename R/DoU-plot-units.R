@@ -5,7 +5,7 @@
 #'
 #' Note that the function is computational quite heavy for large spatial extents (regional or global scale). It is advised to use the `extent` argument to plot only a selection of the spatial units classification.
 #' @param units object of class `sf`. The spatial units to be displayed on the plot
-#' @param classification dataframe with the classification of the spatial units, as returned by `classify_units()`. If `NULL`, it is assumed that the classification results are merged in the `units` object.
+#' @param classification dataframe with the classification of the spatial units, as returned by `DoU_classify_units()`. If `NULL`, it is assumed that the classification results are merged in the `units` object.
 #' @param level1 logical. Whether the spatial units are classified according to level 1 of the Degree of Urbanisation (`TRUE`), or level 2 of the Degree of Urbanisation (`FALSE`).
 #' @param extent SpatExtent or an object of class "bbox" (`sf`). If not `NULL`, the spatial units will be filtered based on the provided extent before plotting.
 #' @param column character. Column name of the spatial units classification. By default, `"flexurba_L1"` when `level1=TRUE` and `"flexurba_L2"` when `level1=FALSE`.
@@ -24,7 +24,7 @@
 #'   classification = grid_classification,
 #'   pop = data_belgium$pop
 #' )
-#' units_classification <- classify_units(data1)
+#' units_classification <- DoU_classify_units(data1)
 #'
 #' # plot using the standard color palette
 #' DoU_plot_units(data1$units, units_classification)
@@ -127,10 +127,10 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
 #' @description 
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' `plot_units()` has been renamed to `DoU_plot_units()` to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with `classify_units()`. 
+#' `plot_units()` has been renamed to `DoU_plot_units()` to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with `DoU_classify_units()`. 
 #' @keywords internal
 #' @param units object of class `sf`. The spatial units to be displayed on the plot
-#' @param classification dataframe with the classification of the spatial units, as returned by `classify_units()`. If `NULL`, it is assumed that the classification results are merged in the `units` object.
+#' @param classification dataframe with the classification of the spatial units, as returned by `DoU_classify_units()`. If `NULL`, it is assumed that the classification results are merged in the `units` object.
 #' @param level1 logical. Whether the spatial units are classified according to level 1 of the Degree of Urbanisation (`TRUE`), or level 2 of the Degree of Urbanisation (`FALSE`).
 #' @param extent SpatExtent or an object of class "bbox" (`sf`). If not `NULL`, the spatial units will be filtered based on the provided extent before plotting.
 #' @param column character. Column name of the spatial units classification. By default, `"flexurba_L1"` when `level1=TRUE` and `"flexurba_L2"` when `level1=FALSE`.

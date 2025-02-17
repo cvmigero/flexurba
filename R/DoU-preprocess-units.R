@@ -156,7 +156,7 @@ DoU_preprocess_units <- function(units, classification, pop, resample_resolution
 #' @description 
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' `preprocess_grid()` has been renamed to `DoU_preprocess_grid()` to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with `classify_units()`. 
+#' `preprocess_grid()` has been renamed to `DoU_preprocess_grid()` to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with `DoU_classify_units()`. 
 #' @param units character / object of class `sf`. Path to the vector layer with small spatial units, or an object of class `sf` with the small spatial units
 #' @param classification character / SpatRaster. Path to the grid cell classification of the Degree of Urbanisation, or SpatRaster with the grid cell classification
 #' @param pop character / SpatRaster. Path to the population grid, or SpatRaster with the population grid

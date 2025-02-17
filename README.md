@@ -229,7 +229,7 @@ data1 <- DoU_preprocess_units(
 )
 
 # run the algorithm for the units classification
-units_classification <- classify_units(data1)
+units_classification <- DoU_classify_units(data1)
 
 # visualise the results
 DoU_plot_units(flexurba::units_belgium, classification = units_classification)
