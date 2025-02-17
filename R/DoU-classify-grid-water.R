@@ -1,4 +1,4 @@
-#' Create the grid cell classification of water cells
+#' Create the DEGURBA grid cell classification of water cells
 #'
 #' @description
 #' The Degree of Urbanisation identifies water cells as cells with no built-up area, no population, and less than 50% permanent land.
@@ -16,13 +16,13 @@
 #' @return SpatRaster with the grid cell classification of water cells
 #' @examples
 #' data_belgium <- DoU_load_grid_data_belgium()
-#' classification <- classify_grid_urban_centres(data_belgium)
-#' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
-#' classification <- classify_grid_rural(data_belgium, classification = classification)
-#' classification <- classify_grid_water(data_belgium, classification = classification)
+#' classification <- DoU_classify_grid_urban_centres(data_belgium)
+#' classification <- DoU_classify_grid_urban_clusters(data_belgium, classification = classification)
+#' classification <- DoU_classify_grid_rural(data_belgium, classification = classification)
+#' classification <- DoU_classify_grid_water(data_belgium, classification = classification)
 #' DoU_plot_grid(classification)
 #' @export
-classify_grid_water <- function(data, classification = NULL, water_land_threshold = 0.5, water_pop_threshold = 0, water_built_threshold = 0, value = 0, allow_overwrite = c(1)) {
+DoU_classify_grid_water <- function(data, classification = NULL, water_land_threshold = 0.5, water_pop_threshold = 0, water_built_threshold = 0, value = 0, allow_overwrite = c(1)) {
   
   # read data 
   if (is.character(data)) {
@@ -65,4 +65,24 @@ classify_grid_water <- function(data, classification = NULL, water_land_threshol
   names(classification) <- c("layer")
   
   return(classification)
+}
+
+#' Create the DEGURBA grid cell classification of water cells
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `classify_grid_water()` has been renamed to `DoU_classify_grid_water()` to create a more consistent API and to better indicate that this function is specifically designed to classify water in the context of the DEGURBA classification. 
+#' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
+#' @param classification SpatRaster. A grid to which the classification of water cells will be added. The grid can already contain the classification or urban centres, urban clusters and rural grid cell, but this is not mandatory. Note that the grid will be adapted in-place.
+#' @param water_land_threshold numeric. Maximum proportion of permanent land allowed in a water cell
+#' @param water_pop_threshold numeric. Maximum population size allowed in a water cell
+#' @param water_built_threshold numeric. Maximum built-up area allowed in a water cell
+#' @param value integer. Value assigned to water cells in the resulting grid
+#' @param allow_overwrite vector. Values in `classification` that can be overwritten by water cells. By default, the classification of rural cells (`1`) can be overwritten, but the classification of urban clusters (`2`) and urban centres (`3`) cannot.
+#' @return SpatRaster with the grid cell classification of water cells
+#' @keywords internal
+#' @export
+classify_grid_water <- function(data, classification = NULL, water_land_threshold = 0.5, water_pop_threshold = 0, water_built_threshold = 0, value = 0, allow_overwrite = c(1)){
+  return(DoU_classify_grid_water(data, classification, water_land_threshold, water_pop_threshold, water_built_threshold, value, allow_overwrite))
 }

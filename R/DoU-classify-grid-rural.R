@@ -1,4 +1,4 @@
-#' Create the grid cell classification of rural cells
+#' Create the DEGURBA grid cell classification of rural cells
 #'
 #' @description
 #' The Degree of Urbanisation identifies rural cells as all cells not belonging to an urban centre or urban cluster.
@@ -10,12 +10,12 @@
 #' @return SpatRaster with the grid cell classification of rural cells
 #' @examples
 #' data_belgium <- DoU_load_grid_data_belgium()
-#' classification <- classify_grid_urban_centres(data_belgium)
-#' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
-#' classification <- classify_grid_rural(data_belgium, classification = classification)
+#' classification <- DoU_classify_grid_urban_centres(data_belgium)
+#' classification <- DoU_classify_grid_urban_clusters(data_belgium, classification = classification)
+#' classification <- DoU_classify_grid_rural(data_belgium, classification = classification)
 #' DoU_plot_grid(classification)
 #' @export
-classify_grid_rural <- function(data, classification, value = 1) {
+DoU_classify_grid_rural <- function(data, classification, value = 1) {
   
   # read data
   if (is.character(data)) {
@@ -35,4 +35,20 @@ classify_grid_rural <- function(data, classification, value = 1) {
   
   names(classification) <- c("layer")
   return(classification)
+}
+
+#' Create the DEGURBA grid cell classification of rural cells
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `classify_grid_rural()` has been renamed to `DoU_classify_grid_rural()` to create a more consistent API and to better indicate that this function is specifically designed to classify rural cells in the context of the DEGURBA classification. 
+#' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
+#' @param classification SpatRaster. A grid with the classification of urban centres and urban clusters to which the classification of rural cells will be added. Note that the grid will be adapted in-place.
+#' @param value integer. Value assigned to rural cells in the resulting grid
+#' @return SpatRaster with the grid cell classification of rural cells
+#' @keywords internal
+#' @export
+classify_grid_rural <- function(data, classification, value = 1){
+  return(DoU_classify_grid_rural(data, classification, value))
 }

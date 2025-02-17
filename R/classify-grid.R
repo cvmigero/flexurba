@@ -452,7 +452,7 @@ classify_grid_level1 <- function(data, parameters, values) {
   }
   
   # CLASS 3: URBAN CENTRES
-  classification <- flexurba::classify_grid_urban_centres(
+  classification <- flexurba::DoU_classify_grid_urban_centres(
     data = data,
     density_threshold = parameters$UC_density_threshold,
     size_threshold = parameters$UC_size_threshold,
@@ -469,7 +469,7 @@ classify_grid_level1 <- function(data, parameters, values) {
   )
   
   # CLASS 2: URBAN CLUSTERS
-  classification <- flexurba::classify_grid_urban_clusters(
+  classification <- flexurba::DoU_classify_grid_urban_clusters(
     data = data,
     density_threshold = parameters$UCL_density_threshold,
     size_threshold = parameters$UCL_size_threshold,
@@ -481,14 +481,14 @@ classify_grid_level1 <- function(data, parameters, values) {
   )
   
   # CLASS 1: RURAL GRID CELLS
-  classification <- flexurba::classify_grid_rural(
+  classification <- flexurba::DoU_classify_grid_rural(
     data = data,
     classification = classification,
     value = values[[3]]
   )
   
   # CLASS 0: WATER
-  classification <- flexurba::classify_grid_water(
+  classification <- flexurba::DoU_classify_grid_water(
     data = data,
     classification = classification,
     water_land_threshold = parameters$water_land_threshold,
@@ -545,7 +545,7 @@ classify_grid_level2 <- function(data, parameters, values) {
   
   
   # CLASS 30: URBAN CENTRES
-  classification <- flexurba::classify_grid_urban_centres(
+  classification <- flexurba::DoU_classify_grid_urban_centres(
     data = data,
     density_threshold = parameters$UC_density_threshold,
     size_threshold = parameters$UC_size_threshold,
@@ -562,7 +562,7 @@ classify_grid_level2 <- function(data, parameters, values) {
   # CLASS 23: DENSE URBAN CLUSTERS: 
   # dense urban clusters are similarly identified as urban centres (a minimum density, minimum built-up and minimum size criteria)
   # but without gap filling and edge smoothing
-  dense_urban_cluster <- flexurba::classify_grid_urban_centres(
+  dense_urban_cluster <- flexurba::DoU_classify_grid_urban_centres(
     data = data,
     density_threshold = parameters$DUC_density_threshold,
     size_threshold = parameters$DUC_size_threshold,
@@ -623,7 +623,7 @@ classify_grid_level2 <- function(data, parameters, values) {
   
   # CLASS 13: RURAL CLUSTERS
   # rural clusters are similarly identified as urban clusters (minimum density and minimum size criteria)
-  classification <- flexurba::classify_grid_urban_clusters(
+  classification <- flexurba::DoU_classify_grid_urban_clusters(
     data = data,
     density_threshold = parameters$RC_density_threshold,
     size_threshold = parameters$RC_size_threshold,
@@ -643,14 +643,14 @@ classify_grid_level2 <- function(data, parameters, values) {
   
   # CLASS 11: VERY LOW DENSITY RURAL CELLS
   # all remaining cells
-  classification <- flexurba::classify_grid_rural(
+  classification <- flexurba::DoU_classify_grid_rural(
     data = data,
     classification = classification,
     value = values[7]
   )
   
   # CLASS 10: cells
-  classification <- flexurba::classify_grid_water(
+  classification <- flexurba::DoU_classify_grid_water(
     data = data,
     classification = classification,
     water_land_threshold = parameters$water_land_threshold,

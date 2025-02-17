@@ -1,4 +1,4 @@
-#' Create the grid cell classification of urban centres
+#' Create the DEGURBA grid cell classification of urban centres
 #'
 #' @description
 #' The Degree of Urbanisation identifies urban centres as clusters of continuous grid cells (based on rook contiguity) with a minimum density of 1500 inhabitants per km² (or with a minimum built-up area; see details), and a minimum total population of 50 000 inhabitants. Gaps smaller than 15 km² in the urban centres are filled and edges are smoothed by a 3x3-majority rule (see details).
@@ -40,11 +40,11 @@
 #' data_belgium <- DoU_load_grid_data_belgium()
 #'
 #' # standard parameters of the Degree of Urbanisation:
-#' classification1 <- classify_grid_urban_centres(data_belgium)
+#' classification1 <- DoU_classify_grid_urban_centres(data_belgium)
 #' DoU_plot_grid(classification1)
 #'
 #' # with custom parameters:
-#' classification2 <- classify_grid_urban_centres(data_belgium,
+#' classification2 <- DoU_classify_grid_urban_centres(data_belgium,
 #'   density_threshold = 1000,
 #'   gap_fill = FALSE,
 #'   smooth_edge = FALSE
@@ -53,7 +53,7 @@
 #'
 #' \dontrun{
 #' # urban centre classification according to GHSL Data Package 2022
-#' classification3 <- classify_grid_urban_centres(data,
+#' classification3 <- DoU_classify_grid_urban_centres(data,
 #'   built_criterium = TRUE,
 #'   built_threshold = 0.5,
 #'   smooth_edge_fun = "majority_rule_R2022A"
@@ -62,14 +62,14 @@
 #' # urban centre classification according to GHSL Data Package 2023
 #' # (assuming the directory "data/global" contains global data)
 #' optimal_builtup <- DoU_get_optimal_builtup("data/global")
-#' classification4 <- classify_grid_urban_centres(data,
+#' classification4 <- DoU_classify_grid_urban_centres(data,
 #'   built_criterium = TRUE,
 #'   built_threshold = optimal_builtup,
 #'   smooth_edge_fun = "majority_rule_R2023A"
 #' )
 #' }
 #' @export
-classify_grid_urban_centres <- function(data, density_threshold = 1500, size_threshold = 50000, contiguity_rule = 4, built_criterium = TRUE, built_threshold = 0.2, smooth_pop = FALSE, smooth_pop_window = 5, gap_fill = TRUE, max_gap = 15, smooth_edge = TRUE, smooth_edge_fun = "majority_rule_R2023A", value = 3) {
+DoU_classify_grid_urban_centres <- function(data, density_threshold = 1500, size_threshold = 50000, contiguity_rule = 4, built_criterium = TRUE, built_threshold = 0.2, smooth_pop = FALSE, smooth_pop_window = 5, gap_fill = TRUE, max_gap = 15, smooth_edge = TRUE, smooth_edge_fun = "majority_rule_R2023A", value = 3) {
   
   ##### CHECK IF PAREMETERS ARE VALID
   
@@ -148,7 +148,7 @@ classify_grid_urban_centres <- function(data, density_threshold = 1500, size_thr
     } else if (smooth_edge_fun == "majority_rule_R2023A") {
       urbancentres <- apply_majority_rule(urbancentres,
                                           version = "R2023A",
-                                          permanent_water = flexurba::classify_grid_water(data),
+                                          permanent_water = flexurba::DoU_classify_grid_water(data),
                                           land = data$land,
                                           pop = pop
       )
@@ -167,4 +167,33 @@ classify_grid_urban_centres <- function(data, density_threshold = 1500, size_thr
   names(urbancentres) <- c("layer")
   
   return(urbancentres)
+}
+
+#' Create the DEGURBA grid cell classification of urban centres
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `classify_grid_urban_centres()` has been renamed to `DoU_classify_grid_urban_centres()` to create a more consistent API and to better indicate that this function is specifically designed to classify urban centres in the context of the DEGURBA classification. 
+#' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
+#' @param density_threshold numeric. Minimum population density per permanent land of a cell required to belong to an urban centre
+#' @param size_threshold numeric. Minimum total population size required for an urban centre
+#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param built_criterium logical. Whether to use the additional built-up area criterium (see details). If `TRUE`, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the `built_threshold`
+#' @param built_threshold numeric. Additional built-up area threshold. A value between `0` and `1`, representing the minimum built-up area per permanent land. Ignored when `built_criterium` is `FALSE`.
+#' @param smooth_pop logical. Whether to smooth the population grid before delineating urban centres. If `TRUE`, the population grid will be smoothed with a moving average of window size `smooth_pop_window`.
+#' @param smooth_pop_window integer. Size of the moving window used to smooth the population grid before delineating urban centres. Ignored when `smooth_pop` is `FALSE`.
+#' @param gap_fill logical. Whether to perform gap filling. If `TRUE`, gaps in urban centres smaller than `max_gap` are filled.
+#' @param max_gap integer. Gaps with an area smaller than this threshold in urban centres will be filled (unit is km²). Ignored when `gap_fill` is `FALSE`.
+#' @param smooth_edge logical. Whether to perform edge smoothing. If `TRUE`, edges of urban centres are smoothed with the function `smooth_edge_fun`.
+#' @param smooth_edge_fun character / function. Function used to smooth the edges of urban centres. Ignored when `smooth_edge` is `FALSE`. Possible values are:
+#'   - `"majority_rule_R2022A"` to use the edge smoothing algorithm in GHSL Data Package 2022 (see details)
+#'   - `"majority_rule_R2023A"` to use the edge smoothing algorithm in GHSL Data Package 2023 (see details)
+#'   - a custom function with a signature similar as [`apply_majority_rule()`].
+#' @param value integer. Value assigned to urban centres in the resulting grid
+#' @return SpatRaster with the grid cell classification of urban centres
+#' @keywords internal
+#' @export
+classify_grid_urban_centres <- function(data, density_threshold = 1500, size_threshold = 50000, contiguity_rule = 4, built_criterium = TRUE, built_threshold = 0.2, smooth_pop = FALSE, smooth_pop_window = 5, gap_fill = TRUE, max_gap = 15, smooth_edge = TRUE, smooth_edge_fun = "majority_rule_R2023A", value = 3){
+  return(DoU_classify_grid_urban_centres(data, density_threshold, size_threshold, contiguity_rule, built_criterium, built_threshold, smooth_pop, smooth_pop_window, gap_fill, max_gap, smooth_edge, smooth_edge_fun, value))
 }

@@ -1,4 +1,4 @@
-#' Create the grid cell classification of urban clusters
+#' Create the DEGURBA grid cell classification of urban clusters
 #'
 #' @description
 #' The Degree of Urbanisation identifies urban clusters as clusters of continuous grid cells (based on queen contiguity) with a minimum density of 300 inhabitants per km², and a minimum total population of 5000 inhabitants.
@@ -17,11 +17,11 @@
 #' @return SpatRaster with the grid cell classification of urban clusters
 #' @examples
 #' data_belgium <- DoU_load_grid_data_belgium()
-#' classification <- classify_grid_urban_centres(data_belgium)
-#' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
+#' classification <- DoU_classify_grid_urban_centres(data_belgium)
+#' classification <- DoU_classify_grid_urban_clusters(data_belgium, classification = classification)
 #' DoU_plot_grid(classification)
 #' @export
-classify_grid_urban_clusters <- function(data, classification, density_threshold = 300, size_threshold = 5000, contiguity_rule = 8, smooth_pop = FALSE, smooth_pop_window = 5, value = 2) {
+DoU_classify_grid_urban_clusters <- function(data, classification, density_threshold = 300, size_threshold = 5000, contiguity_rule = 8, smooth_pop = FALSE, smooth_pop_window = 5, value = 2) {
   
   ##### CHECK IF PAREMETERS ARE VALID
   
@@ -67,4 +67,25 @@ classify_grid_urban_clusters <- function(data, classification, density_threshold
   names(classification) <- c("layer")
   
   return(classification)
+}
+
+#' Create the DEGURBA grid cell classification of urban clusters
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `classify_grid_urban_clusters()` has been renamed to `DoU_classify_grid_urban_clusters()` to create a more consistent API and to better indicate that this function is specifically designed to classify urban clusters in the context of the DEGURBA classification. 
+#' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
+#' @param classification SpatRaster. A grid with the classification of urban centres to which the classification of urban clusters will be added. Note that the grid will be adapted in-place.
+#' @param density_threshold numeric. Minimum population density per permanent land of a cell required to belong to an urban cluster
+#' @param size_threshold numeric. Minimum total population size required for an urban cluster
+#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param smooth_pop logical. Whether to smooth the population grid before delineating urban clusters. If `TRUE`, the population grid will be smoothed with a moving average of window size `smooth_pop_window`.
+#' @param smooth_pop_window integer. Size of the moving window used to smooth the population grid before delineating urban clusters. Ignored when `smooth_pop` is `FALSE`.
+#' @param value integer. Value assigned to urban clusters in the resulting grid
+#' @return SpatRaster with the grid cell classification of urban clusters
+#' @keywords internal
+#' @export
+classify_grid_urban_clusters <- function(data, classification, density_threshold = 300, size_threshold = 5000, contiguity_rule = 8, smooth_pop = FALSE, smooth_pop_window = 5, value = 2){
+  return(DoU_classify_grid_urban_clusters(data, classification, density_threshold, size_threshold, contiguity_rule, smooth_pop, smooth_pop_window, value))
 }
