@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The function reconstructs the spatial units classification of the Degree of Urbanisation based on the grid cell classification.
-#' @param data named list with the required data, as returned by the function [preprocess_units()]
+#' @param data named list with the required data, as returned by the function [DoU_preprocess_units()]
 #' @param id character. Unique column in the `units` data as id for spatial units
 #' @param level1 logical. Whether to classify the spatial units according to first hierarchical level (`TRUE`) or the second hierarchical level (`FALSE`). For more details, see section "Classification rules" below.
 #' @param values vector with the values assigned to the different classes in the resulting units classification:
@@ -41,7 +41,7 @@
 #'
 #' **Official workflow according to the GHSL:**
 #'
-#' For the official workflow, the three layers should be pre-proccessed by [preprocess_units()]. In this function, the classification grid and population grid are resampled to a user-defined `resample_resolution` with the nearest neighbor algorithm (the Degree of Urbanisation uses standard a resample resolution of 50 m). In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
+#' For the official workflow, the three layers should be pre-proccessed by [DoU_preprocess_units()]. In this function, the classification grid and population grid are resampled to a user-defined `resample_resolution` with the nearest neighbor algorithm (the Degree of Urbanisation uses standard a resample resolution of 50 m). In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
 #'
 #' Afterwards, the spatial units classification is constructed with [classify_units()] as follows. The vector layer with small spatial units is rasterised to match the population and classification grid. Based on the overlap of the three grids, the share of population per flexurba grid class is computed per spatial unit with a zonal statistics procedure. The units are subsequently classified according to the classification rules (see above).
 #'
@@ -53,7 +53,7 @@
 #'
 #' Besides the official workflow of the GHSL, the function also includes an alternative workflow to construct the spatial units classification. The alternative workflow does not require rasterising the spatial units layer, but relies on the overlap between the spatial units layer and the grid layers.
 #'
-#' The three layers should again be preproccessed by the function [preprocess_units()], but this time without `resampling_resolution`. For the classification in [classify_units()],  the function [exactextractr::exact_extract()] is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
+#' The three layers should again be preproccessed by the function [DoU_preprocess_units()], but this time without `resampling_resolution`. For the classification in [classify_units()],  the function [exactextractr::exact_extract()] is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
 #'
 #' @examples
 #' # load the grid data
@@ -66,7 +66,7 @@
 #'
 #' \dontrun{
 #' # official workflow
-#' data1 <- preprocess_units(
+#' data1 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
 #'   pop = data_belgium$pop,
@@ -76,7 +76,7 @@
 #' }
 #'
 #' # alternative workflow
-#' data2 <- preprocess_units(
+#' data2 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
 #'   pop = data_belgium$pop
@@ -85,7 +85,7 @@
 #' DoU_plot_units(data2$units, units_classification2)
 #'
 #' # spatial units classification, dissolved at GADM level 3 (Belgian districts)
-#' data3 <- preprocess_units(
+#' data3 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
 #'   pop = data_belgium$pop,
@@ -121,7 +121,7 @@ classify_units <- function(data, id = "UID",
     stop(paste("Invalid argument:", id, "is not a column in the units data."))
   }
   if (!all(c("classification", "pop", "units") %in% names(data))) {
-    stop("Invalid argument: data. \n The data should contain a named list of classification, pop and units as generated by the function preprocess_units.")
+    stop("Invalid argument: data. \n The data should contain a named list of classification, pop and units as generated by the function DoU_preprocess_units.")
   }
   
   # construct the metadata

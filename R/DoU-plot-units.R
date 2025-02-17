@@ -19,7 +19,7 @@
 #' # get spatial units classification
 #' data_belgium <- DoU_load_grid_data_belgium()
 #' grid_classification <- classify_grid(data_belgium)
-#' data1 <- preprocess_units(
+#' data1 <- DoU_preprocess_units(
 #'   units = flexurba::units_belgium,
 #'   classification = grid_classification,
 #'   pop = data_belgium$pop

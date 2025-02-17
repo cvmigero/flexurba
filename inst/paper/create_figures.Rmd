@@ -211,7 +211,7 @@ data_belgium <- DoU_load_grid_data_belgium()
 classification <- classify_grid(data_belgium)
 
 # (A) spatial units classification at the finest GADM level (= Belgian municipalities)
-units_1 <- preprocess_units(
+units_1 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification,
   pop = data_belgium$pop
@@ -219,7 +219,7 @@ units_1 <- preprocess_units(
 units_classification_1 <- classify_units(units_1)
 
 # (B) spatial units classification at the GADM level 3 (= Belgian districts)
-units_2 <- preprocess_units(
+units_2 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification,
   pop = data_belgium$pop,

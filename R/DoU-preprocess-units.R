@@ -1,4 +1,4 @@
-#' Preprocess the data for the spatial units classification
+#' Preprocess the data for the DEGURBA spatial units classification
 #'
 #' @description
 #' The spatial units classification of the Degree of Urbanisation requires three different inputs (all input sources should be in the Mollweide coordinate system):
@@ -32,7 +32,7 @@
 #' classification <- classify_grid(data = grid_data)
 #'
 #' # preprocess the data for units classification
-#' data1 <- preprocess_units(
+#' data1 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
 #'   pop = grid_data$pop,
@@ -40,7 +40,7 @@
 #' )
 #'
 #' # preprocess the data for units classification at GADM level 3 (Belgian districts)
-#' data2 <- preprocess_units(
+#' data2 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
 #'   pop = grid_data$pop,
@@ -49,7 +49,7 @@
 #' )
 #' }
 #' @export
-preprocess_units <- function(units, classification, pop, resample_resolution = NULL, dissolve_units_by = NULL) {
+DoU_preprocess_units <- function(units, classification, pop, resample_resolution = NULL, dissolve_units_by = NULL) {
   # create the output object
   data <- list()
   data$metadata <- list()
@@ -148,4 +148,27 @@ preprocess_units <- function(units, classification, pop, resample_resolution = N
   }
   
   return(data)
+}
+
+
+#' Preprocess the data for the DEGURBA spatial units classification
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `preprocess_grid()` has been renamed to `DoU_preprocess_grid()` to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with `classify_units()`. 
+#' @param units character / object of class `sf`. Path to the vector layer with small spatial units, or an object of class `sf` with the small spatial units
+#' @param classification character / SpatRaster. Path to the grid cell classification of the Degree of Urbanisation, or SpatRaster with the grid cell classification
+#' @param pop character / SpatRaster. Path to the population grid, or SpatRaster with the population grid
+#' @param resample_resolution numeric. Resolution to which the grids are resampled during pre-processing. If `NULL`, the grids are resampled to the smallest resolution among the population and classification grid.
+#' @param dissolve_units_by character. If not `NULL`, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain GADM level (see examples).
+#' @return named list with the required data to execute the spatial units classification procedure, and their metadata. The list contains the following elements:
+#' - `classification`: the (resampled and cropped) grid cell classification layer
+#' - `pop`: the (resampled and cropped) population grid
+#' - `units`: the (dissolved and filtered) spatial units (object of class `sf`)
+#' - `metadata`: named list with the metadata of the input files. It contains the elements `units`, `classification` and `pop` (with paths to the respective data sources), `resample_resolution` and `dissolve_units_by` if not `NULL`. (Note that when the input sources are passed by object , the metadata might be empty).
+#' @keywords internal
+#' @export
+preprocess_units <- function(units, classification, pop, resample_resolution = NULL, dissolve_units_by = NULL){
+  return(DoU_preprocess_units(units, classification, pop, resample_resolution, dissolve_units_by))
 }

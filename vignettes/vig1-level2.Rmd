@@ -94,7 +94,7 @@ Spatial units classification at municipal level can be classified as follows.
 
 ```{r}
 # pre-process the data
-data_units <- preprocess_units(
+data_units <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification1,
   pop = data_belgium$pop
@@ -118,7 +118,7 @@ Furthermore, the function `classify_units()` allows the user to classify units o
 
 ```{r}
 # pre-process the data, dissolve by GADM level 3 (= Belgian districts)
-data_units2 <- preprocess_units(
+data_units2 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification1,
   pop = data_belgium$pop,

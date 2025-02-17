@@ -147,7 +147,7 @@ Based on the grid classification, the spatial units classification can be constr
 
 ```{r example2b, eval = FALSE}
 # preprocess the data
-data1 <- preprocess_units(
+data1 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification1,
   pop = "data/belgium/POP.tif"

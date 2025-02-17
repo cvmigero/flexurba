@@ -222,7 +222,7 @@ be constructed with the following code. The data object
 
 ``` r
 # preprocess the data
-data1 <- preprocess_units(
+data1 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification1,
   pop = "data/belgium/POP.tif"
