@@ -9,28 +9,30 @@
 #' 2. **Where is the threshold enforced?**  
 #'    - The threshold can be enforced *consistently across the study area* (= absolute approach, `regions=NULL`) or *tailored within specific regions* (= relative approach, `regions` not `NULL`).
 #'
-#' The table below outlines the appropriate combination of function arguments for each approach:
+#' For more details on these thresholding approaches, including their advantages and limitations, see the section "Thresholding Approaches" below. The table below outlines the appropriate combination of function arguments for each approach:
 #'
 #' |           | **Absolute Approach**                                            | **Relative Approach**                                            |
 #' |-------------------------|-----------------------------------------------------------------|-----------------------------------------------------------------|
 #' | **Predefined Value**    | `type="predefined"` with `threshold_value` not `NULL`, and `regions=NULL` | `type="predefined"` with `threshold_value` not `NULL`, and `regions` not `NULL` |
 #' | **Data-Driven Value**   | `type="data-driven"` with `fun` not `NULL`, and `regions=NULL` | `type="data-driven"` with `fun` not `NULL`, and `regions` not `NULL` |
 #'
-#' For more details on these thresholding approaches, including their advantages and limitations, see the section "Thresholding Approaches" below.
-
-#' @param grid SpatRaster
+#' @param grid SpatRaster with the data
 #' @param type character. Either `"predefined"` or `"data-driven"`.
-#' @param threshold_value numeric / vector. This threshold value is employed to derive urban boundaries when `type="predefined"`. Be aware the threshold value should be in the same unit as the grid values. If `regions` is not `NULL`, you can also pass a vector of threshold values which should be applied in the respective regions.
-#' @param fun character / function. This function is used to derive the threshold value from the data when `type="data-driven"`. Either as character: `"min"`, `"max"`, `"mean"`, `"median"`, or `"pX"` where X is a percentile value (e.g., p25 for the 25% percentile value"). It is also possible to provide a custom function for relatively small grids.
+#' @param threshold_value numeric or vector. The threshold value used to identify urban areas when `type="predefined"`. If `regions` is not `NULL`, a vector of threshold values can be provided, where each value corresponds to a specific region (the respective values are linked to regions in alphabetical order based on their IDs; see examples). In addition, ensure that the threshold values are in the same unit as the grid values.
+#' @param fun character or function. This function is used to derive the threshold value from the data when `type="data-driven"`. Either as character: `"min"`, `"max"`, `"mean"`, `"median"`, or `"pX"` where X denotes a percentile value (e.g., p95 for the 95% percentile value"). It is also possible to provide a custom function for relatively small grids.
 #' @param ... additional arguments passed to fun
-#' @param regions character / SpatRaster / sf object. If not `NULL`, a different threshold value will be enforced in the separate regions (i.e. relative thresholding approach).
+#' @param regions character, SpatRaster or sf object. If not `NULL`, a different threshold value is applied in the separate regions (i.e. a relative thresholding approach). The argument can either be:
+#' - a SpatRaster with a separate value for each region
+#' - the path to the region data (as character)
+#' - an sf polygon layer
+#' In the latter two cases, the function [covert_regions_to_grid()] will be used to convert the regions to a gridded format.
 #' @param operator  character. Operator used to enforce the threshold. Either `"greater_than"`, `"greater_or_equal"`, `"smaller_than"`, `"smaller_or_equal"` or `"equals"`.
-#' @param smoothing logical. Whether to smooth the edges of the boundaries. If `TRUE`, boundaries will be smoothed with the function `apply_majority_rule`.
+#' @param smoothing logical. Whether to smooth the edges of the boundaries. If `TRUE`, boundaries will be smoothed with the function [apply_majority_rule()].
 #' @return named list with the following elements:
 #' - `rboundaries`: SpatRaster in which cells that are part of an urban area have a value of '1'
 #' - `vboundaries`: sf object with the urban areas as separate polygons
 #' - `threshold`: dataframe with per region the threshold value that is applied
-#' - `regions`: SpatRaster with the regions that are used
+#' - `regions`: SpatRaster with the gridded version of the regions that is employed
 #' @examples
 #' proxies <- load_proxies_belgium()
 #' 
@@ -44,12 +46,14 @@
 #'                                        fun='p90')
 #' terra::plot(datadriven_absolute$rboundaries)
 #' 
-#' # in the examples below we will use Brussels, Flanders and the Walloon 
-#' # Region as separate regions
-#' regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'GID_1')
+#' # in the examples below we will use 'Bruxelles', 'Vlaanderen' and 'Wallonie' as separate regions
+#' regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'NAME_1')
 #' terra::plot(regions)
 #' 
 #' # option 3: predefined - relative threshold
+#' # note that the threshold values are linked to the regions in alphabetical 
+#' # order based on their IDs. So, the threshold of 1500 is applied to 
+#' # 'Bruxelles', # 1200 to 'Vlaanderen', and 1000 to 'Wallonie'.
 #' predefined_relative <- apply_threshold(proxies$pop, type='predefined',
 #'                                        threshold_value=c(1500, 1200, 1000),
 #'                                        regions=regions)
@@ -65,32 +69,32 @@
 #' 
 #' Thresholding approaches for urban delineation can vary across two dimensions: (1) how the threshold value is determined and (2) where the threshold is enforced. 
 #' 
-#' There are two main ways to determine a threshold's value. The value can either be set by the researcher or analyst, typically based on expert knowledge, or it can be derived from the underlying data. There is considerable debate regarding whether predefined or data-driven thresholds should be preferred for urban delineation. Predefined thresholds are easier to understand and implement and thus contribute to a higher degree of transparency. However, their exact value is often difficult to justify conceptually, and their value could be easily changed. Data-driven thresholds, on the other hand, are more complex to manually adjust and are therefore perceived as less arbitrary. Nevertheless, it is important to note that concerns related to arbitrariness are not eliminated as the user still needs to decide on a particular function to derive the data-driven value. In that sense, arbitrariness is, in fact, moved from the user into the delineation method.
+#' There are two main ways to determine a threshold's value. The value can either be set by the researcher or analyst, typically based on expert knowledge, or it can be derived from the underlying data. There is considerable debate regarding whether predefined or data-driven thresholds should be preferred for urban delineation. Predefined thresholds are easier to understand and implement and thus contribute to a higher degree of transparency. However, their exact value is often difficult to justify conceptually, and their value is relatively easy to modify. Data-driven thresholds, on the other hand, are more complex to manually adjust and are therefore perceived as less arbitrary. Nevertheless, it is important to note that concerns related to arbitrariness are not eliminated as the user still needs to decide on a particular function to derive the data-driven value. In that sense, arbitrariness is moved from the user into the delineation method.
 #' 
-#' The second dimension concerns where the threshold is enforced. Thresholds can be applied consistently across the study area (i.e. an absolute approach) or separately in individual regions (i.e. a relative approach). An example of the latter approach is when different thresholds are applied for different countries. This approach allows a threshold to be tailored to the specific urbanisation pattern of a country. Nevertheless, customised thresholds hamper comparability across space. Absolute thresholds allow for more meaningful comparisons as they ensure that urban areas are identified consistently. defined consistently across space. 
+#' The second dimension concerns where the threshold is enforced. Thresholds can be applied consistently across the study area (i.e. an absolute approach) or separately in individual regions (i.e. a relative approach). An example of the latter approach is when different thresholds are applied for different countries. This approach allows a threshold to be tailored to the specific urbanisation pattern of a country. Nevertheless, customised thresholds hamper comparability across space. In constrast, absolute thresholds allow for more meaningful comparisons as they ensure that urban areas are identified consistently across space. 
 #' 
 #' Combing these two dimensions results in four possible approaches: 
 #' 
 #' 1.	**A predefined, absolute approach** 
 #' 
-#'      The Degree of Urbanisation definition developed by [Dijkstra et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0094119020300838) employs this approach and applies a predefined population density threshold of 1500 inhabitants per km² across the globe. 
+#'      The Degree of Urbanisation definition developed by [Dijkstra et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0094119020300838) employs this approach and consistently applies a predefined population density threshold of 1500 inhabitants per km² across the globe. 
 #'      
 #' 2. **A predefined, relative approach** 
 #' 
-#'      The [OECD (2013)](https://www.oecd.org/content/dam/oecd/en/publications/reports/2013/12/oecd-regions-at-a-glance-2013_g1g356f6/reg_glance-2013-en.pdf) defines two predefined thresholds: a minimum of 1000 inhabitants per km² for the United States and Canada, and a threshold of 1500 inhabitants per km² for other OECD countries.
+#'      The [OECD (2013)](https://www.oecd.org/content/dam/oecd/en/publications/reports/2013/12/oecd-regions-at-a-glance-2013_g1g356f6/reg_glance-2013-en.pdf) specifies two predefined thresholds: a minimum of 1000 inhabitants per km² for the United States and Canada, and a threshold of 1500 inhabitants per km² for other OECD countries.
 #'      
 #' 3. **A data-driven, absolute approach** 
 #' 
-#'      For instance, [Jiang et al. (2015)](https://www.tandfonline.com/doi/full/10.1080/13658816.2014.988715) derive a minimum night-time light emission threshold from the data and enforce this threshold consistently across the globe to identify cities. 
+#'      [Jiang et al. (2015)](https://www.tandfonline.com/doi/full/10.1080/13658816.2014.988715) derive a minimum night-time light emission threshold from the data, and enforce this threshold consistently across the globe. 
 #'      
 #' 4. **A data-driven, relative approach** 
 #' 
-#'      [Combes et al. (2024)](https://documents1.worldbank.org/curated/en/099415311272320571/pdf/IDU0faef6c000aaba0485209f0e08928760d9a57.pdf) derive a separate data-driven population density threshold for each country in Sub-Saharan Africa.
+#'      [Combes et al. (2024)](https://documents1.worldbank.org/curated/en/099415311272320571/pdf/IDU0faef6c000aaba0485209f0e08928760d9a57.pdf) determine a separate data-driven population density threshold for each country in Sub-Saharan Africa.
 #'
-#' There is no definitive answer to what should be preferred: predefined or data-driven thresholds, enforced in an absolute or relative manner. Each approach possess unique advantages yet also come with limitations. Ultimately, the applicability should depend on the purpose of the delineation and the context of the application. 
+#' There is no definitive answer to what should be preferred: a predefined or data-driven threshold, enforced in an absolute or relative manner. Each approach possess unique advantages yet also come with limitations. Ultimately, the applicability should depend on the purpose of the delineation and the context of the application. 
 #' 
 #' @export
-apply_threshold <- function(grid, type="predetermined", threshold_value=NULL, fun=NULL, ..., regions=NULL, operator='greater_than', smoothing=TRUE){
+apply_threshold <- function(grid, type="predefined", threshold_value=NULL, fun=NULL, ..., regions=NULL, operator='greater_than', smoothing=TRUE){
 
   # check if spatraster only has 1 layer
   if (terra::nlyr(grid) > 1){
