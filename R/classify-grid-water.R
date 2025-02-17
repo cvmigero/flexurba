@@ -15,7 +15,7 @@
 #' @param allow_overwrite vector. Values in `classification` that can be overwritten by water cells. By default, the classification of rural cells (`1`) can be overwritten, but the classification of urban clusters (`2`) and urban centres (`3`) cannot.
 #' @return SpatRaster with the grid cell classification of water cells
 #' @examples
-#' data_belgium <- load_grid_data_belgium()
+#' data_belgium <- DoU_load_grid_data_belgium()
 #' classification <- classify_grid_urban_centres(data_belgium)
 #' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
 #' classification <- classify_grid_rural(data_belgium, classification = classification)

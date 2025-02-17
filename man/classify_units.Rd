@@ -88,7 +88,7 @@ The three layers should again be preproccessed by the function \code{\link[=prep
 
 \examples{
 # load the grid data
-data_belgium <- flexurba::load_grid_data_belgium()
+data_belgium <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders
 units_data <- flexurba::units_belgium \%>\%
   dplyr::filter(GID_2 == "BEL.2.5_1")

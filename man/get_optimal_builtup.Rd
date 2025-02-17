@@ -31,7 +31,7 @@ The optimal threshold is dynamically identified as the global average built-up a
 For more information: see \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf}{GHSL Data Package 2023, footnote 30}. The arguments of the function allow to adapt the standard specifications in order to determine an alternative "optimal" threshold.
 }
 \examples{
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 
 # determine the optimal built-up threshold with standard specifications
 get_optimal_builtup(data_belgium)

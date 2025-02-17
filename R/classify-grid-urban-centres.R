@@ -37,7 +37,7 @@
 #' In Data Package 2023, the majority rule is slightly adapted. A cell is added to an urban centre if the majority of the surrounding cells belongs to an unique urban centre, with majority only computed among populated or land cells (proportion of permanent land > 0.5). In addition, cells with permanent water are never added to urban centres. The process is iteratively repeated until no more cells are added. For more information: see [GHSL Data Package 2023, footnote 29](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf). The parameter setting `smooth_edge=TRUE` and `smooth_edge_fun="majority_rule_R2023A"` reproduces this edge smoothing rule.
 #'
 #' @examples
-#' data_belgium <- load_grid_data_belgium()
+#' data_belgium <- DoU_load_grid_data_belgium()
 #'
 #' # standard parameters of the Degree of Urbanisation:
 #' classification1 <- classify_grid_urban_centres(data_belgium)

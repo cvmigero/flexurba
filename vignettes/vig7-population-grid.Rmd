@@ -159,7 +159,7 @@ Now that we have the population grid in the right format, we can use it to const
 classification1 <- classify_grid('data-ghana')
 
 # plot the classification
-plot_grid(classification1)
+DoU_plot_grid(classification1)
 ```
 
 ![](figures/ghana2.png){alt="Ghana classification 2"}
@@ -177,7 +177,7 @@ classification2 <- classify_grid('data-ghana',
                                 ))
 
 # plot the classification
-plot_grid(classification2)
+DoU_plot_grid(classification2)
 ```
 
 ![](figures/ghana2.png){alt="Ghana classification 2"}

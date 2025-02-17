@@ -11,7 +11,7 @@ Code example 1:
 ```{r}
 library(flexurba)
 # get the required data
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 
 # (A) with the standard parameters
 classification_1 <- classify_grid(data_belgium)
@@ -49,7 +49,7 @@ library(shadowtext)
 library(ggpubr)
 
 # create plots of the classifications
-plot1 <- plot_grid(classification_1) +
+plot1 <- DoU_plot_grid(classification_1) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -58,7 +58,7 @@ plot1 <- plot_grid(classification_1) +
     bar_cols = c("black")
   )
 
-plot2 <- plot_grid(classification_2) +
+plot2 <- DoU_plot_grid(classification_2) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -67,7 +67,7 @@ plot2 <- plot_grid(classification_2) +
     bar_cols = c("black")
   )
 
-plot3 <- plot_grid(classification_3) +
+plot3 <- DoU_plot_grid(classification_3) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -76,7 +76,7 @@ plot3 <- plot_grid(classification_3) +
     bar_cols = c("black")
   )
 
-plot4 <- plot_grid(classification_4) +
+plot4 <- DoU_plot_grid(classification_4) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -207,7 +207,7 @@ Code example 2
 library(flexurba)
 
 # get the required data
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 classification <- classify_grid(data_belgium)
 
 # (A) spatial units classification at the finest GADM level (= Belgian municipalities)

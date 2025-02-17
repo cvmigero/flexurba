@@ -22,7 +22,7 @@ The Degree of Urbanisation identifies rural cells as all cells not belonging to 
 For more information about the Degree of Urbanisation methodology, see the \href{https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual}{methodological manual}, \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2022.pdf}{GHSL Data Package 2022} and \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf}{GHSL Data Package 2023}.
 }
 \examples{
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 classification <- classify_grid_urban_centres(data_belgium)
 classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
 classification <- classify_grid_rural(data_belgium, classification = classification)

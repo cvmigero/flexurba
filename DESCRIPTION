@@ -25,7 +25,8 @@ Imports:
     Rcpp,
     sf,
     terra (>= 1.7-3),
-    utils
+    utils,
+    withr
 Depends: 
     R (>= 2.10)
 LazyData: true

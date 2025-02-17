@@ -28,7 +28,7 @@ parameters$UCL_smooth_pop <- TRUE
 parameters$UCL_smooth_pop_window <- 7
 
 # load the data
-grid_data <- load_grid_data_belgium()
+grid_data <- DoU_load_grid_data_belgium()
 
 # use the adapted parameters to construct a grid cell classification
 classification <- classify_grid(

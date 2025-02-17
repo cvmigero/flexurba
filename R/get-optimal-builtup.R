@@ -14,7 +14,7 @@
 #' @return optimal built-up area threshold
 #' @examples
 #  # As illustration, the function is applied for Belgium, ideally the function should be applied at a global scale
-#' data_belgium <- load_grid_data_belgium()
+#' data_belgium <- DoU_load_grid_data_belgium()
 #'
 #' # determine the optimal built-up threshold with standard specifications
 #' get_optimal_builtup(data_belgium)

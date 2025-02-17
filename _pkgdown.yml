@@ -64,8 +64,8 @@ reference:
 - subtitle: Example datasets
 - contents:
   - units_belgium
-  - load_grid_data_belgium
   - load_proxies_belgium
+  - DoU_load_grid_data_belgium
 
 - subtitle: Download data from GHSL website
 - contents:

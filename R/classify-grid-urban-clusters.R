@@ -16,7 +16,7 @@
 #' @param value integer. Value assigned to urban clusters in the resulting grid
 #' @return SpatRaster with the grid cell classification of urban clusters
 #' @examples
-#' data_belgium <- load_grid_data_belgium()
+#' data_belgium <- DoU_load_grid_data_belgium()
 #' classification <- classify_grid_urban_centres(data_belgium)
 #' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
 #' DoU_plot_grid(classification)

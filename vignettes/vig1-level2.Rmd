@@ -29,7 +29,7 @@ The grid classification of Level 2 can be constructed with the following code. F
 library(flexurba)
 
 # load the data for Belgium
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 ```
 
 Afterwards, the classification with the standard parameter settings can be constructed as follows.
@@ -42,7 +42,7 @@ classification1 <- classify_grid(
 )
 
 # plot the classification
-plot_grid(
+DoU_plot_grid(
   classification1, 
   level1 = FALSE
 )
@@ -72,7 +72,7 @@ classification2 <- flexurba::classify_grid(
 )
 
 # plot the classification
-plot_grid(
+DoU_plot_grid(
   classification2, 
   level1 = FALSE
 )

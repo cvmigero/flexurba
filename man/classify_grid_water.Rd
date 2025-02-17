@@ -40,7 +40,7 @@ For more information about the Degree of Urbanisation methodology, see the \href
 The arguments of the function allow to adapt the standard specifications in the Degree of Urbanisation in order to construct an alternative version of the grid classification.
 }
 \examples{
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 classification <- classify_grid_urban_centres(data_belgium)
 classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
 classification <- classify_grid_rural(data_belgium, classification = classification)

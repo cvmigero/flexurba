@@ -228,7 +228,7 @@
 #'
 #' @examples
 #' # load the data
-#' data_belgium <- load_grid_data_belgium()
+#' data_belgium <- DoU_load_grid_data_belgium()
 #'
 #' # classify with standard parameters:
 #' classification1 <- classify_grid(data = data_belgium)

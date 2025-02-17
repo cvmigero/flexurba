@@ -26,7 +26,7 @@ As illustration, we will generate multiple variations of the grid cell classific
 library(flexurba)
 
 # load the data
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 ```
 
 ### Create a list of parameter configurations
@@ -104,7 +104,7 @@ for (i in seq_along(parameter_variations)) {
     parameters = parameter_variations[[i]]
   )
 
-  plots[[i]] <- plot_grid(classifications[[i]],
+  plots[[i]] <- DoU_plot_grid(classifications[[i]],
     title = paste0(
       "Grid classification (", parameter_variations[[i]]$UC_density_threshold, ", ",
       parameter_variations[[i]]$UC_size_threshold, ", ",

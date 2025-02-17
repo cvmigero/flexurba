@@ -48,7 +48,7 @@ Note that the function is computational quite heavy for large spatial extents (r
 }
 \examples{
 # get spatial units classification
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 grid_classification <- classify_grid(data_belgium)
 data1 <- preprocess_units(
   units = flexurba::units_belgium,

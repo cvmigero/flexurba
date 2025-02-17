@@ -49,7 +49,7 @@ More information about the pre-processing workflow, see \href{https://ghsl.jrc.e
 \examples{
 \dontrun{
 # load the grid data
-grid_data <- flexurba::load_grid_data_belgium()
+grid_data <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders
 units_data <- flexurba::units_belgium \%>\%
   dplyr::filter(GID_2 == "BEL.2.5_1")
