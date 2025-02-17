@@ -88,7 +88,7 @@ The Level 1 spatial units classification in (1) cities, (2) towns and semi-dense
 -   **Towns and semi-dense areas** are subdivided in (1) dense towns, (2) semi-dense towns and (3) suburbs or peri-urban areas.
 -   **Rural areas** are subdivided in (1) villages, (2) dispersed rural areas and (3) mostly uninhabited areas.
 
-For the exact classification rules, see the documentation of the function `classify_units()` or the official [DEGURBA methodological manual](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual). The code below illustrates how to construct the units classification of Level 2.
+For the exact classification rules, see the documentation of the function `DoU_classify_units()` or the official [DEGURBA methodological manual](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual). The code below illustrates how to construct the units classification of Level 2.
 
 Spatial units classification at municipal level can be classified as follows.
 
@@ -101,7 +101,7 @@ data_units <- DoU_preprocess_units(
 )
 
 # get the units classification
-units_classification <- classify_units(
+units_classification <- DoU_classify_units(
   data_units, 
   level1 = FALSE
 )
@@ -114,7 +114,7 @@ plot_units(
 )
 ```
 
-Furthermore, the function `classify_units()` allows the user to classify units on a different level of aggregation. For example, by aggregating the Belgian municipalities to districts (*Dutch: arrondissementen*) based on a common attribute field (in this dataset: `GID_3`).
+Furthermore, the function `DoU_classify_units()` allows the user to classify units on a different level of aggregation. For example, by aggregating the Belgian municipalities to districts (*Dutch: arrondissementen*) based on a common attribute field (in this dataset: `GID_3`).
 
 ```{r}
 # pre-process the data, dissolve by GADM level 3 (= Belgian districts)
@@ -126,7 +126,7 @@ data_units2 <- DoU_preprocess_units(
 )
 
 # get the units classification
-units_classification2 <- classify_units(
+units_classification2 <- DoU_classify_units(
   data_units2, 
   level1 = FALSE, 
   id = "GID_3"

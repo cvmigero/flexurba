@@ -20,7 +20,7 @@ DoU_plot_units(
 \arguments{
 \item{units}{object of class \code{sf}. The spatial units to be displayed on the plot}
 
-\item{classification}{dataframe with the classification of the spatial units, as returned by \code{classify_units()}. If \code{NULL}, it is assumed that the classification results are merged in the \code{units} object.}
+\item{classification}{dataframe with the classification of the spatial units, as returned by \code{DoU_classify_units()}. If \code{NULL}, it is assumed that the classification results are merged in the \code{units} object.}
 
 \item{level1}{logical. Whether the spatial units are classified according to level 1 of the Degree of Urbanisation (\code{TRUE}), or level 2 of the Degree of Urbanisation (\code{FALSE}).}
 
@@ -55,7 +55,7 @@ data1 <- DoU_preprocess_units(
   classification = grid_classification,
   pop = data_belgium$pop
 )
-units_classification <- classify_units(data1)
+units_classification <- DoU_classify_units(data1)
 
 # plot using the standard color palette
 DoU_plot_units(data1$units, units_classification)

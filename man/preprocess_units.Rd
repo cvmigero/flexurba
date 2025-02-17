@@ -35,6 +35,6 @@ named list with the required data to execute the spatial units classification pr
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{preprocess_grid()} has been renamed to \code{DoU_preprocess_grid()} to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with \code{classify_units()}.
+\code{preprocess_grid()} has been renamed to \code{DoU_preprocess_grid()} to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with \code{DoU_classify_units()}.
 }
 \keyword{internal}

@@ -26,6 +26,6 @@ optimal built-up area threshold
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{get_optimal_builtup()} has been renamed to \code{DoU_get_optimal_builtup()} to create a more consistent API and to better indicate that this function is specifically designed for detecting the optimal builtup threshold in the context of the DEGURBA classification with \code{classify_units()}.
+\code{get_optimal_builtup()} has been renamed to \code{DoU_get_optimal_builtup()} to create a more consistent API and to better indicate that this function is specifically designed for detecting the optimal builtup threshold in the context of the DEGURBA classification with \code{DoU_classify_units()}.
 }
 \keyword{internal}

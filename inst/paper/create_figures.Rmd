@@ -216,7 +216,7 @@ units_1 <- DoU_preprocess_units(
   classification = classification,
   pop = data_belgium$pop
 )
-units_classification_1 <- classify_units(units_1)
+units_classification_1 <- DoU_classify_units(units_1)
 
 # (B) spatial units classification at the GADM level 3 (= Belgian districts)
 units_2 <- DoU_preprocess_units(
@@ -225,7 +225,7 @@ units_2 <- DoU_preprocess_units(
   pop = data_belgium$pop,
   dissolve_units_by = "GID_3"
 )
-units_classification_2 <- classify_units(units_2, id = "GID_3")
+units_classification_2 <- DoU_classify_units(units_2, id = "GID_3")
 ```
 
 Figure 2:
