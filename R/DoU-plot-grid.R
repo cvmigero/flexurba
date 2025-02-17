@@ -14,7 +14,7 @@
 #' @param filename character. Path to the location to save the plot
 #' @return ggplot object
 #' @examples
-#' classification <- classify_grid(DoU_load_grid_data_belgium())
+#' classification <-DoU_classify_grid(DoU_load_grid_data_belgium())
 #'
 #' # plot with standard color scheme
 #' DoU_plot_grid(classification)
@@ -96,7 +96,7 @@ DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette 
 #' @description 
 #' `r lifecycle::badge("deprecated")`
 #' 
-#' `plot_grid()`  has been renamed to `DoU_plot_grid()` to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with `classify_grid()`. 
+#' `plot_grid()`  has been renamed to `DoU_plot_grid()` to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with `DoU_classify_grid()`. 
 #' @param classification SpatRaster / character. A SpatRaster with the grid cell classification or the path to the grid cell classification file
 #' @param extent SpatExtent. If not `NULL`, the grid classification will be cropped to the provided extent before plotting
 #' @param level1 logical. Whether the grid is classified according to level 1 of the Degree of Urbanisation (`TRUE`), or level 2 of the Degree of Urbanisation (`FALSE`).

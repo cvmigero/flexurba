@@ -14,11 +14,11 @@ library(flexurba)
 data_belgium <- DoU_load_grid_data_belgium()
 
 # (A) with the standard parameters
-classification_1 <- classify_grid(data_belgium)
+classification_1 <-DoU_classify_grid(data_belgium)
 
 # (B) with decreased population density and size thresholds
 # for urban centres (UC) and urban clusters (UCL)
-classification_2 <- classify_grid(data_belgium,
+classification_2 <-DoU_classify_grid(data_belgium,
   parameters = list(
     UC_density_threshold = 1000,
     UC_size_threshold = 30000,
@@ -28,12 +28,12 @@ classification_2 <- classify_grid(data_belgium,
 )
 
 # (C) with queens contiguity (8-cell connectivity) for urban centres
-classification_3 <- classify_grid(data_belgium,
+classification_3 <-DoU_classify_grid(data_belgium,
   parameters = list(UC_contiguity_rule = 8)
 )
 
 # (D) without the built-up area criterium for urban centres
-classification_4 <- classify_grid(data_belgium,
+classification_4 <-DoU_classify_grid(data_belgium,
   parameters = list(UC_built_criterium = FALSE)
 )
 ```
@@ -208,7 +208,7 @@ library(flexurba)
 
 # get the required data
 data_belgium <- DoU_load_grid_data_belgium()
-classification <- classify_grid(data_belgium)
+classification <-DoU_classify_grid(data_belgium)
 
 # (A) spatial units classification at the finest GADM level (= Belgian municipalities)
 units_1 <- DoU_preprocess_units(

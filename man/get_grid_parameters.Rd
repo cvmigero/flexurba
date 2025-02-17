@@ -15,6 +15,6 @@ named list with the standard parameters
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{get_grid_parameters()} has been renamed to \code{DoU_get_grid_parameters()} to create a more consistent API and to better indicate that this function is specifically designed in the context of the DEGURBA classification with \code{classify_grid()}.
+\code{get_grid_parameters()} has been renamed to \code{DoU_get_grid_parameters()} to create a more consistent API and to better indicate that this function is specifically designed in the context of the DEGURBA classification with \code{DoU_classify_grid()}.
 }
 \keyword{internal}

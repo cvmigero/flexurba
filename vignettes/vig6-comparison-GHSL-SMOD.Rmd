@@ -20,7 +20,7 @@ library(flexurba)
 
 download_GHSLdata('regionsdata', extent="regions")
 
-classify_grid(data = 'regionsdata', 
+DoU_classify_grid(data = 'regionsdata', 
               filename = "regionsdata/result.tif",
               regions = TRUE)
 ```

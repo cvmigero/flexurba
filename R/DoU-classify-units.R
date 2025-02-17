@@ -62,7 +62,7 @@
 #' units_data <- flexurba::units_belgium %>%
 #'   dplyr::filter(GID_2 == "BEL.2.5_1")
 #' # classify the grid
-#' classification <- classify_grid(data = data_belgium)
+#' classification <-DoU_classify_grid(data = data_belgium)
 #'
 #' \dontrun{
 #' # official workflow

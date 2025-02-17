@@ -99,7 +99,7 @@ plots <- list()
 
 # create the grid classification and plot the result
 for (i in seq_along(parameter_variations)) {
-  classifications[[i]] <- classify_grid(
+  classifications[[i]] <-DoU_classify_grid(
     data = data_belgium,
     parameters = parameter_variations[[i]]
   )

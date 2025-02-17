@@ -15,9 +15,9 @@ test_that("crop_to_smallest_extent() works", {
   )
 })
 
-test_that("classify_grid() works", {
+test_that("DoU_classify_grid() works", {
   expect_equal(
-    terra::values(classify_grid(
+    terra::values(DoU_classify_grid(
       data = system.file("extdata", "belgium", package = "flexurba"),
       parameters = list(
         UC_built_threshold = 0.5,
@@ -28,7 +28,7 @@ test_that("classify_grid() works", {
   )
 
   expect_equal(
-    terra::values(classify_grid(
+    terra::values(DoU_classify_grid(
       data = system.file("extdata", "belgium", package = "flexurba"),
       parameters = list(
         UC_density_threshold = 1000,
@@ -45,7 +45,7 @@ test_that("classify_grid() works", {
   )
 
   expect_equal(
-    terra::values(classify_grid(
+    terra::values(DoU_classify_grid(
       data = system.file("extdata", "PRD", package = "flexurba"),
       parameters = list(
         UCL_density_threshold = 400,
@@ -59,7 +59,7 @@ test_that("classify_grid() works", {
   )
 
   expect_equal(
-    terra::values(classify_grid(
+    terra::values(DoU_classify_grid(
       data = system.file("extdata", "PRD", package = "flexurba"),
       parameters = list(
         UC_density_threshold = 2000,
@@ -74,7 +74,7 @@ test_that("classify_grid() works", {
   )
 
   expect_equal(
-    terra::values(classify_grid(
+    terra::values(DoU_classify_grid(
       data = system.file("extdata", "PRD", package = "flexurba"),
       parameters = list(
         UC_density_threshold = 1250,
@@ -88,17 +88,17 @@ test_that("classify_grid() works", {
     terra::values(terra::rast(system.file("extdata", "PRD", "classification5.tif", package = "flexurba")))
   )
 
-  expect_error(classify_grid(
+  expect_error(DoU_classify_grid(
     data = system.file("extdata", "PRD", package = "flexurba"),
     parameters = list(UC_density_threshold = "error")
   ))
 
-  expect_error(classify_grid(
+  expect_error(DoU_classify_grid(
     data = system.file("extdata", "PRD", package = "flexurba"),
     parameters = list(UC_gap_fill = 5)
   ))
 
-  expect_error(classify_grid(
+  expect_error(DoU_classify_grid(
     data = system.file("extdata", "PRD", package = "flexurba"),
     parameters = list(UCL_contiguity_rule = 5)
   ))

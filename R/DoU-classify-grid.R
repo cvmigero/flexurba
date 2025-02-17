@@ -1,4 +1,4 @@
-#' Create the grid cell classification
+#' Create the DEGURBA grid cell classification
 #'
 #' @description
 #' The function reconstructs the grid cell classification of the Degree of Urbanisation. The arguments of the function allow to adapt the standard specifications in the Degree of Urbanisation in order to construct an alternative version  (see section "Custom specifications" below).
@@ -231,11 +231,11 @@
 #' data_belgium <- DoU_load_grid_data_belgium()
 #'
 #' # classify with standard parameters:
-#' classification1 <- classify_grid(data = data_belgium)
+#' classification1 <- DoU_classify_grid(data = data_belgium)
 #' DoU_plot_grid(classification1)
 #'
 #' # classify with custom parameters:
-#' classification2 <- classify_grid(
+#' classification2 <- DoU_classify_grid(
 #'   data = data_belgium,
 #'   parameters = list(
 #'     UC_density_threshold = 3000,
@@ -249,7 +249,7 @@
 #'
 #' \dontrun{
 #' # classify according to GHSL Data Package 2022 (level 1)
-#' classification_R2022A <- classify_grid(
+#' classification_R2022A <- DoU_classify_grid(
 #'   data = grid_data,
 #'   parameters = list(
 #'     UC_built_criterium = TRUE,
@@ -260,7 +260,7 @@
 #'
 #' # classify according to GHSL Data Package 2023  (level 1)
 #' # (assuming the directory "data/global" contains global data)
-#' classification_R2023A <- classify_grid(
+#' classification_R2023A <- DoU_classify_grid(
 #'   data = grid_data,
 #'   parameters = list(
 #'     UC_built_criterium = TRUE,
@@ -272,13 +272,13 @@
 #'
 #' # classify in regions (assuming the directory "data/regions contains data
 #' # for the regions)
-#' classification_in_regions <- classify_grid(
+#' classification_in_regions <- DoU_classify_grid(
 #'   data = "data/regions",
 #'   regions = TRUE
 #' )
 #' }
 #' @export
-classify_grid <- function(data,
+DoU_classify_grid <- function(data,
                           level1 = TRUE,
                           parameters = NULL,
                           values = NULL,
@@ -316,7 +316,7 @@ classify_grid <- function(data,
       }
       
       # execute grid classification
-      classification1 <- classify_grid(
+      classification1 <- DoU_classify_grid(
         data = file.path(data, region),
         level1 = level1,
         parameters = parameters,
@@ -666,4 +666,35 @@ classify_grid_level2 <- function(data, parameters, values) {
   names(classification) <- c("layer")
   
   return(classification)
+}
+
+#' Create the DEGURBA grid cell classification
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `classify_grid()` has been renamed to `DoU_classify_grid()` to create a more consistent API and to better indicate that this function is specifically designed for the DEGURBA grid classification. 
+#' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
+#' @param level1 logical. Whether to classify the grid according to first hierarchical level (`TRUE`) or the second hierarchical level (`FALSE`). For more details, see section "Classification rules" below.
+#' @param parameters named list with the parameters to adapt the standard specifications in the Degree of Urbanisation classification. For more details, see section "Custom specifications" below.
+#' @param values vector with the values assigned to the different classes in the resulting classification:
+#'    - If `level1=TRUE`: the vector should contain the values for (1) urban centres, (2) urban clusters, (3) rural grid cells and (4) water cells.
+#'    - If `level1=FALSE`: the vector should contain the values for (1) urban centres, (2) dense urban clusters, (3) semi-dense urban clusters, (4) suburban or peri-urban cells, (5) rural clusters, (6) low density rural cells, (7) very low density rural cells and (8) water cells.
+#' @param regions logical. Whether to execute the classification in the memory-efficient pre-defined regions. For more details, see section "Regions" below (Note that this requires a large amount of memory).
+#' @param filename character. Output filename (with extension `.tif`). The grid classification together with a metadata file (in JSON format) will be saved if `filename` is not `NULL`.
+#' @return SpatRaster with the grid cell classification
+#' @keywords internal
+#' @export
+classify_grid <- function(data,
+                          level1 = TRUE,
+                          parameters = NULL,
+                          values = NULL,
+                          regions = FALSE,
+                          filename = NULL){
+  return(DoU_classify_grid(data,
+                      level1,
+                      parameters,
+                      values,
+                      regions,
+                      filename))
 }

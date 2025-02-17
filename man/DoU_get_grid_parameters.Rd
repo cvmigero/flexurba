@@ -13,7 +13,7 @@ DoU_get_grid_parameters(level1 = TRUE)
 named list with the standard parameters
 }
 \description{
-The argument \code{parameter} of the function \code{\link[=classify_grid]{classify_grid()}} allows to adapt the standard specifications in the Degree of Urbanisation in order to construct an alternative version of the grid classification. This function returns a named list with the standard parameters.
+The argument \code{parameter} of the function \code{\link[=DoU_classify_grid]{DoU_classify_grid()}} allows to adapt the standard specifications in the Degree of Urbanisation in order to construct an alternative version of the grid classification. This function returns a named list with the standard parameters.
 }
 \examples{
 # example on how to employ the function to construct
@@ -31,7 +31,7 @@ parameters$UCL_smooth_pop_window <- 7
 grid_data <- DoU_load_grid_data_belgium()
 
 # use the adapted parameters to construct a grid cell classification
-classification <- classify_grid(
+classification <-DoU_classify_grid(
   data = grid_data,
   parameters = parameters
 )

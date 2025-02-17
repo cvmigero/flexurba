@@ -103,7 +103,7 @@ Now that we have the data, we can construct the grid cell classification as foll
 data_belgium <- DoU_preprocess_grid("data/belgium")
 
 # run the algorithm with the standard parameter settings
-classification1 <- classify_grid(data = data_belgium)
+classification1 <-DoU_classify_grid(data = data_belgium)
 
 # plot the resulting grid
 DoU_plot_grid(classification1)
@@ -111,7 +111,7 @@ DoU_plot_grid(classification1)
 
 ![](man/figures/readme_classification1.png){width="450"}
 
-However, the `flexurba` package has more functionalities. The function `classify_grid()` allows the user to adapt various parameters in the classification algorithm, including the the minimum population thresholds or the smoothing rules.
+However, the `flexurba` package has more functionalities. The function `DoU_classify_grid()` allows the user to adapt various parameters in the classification algorithm, including the the minimum population thresholds or the smoothing rules.
 
 The code below adapts the following parameter settings:
 
@@ -123,7 +123,7 @@ The code below adapts the following parameter settings:
 
 ```{r example1c, eval = FALSE}
 # run the algorithm with custom parameter settings
-classification2 <- classify_grid(
+classification2 <-DoU_classify_grid(
   data = data_belgium,
   parameters = list(
     UC_density_threshold = 1250,
@@ -139,7 +139,7 @@ DoU_plot_grid(classification2)
 
 ![](man/figures/readme_classification2.png){width="450"}
 
-For more information about the possible parameters setting that can be adapted, readers can consult the section 'Custom specifications' in the documentation of `classify_grid()`.
+For more information about the possible parameters setting that can be adapted, readers can consult the section 'Custom specifications' in the documentation of `DoU_classify_grid()`.
 
 ## (3) Spatial units classification (stage 2)
 

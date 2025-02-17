@@ -12,6 +12,6 @@ named list with the data of Belgium required for the grid classification of the 
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{load_grid_data_belgium()} has been renamed to \code{DoU_load_grid_data_belgium()} to create a more consistent API and to better indicate that this function is specifically designed for reconstructing the DEGURBA classification with \code{classify_grid()}.
+\code{load_grid_data_belgium()} has been renamed to \code{DoU_load_grid_data_belgium()} to create a more consistent API and to better indicate that this function is specifically designed for reconstructing the DEGURBA classification with \code{DoU_classify_grid()}.
 }
 \keyword{internal}

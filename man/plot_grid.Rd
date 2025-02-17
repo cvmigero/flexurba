@@ -38,5 +38,5 @@ ggplot object
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-\code{plot_grid()}  has been renamed to \code{DoU_plot_grid()} to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with \code{classify_grid()}.
+\code{plot_grid()}  has been renamed to \code{DoU_plot_grid()} to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with \code{DoU_classify_grid()}.
 }

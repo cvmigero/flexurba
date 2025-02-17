@@ -21,7 +21,7 @@ The grid classification in (1) urban centres, (2) urban clusters and (3) rural g
 -   **Urban clusters** are subdivided in (1) dense urban clusters, (2) semi-dense urban clusters and (3) suburban and peri-urban clusters.
 -   **Rural grid cells** are subdivided in (1) rural clusters, (2) low density rural cells and (3) very low density rural cells.
 
-For the exact classification rules, see the documentation of the function `classify_grid()` or the official [DEGURBA methodological manual](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual).
+For the exact classification rules, see the documentation of the function `DoU_classify_grid()` or the official [DEGURBA methodological manual](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual).
 
 The grid classification of Level 2 can be constructed with the following code. First, we need to load the required data. In pre-processed population, built-up area and land grid are loaded in the object `data_belgium`:
 
@@ -36,7 +36,7 @@ Afterwards, the classification with the standard parameter settings can be const
 
 ```{r}
 # classification with the standard parameters
-classification1 <- classify_grid(
+classification1 <-DoU_classify_grid(
   data = data_belgium, 
   level1 = FALSE
 )
@@ -48,7 +48,7 @@ DoU_plot_grid(
 )
 ```
 
-However, the `flexurba` package has more functionalities. The function `classify_grid()` allows the user to adapt various parameters in the classification algorithm, including the the minimum population thresholds or the contiguity rules.
+However, the `flexurba` package has more functionalities. The function `DoU_classify_grid()` allows the user to adapt various parameters in the classification algorithm, including the the minimum population thresholds or the contiguity rules.
 
 As an example, the code below changes four different parameters in the Level 2 classification algorithm:
 
@@ -60,7 +60,7 @@ As an example, the code below changes four different parameters in the Level 2 c
 
 ```{r}
 # specify custom parameters
-classification2 <- flexurba::classify_grid(
+classification2 <- flexurba::DoU_classify_grid(
   data = data_belgium,
   level1 = FALSE,
   parameters = list(
@@ -78,7 +78,7 @@ DoU_plot_grid(
 )
 ```
 
-The code demonstrates just four different examples of parameters that can be adjusted in the algorithm. However, the function `classify_grid()` incorporates many other possible parameters, including the built-up threshold value and the gap filling and smoothing rules. An overview of all possible parameters and their standard values can be found in the documentation of the function `classify_grid()` in the section 'Custom specifications'.
+The code demonstrates just four different examples of parameters that can be adjusted in the algorithm. However, the function `DoU_classify_grid()` incorporates many other possible parameters, including the built-up threshold value and the gap filling and smoothing rules. An overview of all possible parameters and their standard values can be found in the documentation of the function `DoU_classify_grid()` in the section 'Custom specifications'.
 
 ### Spatial units classification of Level 2
 

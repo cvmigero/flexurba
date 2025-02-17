@@ -102,7 +102,7 @@ crop_GHSLdata(
 )
 ```
 
-Next, we can execute the grid cell classification with the function `classify_grid()`. The `parameters` in the function should contain the specification as described below to precisely reconstruct the results of the two different Data Packages.
+Next, we can execute the grid cell classification with the function `DoU_classify_grid()`. The `parameters` in the function should contain the specification as described below to precisely reconstruct the results of the two different Data Packages.
 
 **For Data Package 2022:**
 
@@ -112,7 +112,7 @@ Next, we can execute the grid cell classification with the function `classify_gr
 
 ```{r, eval=FALSE}
 # create the grid cell classification according to Data Package 2022
-classification2022 <- classify_grid(
+classification2022 <-DoU_classify_grid(
   data = "data/belgium2022",
   parameters = list(
     UC_built_threshold = 0.5,
@@ -133,7 +133,7 @@ classification2022 <- classify_grid(
 # create the grid cell classification according to Data Package 2023
 # (Note that determining the "optimal" built-up area 
 # from the global data can take some time)
-classification2023 <- classify_grid(
+classification2023 <-DoU_classify_grid(
   data = "data/belgium2023",
   parameters = list(
     UC_built_threshold = "optimal",
@@ -143,7 +143,7 @@ classification2023 <- classify_grid(
 )
 ```
 
-For more information about all possible parameter settings of the reader can consult the section 'Custom specification' in the documentation of the function `classify_grid()`.
+For more information about all possible parameter settings of the reader can consult the section 'Custom specification' in the documentation of the function `DoU_classify_grid()`.
 
 The resulting grid classifications are visualised below. There are some differences between the two classifications. Data Package 2022 contains only 22 distinct urban centres in the extent, while Data Package 2023 contains 31. In particular, mid-sized cities such as *Sint-Niklaas* and *Kortrijk* (displayed in the black circles) are classified as urban centre in Data Package 2023, but not in Data Package 2022. In addition, the coverage of the urban clusters is decreased in Data Package 2023.
 
@@ -163,7 +163,7 @@ In the code below, we use the data and the edge smoothing rule from Data Package
 
 ```{r, eval=FALSE}
 # With built-up area criterium of Data Package 2022: fixed threshold of 50%
-classification_builtup2022 <- classify_grid(
+classification_builtup2022 <-DoU_classify_grid(
   data = "data/belgium2023",
   parameters = list(UC_built_threshold = 0.5)
 )
@@ -171,7 +171,7 @@ classification_builtup2022 <- classify_grid(
 # With built-up area criterium of Data Package 2023: "optimal" threshold
 # (Note that determining the "optimal" built-up area 
 # from the global data can take some time)
-classification_builtup2023 <- classify_grid(
+classification_builtup2023 <-DoU_classify_grid(
   data = "data/belgium2023",
   parameters = list(
     UC_built_threshold = "optimal",

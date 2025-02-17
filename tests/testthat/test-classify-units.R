@@ -50,10 +50,10 @@ test_that("DoU_classify_units() works", {
 
   expect_equal(as.vector(units_classification2$flexurba_L2), c("23", "12", "12", "21", "30", "23", "21", "21"))
   
-  # depricated functions
+  # deprecated functions
   # units classification by dissolving municipalities to arrondissements
   data2 <- flexurba::preprocess_units(units, classification, pop, dissolve_units_by = "GID_3")
-  units_classification2 <- flexurba::DoU_classify_units(data2, id = "GID_3", level1 = FALSE)
+  units_classification2 <- flexurba::classify_units(data2, id = "GID_3", level1 = FALSE)
   
   expect_equal(as.vector(units_classification2$flexurba_L2), c("23", "12", "12", "21", "30", "23", "21", "21"))
 })

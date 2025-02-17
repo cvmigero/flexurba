@@ -13,7 +13,7 @@ This vignette illustrates how to use the `flexurba` functionalities with other p
 
 To be able to apply the `flexurba` functions, you need to ensure that the population grid is in the right format. There are three key points to keep in mind:
 
--   The DEGURBA methodology is designed to be applied to a population grid with **a resolution of 1 km²** (for more information regarding why 1 km², see [Eurostat, 2021](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual)). As a consequence, the `flexurba`'s `classify_grid()` function only produces a classification when a grid of 1 km² is provided.
+-   The DEGURBA methodology is designed to be applied to a population grid with **a resolution of 1 km²** (for more information regarding why 1 km², see [Eurostat, 2021](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual)). As a consequence, the `flexurba`'s `DoU_classify_grid()` function only produces a classification when a grid of 1 km² is provided.
 
 -   The population grid should be in an **equivalent** (=equal area) coordinate reference system to ensure that every grid cell covers the same surface area. Therefore, the `flexurba` functions only accept grids in the [Mollweide](https://en.wikipedia.org/wiki/Mollweide_projection) equivalent projection (with EPSG: 54009).
 
@@ -152,11 +152,11 @@ writeRaster(worldpop_ghana ,'data-ghana/POP.tif')
 
 ### Execute the grid classification
 
-Now that we have the population grid in the right format, we can use it to construct the grid cell classification of DEGURBA. The function `classify_grid()` reads the `POP.tif` (which contains our population grid), `BUILT_S.tif` and `LAND.tif` from the `data-ghana` folder and constructs the grid classification.
+Now that we have the population grid in the right format, we can use it to construct the grid cell classification of DEGURBA. The function `DoU_classify_grid()` reads the `POP.tif` (which contains our population grid), `BUILT_S.tif` and `LAND.tif` from the `data-ghana` folder and constructs the grid classification.
 
 ```{r, eval=FALSE}
 # construct classification
-classification1 <- classify_grid('data-ghana')
+classification1 <-DoU_classify_grid('data-ghana')
 
 # plot the classification
 DoU_plot_grid(classification1)
@@ -170,7 +170,7 @@ From here, you can start further analyses with the `flexurba` package. You can f
 
 ```{r, eval=FALSE}
 # increase the population thresholds for urban centres
-classification2 <- classify_grid('data-ghana', 
+classification2 <-DoU_classify_grid('data-ghana', 
                                 parameters = c(
                                   UC_density_threshold = 3000,
                                   UC_size_threshold = 100000
