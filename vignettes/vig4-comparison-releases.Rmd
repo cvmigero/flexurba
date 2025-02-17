@@ -124,7 +124,7 @@ classification2022 <- classify_grid(
 **For Data Package 2023:**
 
 -   The 'optimal' built-up area criterium is reproduced by the following two parameter settings:
-    -   `UC_built_threshold = "optimal"` indicates that an "optimal" built-up area threshold should be determined. This 'optimal' threshold, as defined in [Data Package 2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf), is calculated as the average built-up area proportion in clusters of cells with a density of at least 1500 inhabitants per km² and a minimum total population of 5000 people. The `flexurba` function `get_optimal_builtup()` is employed for this calculation.
+    -   `UC_built_threshold = "optimal"` indicates that an "optimal" built-up area threshold should be determined. This 'optimal' threshold, as defined in [Data Package 2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf), is calculated as the average built-up area proportion in clusters of cells with a density of at least 1500 inhabitants per km² and a minimum total population of 5000 people. The `flexurba` function `DoU_get_optimal_builtup()` is employed for this calculation.
 
     -   `built_optimal_data = "data/global2023"` determines which data sources are used to determine the 'optimal' built-up threshold. In this case, we employ the global data of Data Package 2023, as this reproduces the results of the official [GHSL SMOD layer](https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php).
 -   The edge smoothing rule as described in Data Package 2023 is reproduced by the parameter setting `UC_smooth_edge_fun = "majority_rule_R2023A"`.
@@ -182,12 +182,12 @@ classification_builtup2023 <- classify_grid(
 
 More specifically, the 'optimal' built-up area, as defined in Data Package 2023, is dynamically identified as the global average built-up density in clusters (rook contiguity) with a density of at least 1500 inhabitants per km² of permanent land and a minimum total population of 5000 people.
 
-For the data of epoch 2020 in Data Package 2023, we can determine the exact value of this 'optimal' threshold with the function `get_optimal_builtup()`:
+For the data of epoch 2020 in Data Package 2023, we can determine the exact value of this 'optimal' threshold with the function `DoU_get_optimal_builtup()`:
 
 ```{r, eval=FALSE}
 # (Note that determining the "optimal" built-up area 
 # from the global data can take some time)
-get_optimal_builtup("data/global2023",
+DoU_get_optimal_builtup("data/global2023",
   density_threshold = 1500,
   size_threshold = 5000,
   directions = 4

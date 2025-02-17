@@ -443,7 +443,7 @@ classify_grid_level1 <- function(data, parameters, values) {
     }
     
     # get the optimal threshold
-    parameters$UC_built_threshold <- ceiling(flexurba::get_optimal_builtup(
+    parameters$UC_built_threshold <- ceiling(flexurba::DoU_get_optimal_builtup(
       parameters$built_optimal_data,
       parameters$UC_density_threshold,
       parameters$UCL_size_threshold,
@@ -525,7 +525,7 @@ classify_grid_level2 <- function(data, parameters, values) {
     }
     
     # get the optimal threshold
-    optimal_threshold <- ceiling(flexurba::get_optimal_builtup(
+    optimal_threshold <- ceiling(flexurba::DoU_get_optimal_builtup(
       parameters$built_optimal_data,
       parameters$DUC_density_threshold,
       parameters$DUC_size_threshold,

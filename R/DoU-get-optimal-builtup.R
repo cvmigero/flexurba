@@ -17,16 +17,16 @@
 #' data_belgium <- DoU_load_grid_data_belgium()
 #'
 #' # determine the optimal built-up threshold with standard specifications
-#' get_optimal_builtup(data_belgium)
+#' DoU_get_optimal_builtup(data_belgium)
 #'
 #' # determine the optimal built-up threshold with custom specification
-#' get_optimal_builtup(data_belgium,
+#' DoU_get_optimal_builtup(data_belgium,
 #'   density_threshold = 1000,
 #'   size_threshold = 3500,
 #'   directions = 8
 #' )
 #' @export
-get_optimal_builtup <- function(data, density_threshold = 1500, size_threshold = 5000, directions = 4) {
+DoU_get_optimal_builtup <- function(data, density_threshold = 1500, size_threshold = 5000, directions = 4) {
   # read data if data is character
   if (is.character(data)) {
     data <- DoU_preprocess_grid(data)
@@ -55,4 +55,21 @@ get_optimal_builtup <- function(data, density_threshold = 1500, size_threshold =
   masked_built <- terra::mask(built, densepatches)
   
   return(as.numeric(terra::global(masked_built, "mean", na.rm = TRUE)))
+}
+
+#' Preprocess the data for the DEGURBA spatial units classification
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `get_optimal_builtup()` has been renamed to `DoU_get_optimal_builtup()` to create a more consistent API and to better indicate that this function is specifically designed for detecting the optimal builtup threshold in the context of the DEGURBA classification with `classify_units()`. 
+#' @param  data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]. Ideally, it contains data on a global scale.
+#' @param density_threshold numeric. Minimum population density per permanent land
+#' @param size_threshold numeric. Minimum population size
+#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @return optimal built-up area threshold
+#' @keywords internal
+#' @export
+get_optimal_builtup <- function(data, density_threshold = 1500, size_threshold = 5000, directions = 4){
+  return(DoU_get_optimal_builtup(data, density_threshold, size_threshold, directions))
 }

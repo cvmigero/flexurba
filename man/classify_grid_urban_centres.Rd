@@ -69,7 +69,7 @@ The arguments of the function allow to adapt the standard specifications in the 
 
 In Data Package 2022, the Degree of Urbanisation includes an optional built-up area criterium to account for the presence of office parks, shopping malls, factories and transport infrastructure. When the setting is enabled, urban centres are created using both cells with a population density of at least 1500 inhabitants per km² \emph{and} cells that have at least 50\% built-up area on permanent land. For more information: see \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2022.pdf}{GHSL Data Package 2022, footnote 25}. The parameter setting \code{built_criterium=TRUE} and \code{built_threshold=0.5} reproduces this built-up area criterium.
 
-In Data Package 2023, the built-up area criterium is slightly adapted and renamed to the "Reduce Fragmentation Option". Instead of using a fixed threshold of built-up area per permanent land of 50\%, an "optimal" threshold is employed. The optimal threshold is dynamically identified as the global average built-up area proportion in clusters with a density of at least 1500 inhabitants per permanent land with a minimum population of 5000 people. For more information: see \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf}{GHSL Data Package 2023, footnote 30}. The optimal built-up threshold can be computed with the function \code{\link[=get_optimal_builtup]{get_optimal_builtup()}}. We determined empirically that this optimal threshold is 20\% for the data of 2020.
+In Data Package 2023, the built-up area criterium is slightly adapted and renamed to the "Reduce Fragmentation Option". Instead of using a fixed threshold of built-up area per permanent land of 50\%, an "optimal" threshold is employed. The optimal threshold is dynamically identified as the global average built-up area proportion in clusters with a density of at least 1500 inhabitants per permanent land with a minimum population of 5000 people. For more information: see \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf}{GHSL Data Package 2023, footnote 30}. The optimal built-up threshold can be computed with the function \code{\link[=DoU_get_optimal_builtup]{DoU_get_optimal_builtup()}}. We determined empirically that this optimal threshold is 20\% for the data of 2020.
 \itemize{
 \item \strong{Edge smoothing: majority rule algorithm}
 }
@@ -103,7 +103,7 @@ classification3 <- classify_grid_urban_centres(data,
 
 # urban centre classification according to GHSL Data Package 2023
 # (assuming the directory "data/global" contains global data)
-optimal_builtup <- get_optimal_builtup("data/global")
+optimal_builtup <- DoU_get_optimal_builtup("data/global")
 classification4 <- classify_grid_urban_centres(data,
   built_criterium = TRUE,
   built_threshold = optimal_builtup,
