@@ -162,7 +162,7 @@ as follows.
 
 ``` r
 # preprocess the data
-data_belgium <- preprocess_grid("data/belgium")
+data_belgium <- DoU_preprocess_grid("data/belgium")
 
 # run the algorithm with the standard parameter settings
 classification1 <- classify_grid(data = data_belgium)

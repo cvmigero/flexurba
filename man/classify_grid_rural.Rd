@@ -7,7 +7,7 @@
 classify_grid_rural(data, classification, value = 1)
 }
 \arguments{
-\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}}}
+\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}}
 
 \item{classification}{SpatRaster. A grid with the classification of urban centres and urban clusters to which the classification of rural cells will be added. Note that the grid will be adapted in-place.}
 

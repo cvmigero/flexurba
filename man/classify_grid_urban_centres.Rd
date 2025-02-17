@@ -21,7 +21,7 @@ classify_grid_urban_centres(
 )
 }
 \arguments{
-\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}}}
+\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}}
 
 \item{density_threshold}{numeric. Minimum population density per permanent land of a cell required to belong to an urban centre}
 

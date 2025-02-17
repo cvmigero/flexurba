@@ -1,6 +1,6 @@
 #' Load the grid data for Belgium to reconstruct DEGURBA classification
 #' @description
-#' The function loads the data required to execute the grid classification of the Degree of Urbanisation for Belgium with the function [`preprocess_grid()`].
+#' The function loads the data required to execute the grid classification of the Degree of Urbanisation for Belgium with the function [`DoU_preprocess_grid()`].
 #'
 #' The data was constructed with the code below:
 #' ```{r, eval=FALSE}
@@ -17,7 +17,7 @@
 #' DoU_load_grid_data_belgium()
 #' @export
 DoU_load_grid_data_belgium <- function() {
-  return(preprocess_grid(system.file("extdata", "belgium", package = "flexurba")))
+  return(DoU_preprocess_grid(system.file("extdata", "belgium", package = "flexurba")))
 }
 
 #' Load the grid data for Belgium to reconstruct DEGURBA classification

@@ -10,7 +10,7 @@ DoU_load_grid_data_belgium()
 named list with the data of Belgium required for the grid classification of the Degree of Urbanisation.
 }
 \description{
-The function loads the data required to execute the grid classification of the Degree of Urbanisation for Belgium with the function \code{\link[=preprocess_grid]{preprocess_grid()}}.
+The function loads the data required to execute the grid classification of the Degree of Urbanisation for Belgium with the function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}.
 
 The data was constructed with the code below:
 

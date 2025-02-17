@@ -12,7 +12,7 @@ get_optimal_builtup(
 )
 }
 \arguments{
-\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}}. Ideally, it contains data on a global scale.}
+\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}. Ideally, it contains data on a global scale.}
 
 \item{density_threshold}{numeric. Minimum population density per permanent land}
 

@@ -14,7 +14,7 @@ classify_grid(
 )
 }
 \arguments{
-\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}}}
+\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}}
 
 \item{level1}{logical. Whether to classify the grid according to first hierarchical level (\code{TRUE}) or the second hierarchical level (\code{FALSE}). For more details, see section "Classification rules" below.}
 
@@ -89,7 +89,7 @@ Whether to use the additional built-up area criterium (see section "Built-up are
 Additional built-up area threshold. Can be a value between \code{0} and \code{1}, representing the minimum built-up area per permanent land, or \code{"optimal"} (see section "Built-up area criterium" below). Ignored when \code{UC_built_criterium} is \code{FALSE}.
 \item \code{built_optimal_data} character / list (default: \code{NULL}).
 
-Path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}} used to determine the optimal built threshold (see section "Built-up area criterium" below). Ignored when \code{UC_built_criterium} is \code{FALSE} or when \code{UC_built_threshold} is not \code{"optimal"}.
+Path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}} used to determine the optimal built threshold (see section "Built-up area criterium" below). Ignored when \code{UC_built_criterium} is \code{FALSE} or when \code{UC_built_threshold} is not \code{"optimal"}.
 \item \code{UC_smooth_pop} logical (default: \code{FALSE}).
 
 Whether to smooth the population grid before delineating urban centres. If \code{TRUE}, the population grid will be smoothed with a moving average of window size \code{UC_smooth_pop_window}.
@@ -158,7 +158,7 @@ Whether to use the additional built-up area criterium (see section "Built-up are
 Additional built-up area threshold. Can be a value between \code{0} and \code{1}, representing the minimum built-up area per permanent land, or \code{"optimal"} (see section "Built-up area criterium" below). Ignored when \code{UC_built_criterium} is \code{FALSE}.
 \item \code{built_optimal_data} character / list (default: \code{NULL}).
 
-Path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}} used to determine the optimal built threshold (see section "Built-up area criterium" below). Ignored when \code{UC_built_criterium} is \code{FALSE} or when \code{UC_built_threshold} is not \code{"optimal"}.
+Path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}} used to determine the optimal built threshold (see section "Built-up area criterium" below). Ignored when \code{UC_built_criterium} is \code{FALSE} or when \code{UC_built_threshold} is not \code{"optimal"}.
 \item \code{UC_smooth_pop} logical (default: \code{FALSE}).
 
 Whether to smooth the population grid before delineating urban centres. If \code{TRUE}, the population grid will be smoothed with a moving average of window size \code{UC_smooth_pop_window}.

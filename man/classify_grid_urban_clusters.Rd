@@ -16,7 +16,7 @@ classify_grid_urban_clusters(
 )
 }
 \arguments{
-\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}}}
+\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}}
 
 \item{classification}{SpatRaster. A grid with the classification of urban centres to which the classification of urban clusters will be added. Note that the grid will be adapted in-place.}
 

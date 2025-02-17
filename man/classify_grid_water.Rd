@@ -15,7 +15,7 @@ classify_grid_water(
 )
 }
 \arguments{
-\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=preprocess_grid]{preprocess_grid()}}}
+\item{data}{path to the directory with the data, or named list with the data as returned by function \code{\link[=DoU_preprocess_grid]{DoU_preprocess_grid()}}}
 
 \item{classification}{SpatRaster. A grid to which the classification of water cells will be added. The grid can already contain the classification or urban centres, urban clusters and rural grid cell, but this is not mandatory. Note that the grid will be adapted in-place.}
 
