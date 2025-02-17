@@ -1,4 +1,4 @@
-#' Get the parameters for the grid cell classification
+#' Get the parameters for the DEGURBA grid cell classification
 #'
 #' The argument `parameter` of the function [`classify_grid()`] allows to adapt the standard specifications in the Degree of Urbanisation in order to construct an alternative version of the grid classification. This function returns a named list with the standard parameters.
 #' @param level1 logical. Whether to return the standard parameters of level 1 of the Degree of Urbanisation (`TRUE`), or level 2 of the Degree of Urbanisation (`FALSE`).
@@ -7,7 +7,7 @@
 #' # example on how to employ the function to construct
 #' # an alternative version of the grid classification:
 #' # get the standard parameters
-#' parameters <- get_grid_parameters()
+#' parameters <- DoU_get_grid_parameters()
 #'
 #' # adapt the standard parameters
 #' parameters$UCL_density_threshold <- 500
@@ -24,7 +24,7 @@
 #'   parameters = parameters
 #' )
 #' @export
-get_grid_parameters <- function(level1 = TRUE) {
+DoU_get_grid_parameters <- function(level1 = TRUE) {
   if (level1) {
     return(list(
       UC_density_threshold = 1500,
@@ -81,4 +81,18 @@ get_grid_parameters <- function(level1 = TRUE) {
       water_built_threshold = 0
     ))
   }
+}
+
+#' Get the parameters for the DEGURBA grid cell classification
+#' 
+#' @description 
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' `get_grid_parameters()` has been renamed to `DoU_get_grid_parameters()` to create a more consistent API and to better indicate that this function is specifically designed in the context of the DEGURBA classification with `classify_units()`. 
+#' @param level1 logical. Whether to return the standard parameters of level 1 of the Degree of Urbanisation (`TRUE`), or level 2 of the Degree of Urbanisation (`FALSE`).
+#' @return named list with the standard parameters
+#' @keywords internal
+#' @export
+get_grid_parameters <- function(level1=TRUE){
+  return(DoU_get_grid_parameters(level1))
 }

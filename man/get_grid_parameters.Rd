@@ -2,7 +2,7 @@
 % Please edit documentation in R/DoU-get-grid-parameters.R
 \name{get_grid_parameters}
 \alias{get_grid_parameters}
-\title{Get the parameters for the grid cell classification}
+\title{Get the parameters for the DEGURBA grid cell classification}
 \usage{
 get_grid_parameters(level1 = TRUE)
 }
@@ -13,26 +13,8 @@ get_grid_parameters(level1 = TRUE)
 named list with the standard parameters
 }
 \description{
-The argument \code{parameter} of the function \code{\link[=classify_grid]{classify_grid()}} allows to adapt the standard specifications in the Degree of Urbanisation in order to construct an alternative version of the grid classification. This function returns a named list with the standard parameters.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{get_grid_parameters()} has been renamed to \code{DoU_get_grid_parameters()} to create a more consistent API and to better indicate that this function is specifically designed in the context of the DEGURBA classification with \code{classify_units()}.
 }
-\examples{
-# example on how to employ the function to construct
-# an alternative version of the grid classification:
-# get the standard parameters
-parameters <- get_grid_parameters()
-
-# adapt the standard parameters
-parameters$UCL_density_threshold <- 500
-parameters$UCL_size_threshold <- 6000
-parameters$UCL_smooth_pop <- TRUE
-parameters$UCL_smooth_pop_window <- 7
-
-# load the data
-grid_data <- DoU_load_grid_data_belgium()
-
-# use the adapted parameters to construct a grid cell classification
-classification <- classify_grid(
-  data = grid_data,
-  parameters = parameters
-)
-}
+\keyword{internal}

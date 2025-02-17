@@ -68,7 +68,7 @@ For more information about the Degree of Urbanisation methodology, see the \href
 \section{Custom specifications}{
 
 
-The function allows to change the standard specifications of the Degree of Urbanisation in order to construct an alternative version of the grid classification. Custom specifications can be passed in a named list by the argument \code{parameters}. The supported parameters with their default values are returned by the function \code{\link[=get_grid_parameters]{get_grid_parameters()}} and are as follows:
+The function allows to change the standard specifications of the Degree of Urbanisation in order to construct an alternative version of the grid classification. Custom specifications can be passed in a named list by the argument \code{parameters}. The supported parameters with their default values are returned by the function \code{\link[=DoU_get_grid_parameters]{DoU_get_grid_parameters()}} and are as follows:
 
 \strong{LEVEL 1}
 \itemize{

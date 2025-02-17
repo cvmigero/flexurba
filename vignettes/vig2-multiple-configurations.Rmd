@@ -46,7 +46,7 @@ Next, we need to create a list with the different parameter configurations. Supp
 This can be established with the following code. First, the standard DEGURBA parameter settings are loaded in the data object `standard_param`.
 
 ```{r}
-standard_param <- get_grid_parameters()
+standard_param <- DoU_get_grid_parameters()
 ```
 
 Next, we create variables with the different parameter values, as defined above:

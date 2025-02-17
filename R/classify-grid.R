@@ -42,7 +42,7 @@
 #'
 #' @section Custom specifications:
 #'
-#' The function allows to change the standard specifications of the Degree of Urbanisation in order to construct an alternative version of the grid classification. Custom specifications can be passed in a named list by the argument `parameters`. The supported parameters with their default values are returned by the function [`get_grid_parameters()`] and are as follows:
+#' The function allows to change the standard specifications of the Degree of Urbanisation in order to construct an alternative version of the grid classification. Custom specifications can be passed in a named list by the argument `parameters`. The supported parameters with their default values are returned by the function [`DoU_get_grid_parameters()`] and are as follows:
 #'
 #' **LEVEL 1**
 #'
@@ -349,7 +349,7 @@ classify_grid <- function(data,
   } else {
     
     # get the default parameters
-    default_parameters <- get_grid_parameters(level1)
+    default_parameters <- DoU_get_grid_parameters(level1)
     
     # check if all provided parameters are valid
     diff <- setdiff(names(parameters), names(default_parameters))
