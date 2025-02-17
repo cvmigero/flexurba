@@ -32,6 +32,9 @@ plot_grid(
 
 \item{filename}{character. Path to the location to save the plot}
 }
+\value{
+ggplot object
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 

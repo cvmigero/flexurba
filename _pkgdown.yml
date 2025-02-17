@@ -78,4 +78,4 @@ reference:
   desc: The functions below can be used to plot the resulting delineations.
 - contents:
   - DoU_plot_grid
-  - plot_units
+  - DoU_plot_units

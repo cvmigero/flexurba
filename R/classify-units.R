@@ -82,7 +82,7 @@
 #'   pop = data_belgium$pop
 #' )
 #' units_classification2 <- classify_units(data2, official_workflow = FALSE)
-#' plot_units(data2$units, units_classification2)
+#' DoU_plot_units(data2$units, units_classification2)
 #'
 #' # spatial units classification, dissolved at GADM level 3 (Belgian districts)
 #' data3 <- preprocess_units(
@@ -92,7 +92,7 @@
 #'   dissolve_units_by = "GID_3"
 #' )
 #' units_classification3 <- classify_units(data3, id = "GID_3")
-#' plot_units(data3$units, units_classification3)
+#' DoU_plot_units(data3$units, units_classification3)
 #' @export
 classify_units <- function(data, id = "UID",
                            level1 = TRUE,

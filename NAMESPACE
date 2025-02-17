@@ -2,6 +2,7 @@
 
 export("%>%")
 export(DoU_plot_grid)
+export(DoU_plot_units)
 export(apply_majority_rule)
 export(apply_threshold)
 export(classify_grid)

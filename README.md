@@ -232,7 +232,7 @@ data1 <- preprocess_units(
 units_classification <- classify_units(data1)
 
 # visualise the results
-plot_units(flexurba::units_belgium, classification = units_classification)
+DoU_plot_units(flexurba::units_belgium, classification = units_classification)
 ```
 
 <img src="man/figures/readme_unitsclassification1.png" width="500" />
