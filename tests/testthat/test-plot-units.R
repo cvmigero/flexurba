@@ -13,4 +13,12 @@ test_that("DoU_plot_units() works", {
   expect_error(DoU_plot_units(units, classification, palette = c("3" = "#e16c72", "2" = "#fac66c", "1" = "#97c197"), labels = c("UC", "UCL")))
 
   expect_error(DoU_plot_units(units, classification, level1 = FALSE))
+  
+  withr::local_options(lifecycle_verbosity = "quiet")
+  expect_no_error(plot_units(units, classification))
 })
+
+
+
+
+
