@@ -31,7 +31,7 @@ apply_threshold(
 \item a SpatRaster with a separate value for each region
 \item the path to the region data (as character)
 \item an sf polygon layer
-In the latter two cases, the function \code{\link[=covert_regions_to_grid]{covert_regions_to_grid()}} will be used to convert the regions to a gridded format.
+In the latter two cases, the function \code{\link[=convert_regions_to_grid]{convert_regions_to_grid()}} will be used to convert the regions to a gridded format.
 }}
 
 \item{operator}{character. Operator used to enforce the threshold. Either \code{"greater_than"}, \code{"greater_or_equal"}, \code{"smaller_than"}, \code{"smaller_or_equal"} or \code{"equals"}.}

@@ -25,7 +25,7 @@
 #' - a SpatRaster with a separate value for each region
 #' - the path to the region data (as character)
 #' - an sf polygon layer
-#' In the latter two cases, the function [covert_regions_to_grid()] will be used to convert the regions to a gridded format.
+#' In the latter two cases, the function [convert_regions_to_grid()] will be used to convert the regions to a gridded format.
 #' @param operator  character. Operator used to enforce the threshold. Either `"greater_than"`, `"greater_or_equal"`, `"smaller_than"`, `"smaller_or_equal"` or `"equals"`.
 #' @param smoothing logical. Whether to smooth the edges of the boundaries. If `TRUE`, boundaries will be smoothed with the function [apply_majority_rule()].
 #' @return named list with the following elements:
