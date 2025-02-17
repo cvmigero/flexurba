@@ -19,6 +19,7 @@ Imports:
     fastmatch,
     geos,
     jsonlite,
+    lifecycle,
     magrittr,
     nngeo,
     Rcpp,

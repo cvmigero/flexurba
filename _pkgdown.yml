@@ -3,13 +3,17 @@ template:
   bootstrap: 5
 navbar:
   structure:
-    left:  [reference, articles]
+    left:  [reference, articles, news]
     right: [search, code]
   components:
     code:
       icon: fa-code
       href: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
       aria-label: Source Code
+      
+news: 
+  one_page: true
+  
 home:
   sidebar:
     structure: [links, citation, authors, license, funding]
@@ -73,5 +77,5 @@ reference:
 - title: Plotting functions
   desc: The functions below can be used to plot the resulting delineations.
 - contents:
-  - plot_grid
+  - DoU_plot_grid
   - plot_units

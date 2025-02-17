@@ -232,7 +232,7 @@
 #'
 #' # classify with standard parameters:
 #' classification1 <- classify_grid(data = data_belgium)
-#' plot_grid(classification1)
+#' DoU_plot_grid(classification1)
 #'
 #' # classify with custom parameters:
 #' classification2 <- classify_grid(
@@ -245,7 +245,7 @@
 #'      UCL_contiguity_rule = 4
 #'   )
 #' )
-#' plot_grid(classification2)
+#' DoU_plot_grid(classification2)
 #'
 #' \dontrun{
 #' # classify according to GHSL Data Package 2022 (level 1)

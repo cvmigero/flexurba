@@ -168,7 +168,7 @@ data_belgium <- preprocess_grid("data/belgium")
 classification1 <- classify_grid(data = data_belgium)
 
 # plot the resulting grid
-plot_grid(classification1)
+DoU_plot_grid(classification1)
 ```
 
 <img src="man/figures/readme_classification1.png" width="450" />
@@ -204,7 +204,7 @@ classification2 <- classify_grid(
 )
 
 # plot the resulting grid
-plot_grid(classification2)
+DoU_plot_grid(classification2)
 ```
 
 <img src="man/figures/readme_classification2.png" width="450" />

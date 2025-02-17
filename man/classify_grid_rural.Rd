@@ -26,5 +26,5 @@ data_belgium <- load_grid_data_belgium()
 classification <- classify_grid_urban_centres(data_belgium)
 classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
 classification <- classify_grid_rural(data_belgium, classification = classification)
-plot_grid(classification)
+DoU_plot_grid(classification)
 }

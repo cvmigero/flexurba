@@ -19,7 +19,7 @@
 #' data_belgium <- load_grid_data_belgium()
 #' classification <- classify_grid_urban_centres(data_belgium)
 #' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
-#' plot_grid(classification)
+#' DoU_plot_grid(classification)
 #' @export
 classify_grid_urban_clusters <- function(data, classification, density_threshold = 300, size_threshold = 5000, contiguity_rule = 8, smooth_pop = FALSE, smooth_pop_window = 5, value = 2) {
   

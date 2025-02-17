@@ -20,7 +20,7 @@
 #' classification <- classify_grid_urban_clusters(data_belgium, classification = classification)
 #' classification <- classify_grid_rural(data_belgium, classification = classification)
 #' classification <- classify_grid_water(data_belgium, classification = classification)
-#' plot_grid(classification)
+#' DoU_plot_grid(classification)
 #' @export
 classify_grid_water <- function(data, classification = NULL, water_land_threshold = 0.5, water_pop_threshold = 0, water_built_threshold = 0, value = 0, allow_overwrite = c(1)) {
   

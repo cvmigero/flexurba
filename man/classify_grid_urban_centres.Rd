@@ -83,7 +83,7 @@ data_belgium <- load_grid_data_belgium()
 
 # standard parameters of the Degree of Urbanisation:
 classification1 <- classify_grid_urban_centres(data_belgium)
-plot_grid(classification1)
+DoU_plot_grid(classification1)
 
 # with custom parameters:
 classification2 <- classify_grid_urban_centres(data_belgium,
@@ -91,7 +91,7 @@ classification2 <- classify_grid_urban_centres(data_belgium,
   gap_fill = FALSE,
   smooth_edge = FALSE
 )
-plot_grid(classification2)
+DoU_plot_grid(classification2)
 
 \dontrun{
 # urban centre classification according to GHSL Data Package 2022
