@@ -25,7 +25,21 @@ repo:
     home: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
     
 reference: 
-- title: Grid cell classification
+- title: General delineation functions
+  desc: The functions below can be combined to construct urban boundaries by, for example, enforcing thresholds, grouping clusters of adjacent cells or smoothing boundaries.
+- contents:
+  - apply_threshold
+  - apply_majority_rule
+  - fill_gaps
+  - get_adjacent
+  - get_clusters
+  - get_adjacent
+  - get_patches
+  - convert_regions_to_grid
+
+- title: Functions to reproduce the DEGURBA delineation
+  desc: The functions below can be used to reconstruct the Degree of Urbanisation delineations, with custom parameter values.
+- subtitle: Grid cell classification
 - contents:
   - preprocess_grid
   - classify_grid
@@ -33,42 +47,31 @@ reference:
   - classify_grid_urban_clusters
   - classify_grid_rural
   - classify_grid_water
+  - get_grid_parameters
+  - get_optimal_builtup
 
-- title: Spatial units classification
+- subtitle: Spatial units classification
 - contents:
   - preprocess_units
   - classify_units
 
-
-- title: Download data from GHSL website
-- contents:
-  - download_GHSLdata
-  - crop_GHSLdata
-  
 - title: Datasets
+  desc: The package includes several example datasets for belgium, as well as function to download data from the GHSL website.
+- subtitle: Example datasets
 - contents:
-  - GHSL_tiles
-  - GHSL_tiles_per_region
   - units_belgium
   - load_grid_data_belgium
   - load_proxies_belgium
 
+- subtitle: Download data from GHSL website
+- contents:
+  - download_GHSLdata
+  - crop_GHSLdata
+  - GHSL_tiles
+  - GHSL_tiles_per_region
+  
 - title: Plotting functions
+  desc: The functions below can be used to plot the resulting delineations.
 - contents:
   - plot_grid
   - plot_units
-  
-- title: Utility functions classification
-- contents:
-  - apply_majority_rule
-  - get_optimal_builtup
-  - get_grid_parameters
-  - apply_threshold
-  
-- title: General raster operations
-- contents:
-  - fill_gaps
-  - get_adjacent
-  - get_clusters
-  - get_patches
-  - convert_regions_to_grid
