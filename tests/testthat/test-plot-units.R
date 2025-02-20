@@ -14,7 +14,6 @@ test_that("DoU_plot_units() works", {
 
   expect_error(DoU_plot_units(units, classification, level1 = FALSE))
   
-  withr::local_options(lifecycle_verbosity = "quiet")
   expect_no_error(plot_units(units, classification))
 })
 
