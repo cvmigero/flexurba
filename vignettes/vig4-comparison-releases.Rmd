@@ -149,9 +149,9 @@ The resulting grid classifications are visualised below. There are some differen
 
 The differences in classification are the result of the combination of (1) the updated data products, (2) the changed built-up area criterium and (3) the changed edge smoothing rule.
 
-![](figures/belgium2022.png){width=450}
+![](figures/belgium2022.png){width=450, alt="Data Package 2022"}
 
-![](figures/belgium2023.png){width=450}
+![](figures/belgium2023.png){width=450, alt="Data Package 2023"}
 
 ### Assessment of the isolated effect of changing one parameter
 
@@ -201,8 +201,8 @@ We consequently empirically determined that the 'optimal' threshold used by the 
 
 Changing the built-up area criterium from a fixed threshold of 50% (in Data Package 2022) to an 'optimal' threshold (in Data Package 2023) thus actually implies decreasing the threshold from 50% to 20% for epoch 2020. This decrease has significant implications, as illustrated by the results for Belgium below. More cells are classified as urban centre (e.g., in the Port of Antwerp) and even new urban centres (e.g., the city of *Roeselare*) appear (both displayed with black circle below).
 
-![](figures/belgium_built2022.png){width=450}
+![](figures/belgium_built2022.png){width=450, alt="Fixed built-up threshold of 50%"}
 
-![](figures/belgium_built2023.png){width=450}
+![](figures/belgium_built2023.png){width=450, alt="Optimal built-up threshold"}
 
 With a similar approach, the `flexurba` package could be used to assess the (potentially spatially-explicit) sensitivity to other parameters of variation in the algorithm.

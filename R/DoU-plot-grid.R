@@ -106,6 +106,7 @@ DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette 
 #' @param scalebar logical. Whether to add a scale bar to the plot.
 #' @param filename character. Path to the location to save the plot
 #' @return ggplot object
+#' @keywords internal
 #' @export
 plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
   lifecycle::deprecate_soft("1.0.0.0", "plot_grid()", "DoU_plot_grid()")

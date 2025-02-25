@@ -35,6 +35,8 @@ data_belgium <- DoU_load_grid_data_belgium()
 Afterwards, the classification with the standard parameter settings can be constructed as follows.
 
 ```{r}
+#| fig.alt: >
+#|   Grid classification with the standard parameters
 # classification with the standard parameters
 classification1 <-DoU_classify_grid(
   data = data_belgium, 
@@ -59,6 +61,8 @@ As an example, the code below changes four different parameters in the Level 2 c
 -   `RC_size_threshold`: the minimum size threshold for rural clusters (`RC`) is set to 400 inhabitants (instead of the standard threshold of 500 inhabitants).
 
 ```{r}
+#| fig.alt: >
+#|   Grid classification with the custom parameters
 # specify custom parameters
 classification2 <- flexurba::DoU_classify_grid(
   data = data_belgium,
@@ -93,6 +97,8 @@ For the exact classification rules, see the documentation of the function `DoU_c
 Spatial units classification at municipal level can be classified as follows.
 
 ```{r}
+#| fig.alt: >
+#|   Units classification at municipal level
 # pre-process the data
 data_units <- DoU_preprocess_units(
   units = flexurba::units_belgium,
@@ -117,6 +123,8 @@ plot_units(
 Furthermore, the function `DoU_classify_units()` allows the user to classify units on a different level of aggregation. For example, by aggregating the Belgian municipalities to districts (*Dutch: arrondissementen*) based on a common attribute field (in this dataset: `GID_3`).
 
 ```{r}
+#| fig.alt: >
+#|   Units classification at district level
 # pre-process the data, dissolve by GADM level 3 (= Belgian districts)
 data_units2 <- DoU_preprocess_units(
   units = flexurba::units_belgium,

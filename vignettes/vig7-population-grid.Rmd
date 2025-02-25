@@ -49,6 +49,8 @@ worldpop_ghana <- terra::rast('data-ghana/gha_ppp_2020_UNadj_constrained.tif')
 ```
 
 ```{r, message=FALSE}
+#| fig.alt: >
+#|   WorldPop Population in Ghana
 # plot the population grid
 ggplot() +
   # add the raster data

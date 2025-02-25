@@ -93,6 +93,8 @@ for (density in UC_density_variations) {
 Finally, the grid classification with each of these parameter configurations is executed and plotted as follows:
 
 ```{r}
+#| fig.alt: >
+#|   Grid classification with different parameter configurations
 # create a list to save the classifications
 classifications <- list()
 plots <- list()
