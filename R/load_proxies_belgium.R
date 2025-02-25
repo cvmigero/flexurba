@@ -1,11 +1,8 @@
 #' Load the data for three urban proxies for Belgium
 #' @description
-#' The function loads a population and built-up grid from the [GLobal Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php) and a night-time light grid from the [Earth Observation Group](https://eogdata.mines.edu/products/vnl/#annual_v2).
+#' The function loads example population, built-up area and night-time light data for Belgium. It is based on the global data sets provided in the accompanying [`flexurbaData` package](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be). 
 #' 
-#' The specification of the source data is as follows:
-#' 
-#' The night-time light grid was processed with the following code to ensure that it aligns with the population and built-up layer. 
-#' ```{r, eval=FALSE}
+#' #' ```{r, eval=FALSE}
 #' # POPULATION DATA
 #' terra::rast(system.file("proxies/processed-ghs-pop.tif', package = "flexurbaData")) %>% 
 #'    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) %>%
@@ -21,6 +18,9 @@
 #'    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) %>%
 #'    terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')  
 #' ```
+#' 
+#' The data are processed versions of the population and built-up grid from the [GLobal Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php) and the night-time light grid from the [Earth Observation Group](https://eogdata.mines.edu/products/vnl/#annual_v2). See the [`flexurbaData` package](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be) for more information of how these raw data produced were processed. 
+#' 
 #' @return named list with gridded population, built-up area and night-time light data for Belgium.
 #' @examples
 #' load_proxies_belgium()
