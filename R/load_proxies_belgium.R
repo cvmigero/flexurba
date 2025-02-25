@@ -6,7 +6,20 @@
 #' 
 #' The night-time light grid was processed with the following code to ensure that it aligns with the population and built-up layer. 
 #' ```{r, eval=FALSE}
-#' TODO
+#' # POPULATION DATA
+#' terra::rast(system.file("proxies/processed-ghs-pop.tif', package = "flexurbaData")) %>% 
+#'    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) %>%
+#'    terra::writeRaster('inst/extdata/belgium/processed-ghs-pop-belgium.tif')  
+#'    
+#' # BUILT-UP AREA DATA
+#' terra::rast(system.file("proxies/processed-ghs-built-s.tif', package = "flexurbaData")) %>% 
+#'    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) %>%
+#'    terra::writeRaster('inst/extdata/belgium/processed-ghs-built-s-belgium.tif')  
+#' 
+#' # LIGHT DATA
+#' terra::rast(system.file("proxies/processed-viirs-light.tif', package = "flexurbaData")) %>% 
+#'    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) %>%
+#'    terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')  
 #' ```
 #' @return named list with gridded population, built-up area and night-time light data for Belgium.
 #' @examples
@@ -14,8 +27,8 @@
 #' @export
 load_proxies_belgium <- function() {
   return(list(
-    pop = terra::rast(system.file("extdata", "belgium", 'POP.tif', package = "flexurba")),
-    built = terra::rast(system.file("extdata", "belgium", 'BUILT_S.tif', package = "flexurba"))/1000000,
-    light = terra::rast(system.file("extdata", "belgium", 'LIGHT.tif', package = "flexurba"))
+    pop = terra::rast(system.file("extdata", "belgium", 'processed-ghs-pop-belgium.tif', package = "flexurba")),
+    built = terra::rast(system.file("extdata", "belgium", 'processed-ghs-built-s-belgium.tif', package = "flexurba")),
+    light = terra::rast(system.file("extdata", "belgium", 'processed-viirs-light-belgium.tif', package = "flexurba"))
   ))
 }

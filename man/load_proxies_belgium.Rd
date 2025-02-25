@@ -16,7 +16,20 @@ The specification of the source data is as follows:
 
 The night-time light grid was processed with the following code to ensure that it aligns with the population and built-up layer.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{TODO
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# POPULATION DATA
+terra::rast(system.file("proxies/processed-ghs-pop.tif', package = "flexurbaData")) \%>\% 
+   terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
+   terra::writeRaster('inst/extdata/belgium/processed-ghs-pop-belgium.tif')  
+   
+# BUILT-UP AREA DATA
+terra::rast(system.file("proxies/processed-ghs-built-s.tif', package = "flexurbaData")) \%>\% 
+   terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
+   terra::writeRaster('inst/extdata/belgium/processed-ghs-built-s-belgium.tif')  
+
+# LIGHT DATA
+terra::rast(system.file("proxies/processed-viirs-light.tif', package = "flexurbaData")) \%>\% 
+   terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
+   terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')  
 }\if{html}{\out{</div>}}
 }
 \examples{
