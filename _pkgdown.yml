@@ -45,19 +45,19 @@ reference:
   desc: The functions below can be used to reconstruct the Degree of Urbanisation delineations, with custom parameter values.
 - subtitle: Grid cell classification
 - contents:
-  - preprocess_grid
-  - classify_grid
-  - classify_grid_urban_centres
-  - classify_grid_urban_clusters
-  - classify_grid_rural
-  - classify_grid_water
-  - get_grid_parameters
-  - get_optimal_builtup
+  - DoU_preprocess_grid
+  - DoU_classify_grid
+  - DoU_classify_grid_urban_centres
+  - DoU_classify_grid_urban_clusters
+  - DoU_classify_grid_rural
+  - DoU_classify_grid_water
+  - DoU_get_grid_parameters
+  - DoU_get_optimal_builtup
 
 - subtitle: Spatial units classification
 - contents:
-  - preprocess_units
-  - classify_units
+  - DoU_preprocess_units
+  - DoU_classify_units
 
 - title: Datasets
   desc: The package includes several example datasets for belgium, as well as function to download data from the GHSL website.
