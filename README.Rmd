@@ -103,7 +103,7 @@ Now that we have the data, we can construct the grid cell classification as foll
 data_belgium <- DoU_preprocess_grid("data/belgium")
 
 # run the algorithm with the standard parameter settings
-classification1 <-DoU_classify_grid(data = data_belgium)
+classification1 <- DoU_classify_grid(data = data_belgium)
 
 # plot the resulting grid
 DoU_plot_grid(classification1)
@@ -123,7 +123,7 @@ The code below adapts the following parameter settings:
 
 ```{r example1c, eval = FALSE}
 # run the algorithm with custom parameter settings
-classification2 <-DoU_classify_grid(
+classification2 <- DoU_classify_grid(
   data = data_belgium,
   parameters = list(
     UC_density_threshold = 1250,

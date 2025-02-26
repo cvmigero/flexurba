@@ -20,7 +20,7 @@ home:
     components:
       funding:
         title: Funding
-        text: <small>The development of this package is supported by Research Foundation Flanders (grant number 11P4224N), by patronage funding provided to KU Leuven for carrying out scientific research into urban processes and change, and partly by Internal Funds KU Leuven grant number STG/20/021. </small>
+        text: <small>The development of this package is supported by Research Foundation Flanders (grant number 11P4224N), by patronage funding provided to KU Leuven for carrying out scientific research into urban processes and change, and partly by Internal Funds KU Leuven grant number STG/20/021. Flexurba was awarded the GoFundGeo Award co-funded by GISRUK and OSGeo:UK at the GISRUK Conference 2024 in Leeds, which partly support the development of Flexurba 2.0.</small>
   links:
    - text: Journal article
      href: https://doi.org/10.1177/23998083241262545
