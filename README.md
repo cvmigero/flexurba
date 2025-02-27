@@ -165,14 +165,13 @@ as follows.
 data_belgium <- DoU_preprocess_grid("data/belgium")
 
 # run the algorithm with the standard parameter settings
-classification1 <-DoU_classify_grid(data = data_belgium)
+classification1 <- DoU_classify_grid(data = data_belgium)
 
 # plot the resulting grid
 DoU_plot_grid(classification1)
 ```
 
-![](man/figures/readme_classification1.png){width=“450”, alt=“Grid
-classification 1”}
+<img src="man/figures/readme_classification1.png" width="450" alt="Grid classification 1">
 
 However, the `flexurba` package has more functionalities. The function
 `DoU_classify_grid()` allows the user to adapt various parameters in the
@@ -194,7 +193,7 @@ The code below adapts the following parameter settings:
 
 ``` r
 # run the algorithm with custom parameter settings
-classification2 <-DoU_classify_grid(
+classification2 <- DoU_classify_grid(
   data = data_belgium,
   parameters = list(
     UC_density_threshold = 1250,
@@ -208,8 +207,7 @@ classification2 <-DoU_classify_grid(
 DoU_plot_grid(classification2)
 ```
 
-![](man/figures/readme_classification2.png){width=“450”, alt=“Grid
-classification 2”}
+<img src="man/figures/readme_classification2.png" width="450" alt="Grid classification 2">
 
 For more information about the possible parameters setting that can be
 adapted, readers can consult the section ‘Custom specifications’ in the
@@ -237,8 +235,7 @@ units_classification <- DoU_classify_units(data1)
 plot_units(flexurba::units_belgium, classification = units_classification)
 ```
 
-![](man/figures/readme_unitsclassification1.png){width=“500”, alt=“Units
-classification 1”}
+<img src="man/figures/readme_unitsclassification1.png" width="450" alt="Units classification 1">
 
 *Please note that the classification functions are computationally quite
 heavy. Please use a small study area to start with. As a reference: the

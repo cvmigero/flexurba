@@ -10,28 +10,38 @@ load_proxies_belgium()
 named list with gridded population, built-up area and night-time light data for Belgium.
 }
 \description{
-The function loads a population and built-up grid from the \href{https://human-settlement.emergency.copernicus.eu/download.php}{GLobal Human Settlement Layer} and a night-time light grid from the \href{https://eogdata.mines.edu/products/vnl/#annual_v2}{Earth Observation Group}.
+The function loads example population, built-up area and night-time light data for Belgium. It is based on the global data sets provided in the accompanying \href{https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be}{\code{flexurbaData} package}.
 
-The specification of the source data is as follows:
+#' ```{r, eval=FALSE}
+}
+\section{POPULATION DATA}{
+terra::rast(system.file("proxies/processed-ghs-pop.tif", package = "flexurbaData")) \%>\%
+terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
+terra::writeRaster('inst/extdata/belgium/processed-ghs-pop-belgium.tif')
+}
 
-The night-time light grid was processed with the following code to ensure that it aligns with the population and built-up layer.
+\section{BUILT-UP AREA DATA}{
+terra::rast(system.file("proxies/processed-ghs-built-s.tif", package = "flexurbaData")) \%>\%
+terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
+terra::writeRaster('inst/extdata/belgium/processed-ghs-built-s-belgium.tif')
+}
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# POPULATION DATA
-terra::rast(system.file("proxies/processed-ghs-pop.tif', package = "flexurbaData")) \%>\% 
-   terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
-   terra::writeRaster('inst/extdata/belgium/processed-ghs-pop-belgium.tif')  
-   
-# BUILT-UP AREA DATA
-terra::rast(system.file("proxies/processed-ghs-built-s.tif', package = "flexurbaData")) \%>\% 
-   terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
-   terra::writeRaster('inst/extdata/belgium/processed-ghs-built-s-belgium.tif')  
+\section{LIGHT DATA}{
+terra::rast(system.file("proxies/processed-viirs-light.tif", package = "flexurbaData")) \%>\%
+terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
+terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')
 
-# LIGHT DATA
-terra::rast(system.file("proxies/processed-viirs-light.tif', package = "flexurbaData")) \%>\% 
-   terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
-   terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')  
+\if{html}{\out{<div class="sourceCode">}}\preformatted{
+The data are processed versions of the population and built-up grid from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php) and the night-time light grid from the [Earth Observation Group](https://eogdata.mines.edu/products/vnl/#annual_v2). See the [`flexurbaData` package](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be) for more information of how these raw data produced were processed. 
+
+
+[`flexurbaData` package]: R:\%60flexurbaData\%60\%20package
+[Global Human Settlement Layer]: R:Global\%20Human\%20Settlement\%20Layer
+[Earth Observation Group]: R:Earth\%20Observation\%20Group
+[`flexurbaData` package]: R:\%60flexurbaData\%60\%20package
 }\if{html}{\out{</div>}}
 }
+
 \examples{
 load_proxies_belgium()
 }
