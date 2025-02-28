@@ -1,4 +1,4 @@
-# Flexurba 1.0.0.0
+# flexurba 0.2.0
 
 - New function to identify urban areas by applying a threshold on grid cells. For more information see `apply_threshold()`.
 
