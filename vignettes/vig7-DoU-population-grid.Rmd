@@ -1,15 +1,15 @@
 ---
-title: "7. Classification with other population grids"
+title: "7. Degree of Urbanisation: Other population grids"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{7. Classification with other population grids}
+  %\VignetteIndexEntry{7. Degree of Urbanisation: Other population grids}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette illustrates how to use the `flexurba` functionalities with other population grids. The package standard uses the [GHSL-POP grid](https://human-settlement.emergency.copernicus.eu/ghs_pop2023.php) to generate an alternative version of the DEGURBA classification (with the function `download_GHSLdata()`), but any other population grid can be used in principle. In this vignette, we employ the [*Worldpop constrained UN adjusted population grid of Ghana*](https://hub.worldpop.org/geodata/summary?id=49691) with a resolution of 100m as an example (Bondarenko et al., 2020).
+This vignette illustrates how to use the `flexurba` functionalities to reconstruct the Degree of Urbanisation classification with other population grids. The package standard uses the [GHSL-POP grid](https://human-settlement.emergency.copernicus.eu/ghs_pop2023.php) to generate an alternative version of the DEGURBA classification (with the function `download_GHSLdata()`), but any other population grid can be used in principle. In this vignette, we employ the [*Worldpop constrained UN adjusted population grid of Ghana*](https://hub.worldpop.org/geodata/summary?id=49691) with a resolution of 100m as an example (Bondarenko et al., 2020).
 
-### Required format
+## Required format
 
 To be able to apply the `flexurba` functions, you need to ensure that the population grid is in the right format. There are three key points to keep in mind:
 
@@ -21,7 +21,7 @@ To be able to apply the `flexurba` functions, you need to ensure that the popula
 
 Below, we illustrate one possible approach to preprocess a population grid while ensuring that the three aforementioned points are respected. It is important to note that this is just one of many possible options.
 
-### Read and reproject the population grid
+## Read and reproject the population grid
 
 Let's try to use the WorldPop data to produce the grid classification for Ghana. First, load the necessary libraries, and create a folder `data-ghana` to save the data.
 
@@ -84,7 +84,7 @@ worldpop_ghana <- worldpop_ghana %>%
   project('ESRI:54009')
 ```
 
-### Get built-up and land grid
+## Get built-up and land grid
 
 Besides the population grid, we also need a built-up area and land grid to execute the grid cell classification. Here, we use the built-up area and land grid from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/index.php) (but note that other grids can be used as well).
 
@@ -152,7 +152,7 @@ Great! Then, we save the preprocessed population grid as follows.
 writeRaster(worldpop_ghana ,'data-ghana/POP.tif')
 ```
 
-### Execute the grid classification
+## Execute the grid classification
 
 Now that we have the population grid in the right format, we can use it to construct the grid cell classification of DEGURBA. The function `DoU_classify_grid()` reads the `POP.tif` (which contains our population grid), `BUILT_S.tif` and `LAND.tif` from the `data-ghana` folder and constructs the grid classification.
 
@@ -164,7 +164,7 @@ classification1 <-DoU_classify_grid('data-ghana')
 DoU_plot_grid(classification1)
 ```
 
-![](figures/ghana2.png){alt="Ghana classification 2"}
+![](figures/vig7-1.png){alt="Ghana classification 2"}
 
 Note that our population grid only contained counts inside Ghana, so the classification outside the country's borders might be inaccurate. It is advised to mask this classification layer with Ghana's country borders for further processing.
 
@@ -182,7 +182,7 @@ classification2 <-DoU_classify_grid('data-ghana',
 DoU_plot_grid(classification2)
 ```
 
-![](figures/ghana2.png){alt="Ghana classification 2"}
+![](figures/vig7-2.png){alt="Ghana classification 2"}
 
 ## References
 

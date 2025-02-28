@@ -1,8 +1,8 @@
 ---
-title: "4. Comparison between Data Package 2022 and 2023"
+title: "4. Degree of Urbanisation: Comparison between Data Package 2022 and 2023"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{4. Comparison between Data Package 2022 and 2023}
+  %\VignetteIndexEntry{4. Degree of Urbanisation: Comparison between Data Package 2022 and 2023}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Changes in implementation
+## Changes in implementation
 
 There are three main differences in the grid classification of the Degree of Urbanisation as described in Data Package 2023 compared to Data Package 2022:
 
@@ -44,7 +44,7 @@ In Data Package 2023, the majority rule is slightly adapted. A cell is added to 
 
 The change in the edge smoothing rule affects which cells are classified as urban centres and consequently influences the results of the grid cell classification.
 
-### Assessment of the effect of these changes
+## Assessment of the effect of these changes
 
 The `flexurba` package can be used to reconstruct the grid classification of both Data Package 2022 and Data Package 2023, and thus facilitates assessing the effect of changes in the implementation details.
 
@@ -149,11 +149,11 @@ The resulting grid classifications are visualised below. There are some differen
 
 The differences in classification are the result of the combination of (1) the updated data products, (2) the changed built-up area criterium and (3) the changed edge smoothing rule.
 
-![](figures/belgium2022.png){width=450, alt="Data Package 2022"}
+![](figures/vig4-1.png){width="450," alt="Data Package 2022"}
 
-![](figures/belgium2023.png){width=450, alt="Data Package 2023"}
+![](figures/vig4-2.png){width="450," alt="Data Package 2023"}
 
-### Assessment of the isolated effect of changing one parameter
+## Assessment of the isolated effect of changing one parameter
 
 Besides comparing the results of the two Data Packages, the `flexurba` package allows us to go one step further and assess the *isolated* effect of changing one single specification on the grid cell classification. As an example, we can answer questions such as: *"To what extent is the grid cell classification influenced by the changed built-up area criterium?"*.
 
@@ -201,8 +201,10 @@ We consequently empirically determined that the 'optimal' threshold used by the 
 
 Changing the built-up area criterium from a fixed threshold of 50% (in Data Package 2022) to an 'optimal' threshold (in Data Package 2023) thus actually implies decreasing the threshold from 50% to 20% for epoch 2020. This decrease has significant implications, as illustrated by the results for Belgium below. More cells are classified as urban centre (e.g., in the Port of Antwerp) and even new urban centres (e.g., the city of *Roeselare*) appear (both displayed with black circle below).
 
-![](figures/belgium_built2022.png){width=450, alt="Fixed built-up threshold of 50%"}
+![](figures/vig4-3.png){width="450," alt="Fixed built-up threshold of 50%"}
 
-![](figures/belgium_built2023.png){width=450, alt="Optimal built-up threshold"}
+![](figures/vig4-4.png){width="450," alt="Optimal built-up threshold"}
 
-With a similar approach, the `flexurba` package could be used to assess the (potentially spatially-explicit) sensitivity to other parameters of variation in the algorithm.
+With a similar approach, the `flexurba` package could be used to assess the (potentially spatially-explicit) sensitivity to other parameters of variation in the algorithm. See, for example, the analysis in our paper:
+
+Van Migerode, C., Poorthuis, A. & Derudder, B. (2024) A Spatially-Explicit Sensitivity Analysis of Urban Definitions: Uncovering Implicit Assumptions in the Degree of Urbanisation. *Computers, Environment and Urban Systems 112*, 102149. <https://doi.org/10.1016/j.compenvurbsys.2024.102149>.

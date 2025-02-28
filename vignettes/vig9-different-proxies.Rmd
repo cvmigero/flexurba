@@ -1,21 +1,21 @@
 ---
-title: "9. Proxy datasets"
+title: "9. Urban delineation: Proxy datasets"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{9. Proxy datasets}
+  %\VignetteIndexEntry{9. Urban delineation: Proxy datasets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 The three most commonly used datasets used to construct urban delineations are arguable population, built-up area and night-time light data. This vignette illustrates how these three proxies can be used to identify urban areas using a combination of the data in the [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/index.html) package and the functions in the `flexurba` package.
 
-### Proxy datasets to capture urban areas
+## Proxy datasets to capture urban areas
 
 Urban delineation approaches typically rely on one or more datasets that serve as proxies for specific characteristics of urbanisation. For instance, the *Degree of Urbanisation* defines boundaries based on a population grid (Dijkstra et al., 2021), the *Atlas of Urban Expansion* delineates urban areas using the presence of the built environment (Angel et al., 2011), and the *Global Rural Urban Mapping Project* relies on night-time light emissions (Balk et al., 2006).
 
 Each of these approaches reflects different assumptions about what makes a place 'urban' (Van Migerode et al., 2024). For instance, population-derived boundaries provide a socio-demographic perspective (Fox & Wolf, 2024). Population data indicate where people reside, serving as a proxy for human activities through their presence at night (Leyk et al., 2019). Meanwhile, built-up areas capture the physical manifestation of urbanisation and are primarily used in planning and environmental applications (Schneider et al., 2009). Night-time light intensity is assumed to capture labour markets, characterised by commercial and economic activities and transportation networks (Dingel et al., 2021).
 
-### The `flexurbaData` package
+## The `flexurbaData` package
 
 The `flexurbaData` package includes multiple proxy datasets that could be used in combination with the `flexurba` functions to identify urban areas. The package includes:
 
@@ -31,7 +31,7 @@ The `flexurbaData` package includes multiple proxy datasets that could be used i
 
     The layer contains processed night-time light data derived from the [VIIRS Masked average Layer](https://eogdata.mines.edu/nighttime_light/annual/v21/2020/VNL_v21_npp_2020_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz) provided by the [Earth Observation Group](https://eogdata.mines.edu/products/vnl/).
 
-### Example of urban delineations
+## Example of urban delineations
 
 The code below demonstrates how to access these data layers and employ them to identify urban areas for Egypt and Sudan. First, make sure to install the `flexurbaData` R package:
 
@@ -102,7 +102,7 @@ Below, we display the gridded version of the urban areas. The Nile Delta in Egyp
 
 ![](figures/vig9-1.png){alt="Urban delineation with population, built-up area and night-time light data." width="624"}
 
-### Combination of proxy datasets
+## Combination of proxy datasets
 
 Apart from using individual proxies, it is also possible to combine the different datasets to identify urban areas. This can be useful when there are known limitations with a proxy in the study area. As an example, we can identify urban areas as those cells that have at least 2000 inhabitants per km² **or** at least 10% built-up area as follows (note the `|`-operator):
 
@@ -120,11 +120,11 @@ The resulting urban delineations are displayed below. In Sudan, taking the union
 
 ![](figures/vig9-2.png){alt="Urban delineation with population OR/AND built-up area data." width="416"}
 
-### Concluding remarks
+## Concluding remarks
 
 It is important to emphasize that the suitability of a specific proxy dataset depends on the target application of the urban boundaries and the research question at hand. We believe the choice of proxy should ultimately be purpose-driven, ensuring that the dataset aligns with the relevant conceptualisation of the city. The most commonly used proxy datasets are provided in the `flexurbaData` package, enabling fellow researchers to explore the different possibilities in an accessible manner.
 
-### References
+## References
 
 Angel, S., Parent, J., Civco, D., & Blei, A. (2011). Making Room for a Planet of Cities. <https://www.lincolninst.edu/publications/policy-focus-reports/making-room-planet-cities>
 

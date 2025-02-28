@@ -1,8 +1,8 @@
 ---
-title: "1. Level 2 of the Degree of Urbanisation"
+title: "1. Degree of Urbanisation: Level 2"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{1. Level 2 of the Degree of Urbanisation}
+  %\VignetteIndexEntry{1. Degree of Urbanisation: Level 2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ Level 2 is developed to capture the full rural-urban continuum, and to provide i
 
 This vignette describes how the `flexurba` package can be used to establish both the grid cell classification and the spatial units classification according to Level 2 of the Degree of Urbanisation.
 
-### Grid classification of Level 2
+## Grid classification of Level 2
 
 The grid classification in (1) urban centres, (2) urban clusters and (3) rural grid cells in Level 1 of DEGURBA is further subdivided as follows:
 
@@ -38,7 +38,7 @@ Afterwards, the classification with the standard parameter settings can be const
 #| fig.alt: >
 #|   Grid classification with the standard parameters
 # classification with the standard parameters
-classification1 <-DoU_classify_grid(
+classification1 <- DoU_classify_grid(
   data = data_belgium, 
   level1 = FALSE
 )
@@ -84,7 +84,7 @@ DoU_plot_grid(
 
 The code demonstrates just four different examples of parameters that can be adjusted in the algorithm. However, the function `DoU_classify_grid()` incorporates many other possible parameters, including the built-up threshold value and the gap filling and smoothing rules. An overview of all possible parameters and their standard values can be found in the documentation of the function `DoU_classify_grid()` in the section 'Custom specifications'.
 
-### Spatial units classification of Level 2
+## Spatial units classification of Level 2
 
 The Level 1 spatial units classification in (1) cities, (2) towns and semi-dense areas, and (3) rural areas is further subdivided as follows:
 

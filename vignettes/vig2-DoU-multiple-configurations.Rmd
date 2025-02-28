@@ -1,8 +1,8 @@
 ---
-title: "2. Multiple parameter configurations"
+title: "2. Degree of Urbanisation: Multiple parameter configurations"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{2. Multiple parameter configurations}
+  %\VignetteIndexEntry{2. Degree of Urbanisation: Multiple parameter configurations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Load the required data
+## Load the required data
 
 As illustration, we will generate multiple variations of the grid cell classification for Belgium. First, we load the pre-processed population, built-up area and land grid in the data object `data_belgium`.
 
@@ -29,7 +29,7 @@ library(flexurba)
 data_belgium <- DoU_load_grid_data_belgium()
 ```
 
-### Create a list of parameter configurations
+## Create a list of parameter configurations
 
 Next, we need to create a list with the different parameter configurations. Suppose we want to create a grid cell classification with each combination of the following parameters values:
 
@@ -88,7 +88,7 @@ for (density in UC_density_variations) {
 }
 ```
 
-### Execute the different parameter configurations
+## Execute the different parameter configurations
 
 Finally, the grid classification with each of these parameter configurations is executed and plotted as follows:
 
