@@ -60,40 +60,12 @@ The function identifies urban areas by applying a threshold to individual grid c
 }
 }
 
-For more details on these thresholding approaches, including their advantages and limitations, see the section "Thresholding Approaches" below. The table below outlines the appropriate combination of function arguments for each approach:\tabular{lll}{
+For more details on these thresholding approaches, including their advantages and limitations, see the \code{vignette("vig8-apply-thresholds")} The table below outlines the appropriate combination of function arguments for each approach:\tabular{lll}{
     \tab \strong{Absolute Approach} \tab \strong{Relative Approach} \cr
    \strong{Predefined Value} \tab \code{type="predefined"} with \code{threshold_value} not \code{NULL}, and \code{regions=NULL} \tab \code{type="predefined"} with \code{threshold_value} not \code{NULL}, and \code{regions} not \code{NULL} \cr
    \strong{Data-Driven Value} \tab \code{type="data-driven"} with \code{fun} not \code{NULL}, and \code{regions=NULL} \tab \code{type="data-driven"} with \code{fun} not \code{NULL}, and \code{regions} not \code{NULL} \cr
 }
 }
-\section{Thresholding approaches}{
-
-
-Thresholding approaches for urban delineation can vary across two dimensions: (1) how the threshold value is determined and (2) where the threshold is enforced.
-
-There are two main ways to determine a threshold's value. The value can either be set by the researcher or analyst, typically based on expert knowledge, or it can be derived from the underlying data. There is considerable debate regarding whether predefined or data-driven thresholds should be preferred for urban delineation. Predefined thresholds are easier to understand and implement and thus contribute to a higher degree of transparency. However, their exact value is often difficult to justify conceptually, and their value is relatively easy to modify. On the other hand, data-driven thresholds are more complex to adjust manually and are therefore perceived as less arbitrary. Nevertheless, it is important to note that concerns related to arbitrariness are not eliminated as the user still needs to decide on a particular function to derive the data-driven value. In that sense, arbitrariness is moved from the user into the delineation method.
-
-The second dimension concerns where the threshold is enforced. Thresholds can be applied consistently across the study area (i.e. an absolute approach) or separately in individual regions (i.e. a relative approach). An example of the latter approach is when different thresholds are applied for different countries. This approach allows a threshold to be tailored to the specific urbanisation pattern of a country. Nevertheless, customised thresholds hamper comparability across space. In contrast, absolute thresholds allow for more meaningful comparisons as they ensure that urban areas are identified consistently across space.
-
-Combing these two dimensions results in four possible approaches:
-\enumerate{
-\item \strong{A predefined, absolute approach}
-
-The Degree of Urbanisation definition developed by \href{https://www.sciencedirect.com/science/article/pii/S0094119020300838}{Dijkstra et al. (2021)} employs this approach and consistently applies a predefined population density threshold of 1500 inhabitants per km² across the globe.
-\item \strong{A predefined, relative approach}
-
-The \href{https://www.oecd.org/content/dam/oecd/en/publications/reports/2013/12/oecd-regions-at-a-glance-2013_g1g356f6/reg_glance-2013-en.pdf}{OECD (2013)} specifies two predefined thresholds: a minimum of 1000 inhabitants per km² for the United States and Canada, and a threshold of 1500 inhabitants per km² for other OECD countries.
-\item \strong{A data-driven, absolute approach}
-
-\href{https://www.tandfonline.com/doi/full/10.1080/13658816.2014.988715}{Jiang et al. (2015)} derive a minimum night-time light emission threshold from the data, and enforce this threshold consistently across the globe.
-\item \strong{A data-driven, relative approach}
-
-\href{https://documents1.worldbank.org/curated/en/099415311272320571/pdf/IDU0faef6c000aaba0485209f0e08928760d9a57.pdf}{Combes et al. (2024)} determine a separate data-driven population density threshold for each country in Sub-Saharan Africa.
-}
-
-There is no definitive answer to what should be preferred: a predefined or data-driven threshold, enforced in an absolute or relative manner. Each approach possesses unique advantages yet also comes with limitations. Ultimately, the applicability should depend on the purpose of the delineation and the context of the application.
-}
-
 \examples{
 proxies <- load_proxies_belgium()
 
