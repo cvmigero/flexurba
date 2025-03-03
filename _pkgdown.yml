@@ -3,7 +3,6 @@ template:
   bootstrap: 5
 navbar:
   structure:
-    left:  [reference, articles, news]
     right: [search, code]
   components:
     code:
@@ -13,6 +12,9 @@ navbar:
       
 news: 
   one_page: true
+  releases:
+  - text: "flexurba 0.2.0"
+    href: articles/release-v0.2.0.html
   
 home:
   sidebar:
@@ -27,6 +29,27 @@ home:
 repo:
   url:
     home: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
+    
+articles:
+  - title: Reconstruct Degree of Urbanisation
+    navbar: Reconstruct Degree of Urbanisation
+    contents:
+    - vig1-DoU-level2
+    - vig2-DoU-multiple-configurations
+    - vig3-DoU-global-scale
+    - vig4-DoU-comparison-releases
+    - vig5-DoU-computational-requirements
+    - vig6-DoU-comparison-GHSL-SMOD
+    - vig7-DoU-population-grid
+  - title: General urban delineation
+    navbar: General urban delineation
+    contents:
+    - vig8-apply-thresholds
+    - vig9-different-proxies
+  - title: internal
+    contents:
+    - release-v0.2.0
+
     
 reference: 
 - title: General delineation functions

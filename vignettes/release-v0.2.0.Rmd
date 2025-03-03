@@ -1,0 +1,31 @@
+---
+title: "Release flexurba 0.2.0"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Release flexurba 0.2.0}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+At GISRUK Conference 2024 in Leeds, Flexurba was granted the GoFundGeo Award, co-funded by GISRUK and OSGeo:UK. This award was offered to a tool or technique with the potential for wide uptake in the open-source geospatial community. Thanks to the generous support of this award and ongoing support from Research Foundation Flanders (FWO), we have continued to develop the package and are excited to announce Flexurba 0.2.0. The core idea remains the same: enabling the construction of flexible urban delineations that can be tailored to specific applications or research questions. While the package was initially designed to reconstruct the DEGURBA classification, Flexurba 0.2.0 now expands its focus to a broader range of delineation approaches. The new version allows users to create urban boundaries using multiple datasets to proxy urbanisation – including population, built-up area, and night-time light grids – and supports different thresholding methods, including predefined and data-driven thresholds. The most significant modifications in Flexurba 0.2.0 are outlined below.
+
+### 1. The provision of preprocessed proxy datasets in the `flexurbaData` package
+
+An accompanying R package `flexurbaData` was developed to provide multiple proxy datasets, including a population grid, built-up area grid and night-time light emission data. See the `vignette("vig9-different-proxies")` for guidance on accessing these data layers and using them in combination with the `flexurba` functions to identify urban areas.
+
+### 2. Different thresholding approaches in the `apply_threshold()` function
+
+Constructing boundaries from gridded data typically requires setting rules to differentiate urban from rural areas. Most approaches rely on thresholds to guide this process. Thresholding approaches typically differ across two aspects:
+
+- How the threshold value is determined: 
+    (1) predefined by the user
+    (2) derived from the underlying data
+- How and where the threshold is enforced: 
+    (1) in an absolute manner, with a single threshold applied consistently across the study area
+    (2) in a relative manner, with thresholds tailored to specific regions/countries
+
+The new `apply_threshold()` function implements these different thresholding approaches. See `vignette("vig8-apply-thresholds")` for more information. 
+
+### 3. Renaming the DEGURBA specific functions
+
+The functions that are specifically designed to facilitate the reconstruction of the DEGURBA classification have been renamed with the prefix `DoU_` to make a more consistent API and allowing for a better tab-completion. The old function names remain available for backward compatibility.

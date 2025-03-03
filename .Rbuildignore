@@ -12,3 +12,4 @@
 \.ipynb_checkpoints
 ^\.gitlab-ci\.yml$
 ^ci
+^vignettes/articles$
