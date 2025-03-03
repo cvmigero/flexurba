@@ -76,7 +76,7 @@ pages:preview:
     on_stop: pages:preview:stop
 
 pages:preview:stop:
-  stage: publish
+  stage: deploy
   rules:
     - if: $CI_MERGE_REQUEST_IID
       when: manual
