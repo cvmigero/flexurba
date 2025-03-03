@@ -7,11 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The `flexurba` package was initially develop as an open-source R package to flexibly reconstruct the Degree of Urbanisation (DEGURBA) classification. This is an operational definition of cities, towns and rural areas that is widely used in policy reports and academic circles. Our package provides flexibility to the user to customise the parameters in the definition and evaluate the consequences of certain implementation choices. The user can construct alternative versions of DEGURBA by changing, for example, the minimum population thresholds, and even more 'hidden' implementation details, such as the contiguity requirements and edge smoothing rules.
+The `flexurba` package was originally designed to flexibly reconstruct the *Degree of Urbanisation* (DEGURBA) classification. This is an operational definition of cities, towns and rural areas that is developed to facilitate international statistical comparisons. `flexurba` provides flexibility to customise the standard parameters in the DEGURBA definition and evaluate the consequences of certain implementation choices. The user can construct alternative versions of DEGURBA by changing, for example, the minimum population thresholds, and even more 'hidden' implementation details, such as the contiguity requirements and edge smoothing rules. For an extensive description of the package and its contribution, please consult the following journal article:
 
-For an extensive description of the package and its contribution, please consult the following journal article:
-
-Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification. *Environment and Planning B: Urban Analytics and City Science, 51*(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>
+*Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification. Environment and Planning B: Urban Analytics and City Science, 51(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>*
 
 ## Degree of Urbanisation
 
@@ -31,7 +29,7 @@ For more information about the methodology, readers can consult [Dijkstra et al.
 
 ## Code example
 
-Below is a basic example which shows how to use the package to (1) download the required data from the GHSL website, (2) construct the grid cell classification and (3) construct the spatial units classification.
+Below is a basic example which shows how to use the ``flexurba` package to (1) download the required data from the GHSL website, (2) construct the grid cell classification and (3) construct the spatial units classification.
 
 ### 1. Download data products from the GHSL website
 
@@ -62,7 +60,7 @@ crop_GHSLdata(
 
 When employing the code above, the three data sources will be saved in the output directory as `POP.tif`, `BUILT.tif` and `LAND.tif` respectively.
 
-## 2. Grid cell classification (stage 1)
+### 2. Grid cell classification (stage 1)
 
 Now that we have the data, we can construct the grid cell classification as follows.
 
@@ -109,7 +107,7 @@ DoU_plot_grid(classification2)
 
 For more information about the possible parameters setting that can be adapted, readers can consult the section 'Custom specifications' in the documentation of `DoU_classify_grid()`.
 
-## (3) Spatial units classification (stage 2)
+### 3. Spatial units classification (stage 2)
 
 Based on the grid classification, the spatial units classification can be constructed with the following code. The data object `flexurba::units_belgium` is used, containing spatial units of the municipalities in Belgium.
 

@@ -3,25 +3,26 @@
 
 # Flexurba
 
-Flexurba is an open-source R package that enables the construction of
-**flex**ible **urba**n delineations that can be tailored to specific
-applications or research questions. The package was initially developed
-to flexibly reconstruct the *Degree of Urbanisation* classification, but
-expands its scope focus to a broader range of delineation approaches.
-
-To acknowledge the use of the package and for a more extensive
-description of its contribution, please refer to the following journal
-article:
-
-Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An
-open-source R package to flexibly reconstruct the Degree of Urbanisation
-classification. *Environment and Planning B: Urban Analytics and City
-Science, 51*(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>
+Flexurba is an open-source R package to construct **flex**ible **urba**n
+delineations which can be tailored to specific applications or research
+questions. The package was originally developed to flexibly reconstruct
+the *Degree of Urbanisation* (DEGURBA) classification, but has since
+been expanded to support a broader range of delineation approaches.
 
 The source code of the package is available on [this GitLab
 repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba)
 and the documentation of all functions can be found [on this
 website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
+
+### Citation
+
+To acknowledge the use of the package and for an extensive description
+of its contribution, please refer to the following journal article:
+
+*Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An
+open-source R package to flexibly reconstruct the Degree of Urbanisation
+classification. Environment and Planning B: Urban Analytics and City
+Science, 51(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>*
 
 ## Installation
 
@@ -29,7 +30,9 @@ The `flexurba` package can be installed as follows:
 
 ``` r
 install.packages("remotes")
-remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba", host="https://gitlab.kuleuven.be/", upgrade = "always")
+remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba",
+                        host="https://gitlab.kuleuven.be/", 
+                        upgrade = "always")
 ```
 
 *Important notes for installation:*
@@ -41,12 +44,12 @@ remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba", host=
 
 - While installing the package, R will give a prompt to install
   [Rtools](https://cran.r-project.org/bin/windows/Rtools/) (if not
-  already installed). Please click “YES” and make sure you have
-  appropriate administrator rights for this.
+  already installed). Please click `YES` and make sure you have
+  appropriate administrator rights.
 
-## Code examples
+## Using flexurba
 
-### Constructing the DEGURBA grid classification
+### 1. Reconstructing the DEGURBA grid classification
 
 The DEGURBA methodology classifies the cells of a 1 km² population grid
 into three different categories based on the following rules, detailed
@@ -70,7 +73,7 @@ follows.
 ``` r
 library(flexurba)
 
-# load the data for Belgium
+# load the example data for Belgium
 data_belgium <- DoU_load_grid_data_belgium()
 
 # run the DEGURBA algorithm with the standard parameter settings
@@ -82,12 +85,9 @@ DoU_plot_grid(classification1)
 
 <img src="man/figures/README-examplegrid-1.png" alt="Grid classification with the standard parameters" width="100%" />
 
-But, the `flexurba` package has more functionalities. The function
-`DoU_classify_grid()` allows the user to adapt various parameters in the
-classification algorithm, including the the minimum population
-thresholds.
-
-The code below adapts the following parameter settings:
+The function `DoU_classify_grid()` also allows to adapt the standard
+parameters in the DEGURBA algorithm. For example, the population
+thresholds for urban centres are adapted in the code example below.
 
 - `UC_density_threshold = 1250`: the minimum density threshold for urban
   centres (`UC`) is changed to 1250 inhabitants per km² instead of the
@@ -101,6 +101,7 @@ The code below adapts the following parameter settings:
 # run the algorithm with custom parameter settings
 classification2 <- DoU_classify_grid(
   data = data_belgium,
+  # here, we can specify custom population thresholds
   parameters = list(
     UC_density_threshold = 1250,
     UC_size_threshold = 60000
@@ -113,76 +114,69 @@ DoU_plot_grid(classification2)
 
 <img src="man/figures/README-examplegrid2-1.png" alt="Grid classification with custom parameters" width="100%" />
 
-For more information about the possible parameters setting that can be
-adapted, readers can consult the section ‘Custom specifications’ in the
-documentation of `DoU_classify_grid()`.
+For more information about the possible parameters settings, see the
+section ‘Custom specifications’ in the documentation of
+`DoU_classify_grid()`.
 
-## Constructing urban areas by thresholding gridded datasets
+### 2. Identifying urban areas by thresholding gridded datasets
 
-Apart from DEGURBA, several other delineation approaches use
-thresholding approaches on gridded datasets. The accompanying
+Apart from DEGURBA, several other delineation approaches enforce
+thresholds on gridded datasets. The accompanying
 [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/index.html)
-package provides different preprocessed datasets that can serve as a
-proxies for urbanisation, including a population, built-up area and
-night-time light grids. For more details on how to use proxy datasets to
-construct urban areas, see `vignette("vig9-different-proxies")`.
-
-The function `apply_threshold()` allows users to apply a threshold on
-these datasets to identify urban areas. Below is an example on how to
-enforce a predefined threshold on built-up area and night-time light
-data.
+package provides preprocessed datasets that can serve as proxy to
+identify urban areas. We can construct urban boundaries based on these
+proxy datasets using the function `apply_threshold()`. The code example
+below enforces a predefined threshold on (1) built-up area and (2)
+night-time light data.
 
 ``` r
-# load a sample of the proxy datasets for Belgium
+# load the example proxy data for Belgium
 proxy_data_belgium <- load_proxies_belgium()
 
-# apply a minimum threshold of 10% built-up area to identify urban areas
+# apply a minimum built-up area threshold of 15%
 builtupclassification <- apply_threshold(proxy_data_belgium$built, 
                                          type="predefined",
-                                         threshold_value = 0.10)
-# plot the resulting urban delineation
+                                         threshold_value = 0.15)
+# plot the resulting urban boundaries
 terra::plot(builtupclassification$rboundaries)
 ```
 
-<img src="man/figures/README-exampleproxies-1.png" alt="Classification by thresholding proxy datasets" width="100%" />
+<img src="man/figures/README-exampleproxies-1.png" alt="Classification by thresholding built dataset" width="100%" />
 
 ``` r
-# apply a minimum night-time light emission of 15 nW/cm³/sr
-nightlightclassification <- apply_threshold(proxy_data_belgium$light,
-                                            type="predefined",
-                                            threshold_value = 15)
-# plot the resulting urban delineation
-terra::plot(nightlightclassification$rboundaries)
+# apply a minimum built-up area threshold of 15%
+lightclassification <- apply_threshold(proxy_data_belgium$light, 
+                                         type="predefined",
+                                         threshold_value = 15)
+# plot the resulting urban boundaries
+terra::plot(lightclassification$rboundaries)
 ```
 
-<img src="man/figures/README-exampleproxies-2.png" alt="Classification by thresholding proxy datasets" width="100%" />
+<img src="man/figures/README-exampleproxies2-1.png" alt="Classification by thresholding light dataset" width="100%" />
 
-Besides predefined threshold values, the function `apply_threshold()`
-also implements other thresholding approaches, including data-driven or
-relative thresholds. For more information on these, see
-`vignette("vig8-apply-thresholds")`.
+Besides a predefined threshold, the function `apply_threshold()` also
+implements other types of thresholding approaches. For more information
+on these, see `vignette("vig8-apply-thresholds")`.
 
 ## Vignettes
 
-For more examples and an extensive description of the `flexurba`
-functions and their possible arguments, please consult the documentation
-pages of the individual functions. We also created vignettes with more
-information and workflows of particular applications. The first seven
-vignettes relate to the reconstruction of the Degree of Urbanisation
-classification, while the latter two cover urban delineation approach
-more broadly.
+For more examples, please consult the documentation pages of the
+individual `flexurba` functions. We also created vignettes with more
+information and example workflows.
 
+- The `vignette("flexurba")` is a “Get Started” tutorial on DEGURBA
+  which shows how to download the data from the GHSL website, construct
+  the grid cell classification and the spatial units classification.
 - The `vignette("vig1-DoU-level2")` showcases how the grid cell and
   spatial units classification can be constructed according to Level 2
   of DEGURBA.
-- In the `vignette("vig2-DoU-multiple-configurations")`, we give an
-  example of how to use the package to generate multiple alternative
-  versions of DEGURBA by systematically varying parameters in the
-  algorithm.
+- The `vignette("vig2-DoU-multiple-configurations")` gives an overview
+  on how to use the package to generate multiple alternative versions of
+  DEGURBA by systematically varying parameters in the algorithm.
 - The `vignette("vig3-DoU-global-scale")` explains how a global DEGURBA
   classification can be established in a memory-efficient manner.
-- The GHSL released different versions of the Degree of Urbanisation in
-  the past years. The `vignette("vig4-DoU-comparison-releases")`
+- The GHSL released different versions of the *Degree of Urbanisation*
+  in the past years. The `vignette("vig4-DoU-comparison-releases")`
   compares the method described in [Data Packages
   2022](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2022.pdf)
   with the method described in [Data Package
@@ -191,12 +185,12 @@ more broadly.
   the computational requirements of the package to reconstruct the
   DEGURBA classification, and compares the computational load with the
   existing [GHSL tools](https://ghsl.jrc.ec.europa.eu/tools.php).
-- The `vignette("vig6-comparison-GHSL-SMOD")` compares the DEGURBA grid
-  classification generated by `flexurba` with the official [GHSL SMOD
-  layer](https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php) and explains
-  few discrepancies between the two classifications.
+- The `vignette("vig6-DoU-comparison-GHSL-SMOD")` compares the DEGURBA
+  grid classification generated by `flexurba` with the official [GHSL
+  SMOD layer](https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php) and
+  explains few discrepancies between the two classifications.
 - The `vignette("vig7-DoU-population-grid")` illustrates how the DEGURBA
-  package functionalities can be used with other population grids
+  functionalities can be used with other population grids
   (e.g. WorldPop).
 - The `vignette("vig8-apply-thresholds")` elaborates on the benefits and
   limitations of different thresholding approach implemented by the

@@ -19,7 +19,7 @@ remotes::install_gitlab("spatial-networks-lab/research-projects/celine/flexurbaD
                         host="https://gitlab.kuleuven.be/")
 ```
 
-Here, we will employ population data to identify urban areas. The code below filters the borders of Egypt and Sudan from the `ne_country_borders` data and extracts population data in these borders based on the `processed-ghs-pop.tif` grid. Both datasets are provided within the `flexurbaData` package.
+Here, we will employ population data to identify urban areas. The code below filters Egypt and Sudan from the `ne_country_borders` data and extracts population data in these countries based on the `processed-ghs-pop.tif` grid. Both datasets are provided within the `flexurbaData` package.
 
 ```{r, eval=FALSE}
 library(flexurba)
@@ -27,7 +27,7 @@ library(flexurbaData)
 library(dplyr)
 library(terra)
 
-# extract country borders of Egypt and Sudan
+# extract Egypt and Sudan
 egypt_sudan <- ne_country_borders %>%
   filter(ISO %in% c('EGY', 'SDZ'))
   
@@ -55,9 +55,9 @@ data_driven <- apply_threshold(grid = pop,
                                  fun = "p99")
 ```
 
-The outputs (e.g., `predefined`) contain three different variables: (1) `rboundaries` with a gridded version of the urban areas, (2) `vboundaries` with the urban areas saved as vector layer, (3) `threshold` with more details on the utilised threshold value.
+The outputs contain three different variables: (1) `rboundaries` with a gridded version of the urban areas, (2) `vboundaries` with the urban areas saved as vector layer, (3) `threshold` with more details on the threshold value.
 
-We can check the exact value of the data-driven threshold using the `threshold` variable with the code below. The 99th percentile value across the study area is, in this case, 523.1391 inhabitants per km², which is significantly lower than our predefined threshold value.
+For instance, we can check the exact value of the data-driven threshold using the `threshold` variable in the code below. The 99th percentile value across the study area is, in this case, 523.1391 inhabitants per km², which is significantly lower than our predefined threshold value of 2000 inhabitants per km².
 
 ```{r, eval=FALSE}
 pop_above_p99$threshold
@@ -73,7 +73,7 @@ A second aspect of a thresholding approach concerns how and where the threshold 
 
 -   A **relative approach**: different thresholds are applied in separate regions.
 
-In the code examples above, we employed an absolute approach. More specifically, in (1), we enforced the predefined threshold of 2000 inhabitants per km² consistently in Egypt and Sudan, and in (2), we calculated the 99th percentile using data from both countries and also applied this value in both countries.
+In the code examples above, we employed an absolute approach. More specifically, in (1), we enforced the predefined threshold of 2000 inhabitants per km² consistently in Egypt and Sudan, and in (2), we calculated the 99th percentile using data from both countries and applied this threshold value in both countries.
 
 A relative approach would entail applying different thresholds. For example, we could apply a lower threshold in Sudan, as this country is often considered 'less urbanised'. Below, we employ a minimum of 2000 inhabitants per km² in Egypt and 300 inhabitants per km² in Sudan. The country borders in the object `egypt_sudan` are passed through the argument `regions`, indicating the relative approach.
 
@@ -96,7 +96,7 @@ data_driven_relative <- apply_threshold(grid = pop,
                                         fun = "p99")
 ```
 
-We can check the data-driven threshold values using the code below. In Egypt, the 99th percentile value is 2083.6820 inhabitants per km², while the data-driven value in Sudan is much lower (282.5375 inhabitants per km²).
+We check the data-driven threshold values using the code below. In Egypt, the 99th percentile value is 2083.6820 inhabitants per km². The value for Sudan is only 282.5375 inhabitants per km².
 
 ```{r, eval=FALSE}
 relative_datadriven$threshold
@@ -105,11 +105,10 @@ relative_datadriven$threshold
 #>2            1        282.5375 SDZ
 ```
 
-A relative approach allows the threshold to be tailored to the specific urbanisation pattern of a country. However, because urban areas in Egypt are now identified with a different threshold than urban areas in Sudan, it might not be possible to meaningfully compare the urbanisation pattern between these countries. In contrast, absolute thresholds ensure that urban areas are identified consistently across space, allowing for more meaningful comparisons.
-
-The delineations constructed by the four code examples are shown below. Comparing the absolute-predefined approach (top left) with the relative-predefined approach (bottom left), we see that more areas are identified in Sudan in the latter as a less strict threshold is enforced. Almost the entire Nile Delta is considered urbanised when the data-driven threshold is derived in an absolute manner (using the data for both Egypt and Sudan; top right), while this is not the case when the threshold is tailored to each country. Ultimately, there is no definitive answer to what should be preferred: a predefined or data-driven threshold, enforced in an absolute or relative manner. Each approach possesses unique advantages yet also comes with limitations. We believe the choice of thresholding approach should depend on the purpose of the delineation and the context of the application. The function `apply_threshold()` allows you to explore the different approaches in order to make an informed decision in this regard.
+The delineations generated by the four code examples are displayed below. Comparing the absolute-predefined approach (top left) with the relative-predefined approach (bottom left), we observe that the latter identifies more urban areas in Sudan because of the less strict threshold in that country. Furthmore, when the data-driven threshold is applied in an absolute manner (using data from both Egypt and Sudan; top right) almost the entire Nile Delta is classified as urban. However, this is not the case when the threshold is tailored separately for each country.
 
 ![](figures/vig8.png){alt="Urban delineation from the four code examples." width="398"}
+Ultimately, there is no definitive answer to what should be preferred: a predefined or data-driven threshold, enforced in an absolute or relative manner. Each approach possesses unique advantages yet also comes with limitations. We believe the choice of thresholding approach should depend on the purpose of the delineation and the context of the application. The function `apply_threshold()` allows you to explore the different approaches in order to make an informed decision in this regard.
 
 ## Thresholding approaches in the literature
 

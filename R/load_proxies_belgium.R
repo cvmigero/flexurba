@@ -1,8 +1,8 @@
 #' Load the data for three urban proxies for Belgium
 #' @description
-#' The function loads example population, built-up area and night-time light data for Belgium. It is based on the global data sets provided in the accompanying [`flexurbaData` package](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be). 
+#' The function loads example population, built-up area and night-time light data for Belgium. It is based on the global datasets provided in the accompanying [`flexurbaData` package](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be). 
 #' 
-#' #' ```{r, eval=FALSE}
+#' ```{r, eval=FALSE}
 #' # POPULATION DATA
 #' terra::rast(system.file("proxies/processed-ghs-pop.tif", package = "flexurbaData")) %>% 
 #'    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) %>%

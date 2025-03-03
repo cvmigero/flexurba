@@ -54,7 +54,7 @@ The function identifies urban areas by applying a threshold to individual grid c
 \itemize{
 \item The threshold can be \emph{predefined by the user} (\code{type="predefined"}) or \emph{derived from the data} (\code{type="data-driven"}).
 }
-\item \strong{Where is the threshold enforced?}
+\item \strong{How and where is the threshold enforced?}
 \itemize{
 \item The threshold can be enforced \emph{consistently across the study area} (= absolute approach, \code{regions=NULL}) or \emph{tailored within specific regions} (= relative approach, \code{regions} not \code{NULL}).
 }

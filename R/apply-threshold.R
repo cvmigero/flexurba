@@ -6,7 +6,7 @@
 #' 1. **How is the threshold value determined?**  
 #'    - The threshold can be *predefined by the user* (`type="predefined"`) or *derived from the data* (`type="data-driven"`).
 #'
-#' 2. **Where is the threshold enforced?**  
+#' 2. **How and where is the threshold enforced?**  
 #'    - The threshold can be enforced *consistently across the study area* (= absolute approach, `regions=NULL`) or *tailored within specific regions* (= relative approach, `regions` not `NULL`).
 #'
 #' For more details on these thresholding approaches, including their advantages and limitations, see the `vignette("vig8-apply-thresholds")` The table below outlines the appropriate combination of function arguments for each approach:

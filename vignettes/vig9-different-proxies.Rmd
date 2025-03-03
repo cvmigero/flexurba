@@ -41,7 +41,7 @@ remotes::install_gitlab("spatial-networks-lab/research-projects/celine/flexurbaD
                         host="https://gitlab.kuleuven.be/")
 ```
 
-Afterward, load the necessary libraries and extract the country borders for Egypt and Sudan based on the `ne_country_borders` data (also provided in the `flexurbaData` package):
+Afterward, load the necessary libraries and extract the countries Egypt and Sudan from the `ne_country_borders` data (also provided in the `flexurbaData` package):
 
 ```{r, eval=FALSE}
 library(flexurba)
@@ -77,7 +77,7 @@ built <-  crop(built, ext(egypt_sudan))
 light <-  crop(light, ext(egypt_sudan))
 ```
 
-The function `apply_thresholds()` is used to identify urban areas. As illustration, we construct urban areas with a minimum population density threshold of 2000 inhabitants per km², a minimum built-up threshold of 10% and a minimum of 15 nW/cm³/sr, respectively. For more information about different thresholding approaches, see `vignette("vig8-apply-thresholds")`.
+The function `apply_threshold()` is used to identify urban areas. As illustration, we construct urban areas with a minimum population density threshold of 2000 inhabitants per km², a minimum built-up threshold of 10% and a minimum of 15 nW/cm³/sr, respectively. For more information about different thresholding approaches, see `vignette("vig8-apply-thresholds")`.
 
 ```{r, eval=FALSE}
 # minimum 2000 inhab/km²
@@ -96,9 +96,9 @@ light_urban_areas <- apply_threshold(grid = light,
                                    threshold_value = 15)
 ```
 
-The outputs (e.g., `pop_urban_areas`) contain three different variables: (1) `rboundaries` with a gridded version of the urban areas, (2) `vboundaries` with the urban areas saved as vector layer, (3) `threshold` with more details on the utilised threshold value. The data of these variables can be used for further analyses.
+The outputs contain three different variables: (1) `rboundaries` with a gridded version of the urban areas, (2) `vboundaries` with the urban areas saved as vector layer, (3) `threshold` with more details on the utilised threshold value. The data of these variables can be used for further analyses.
 
-Below, we display the gridded version of the urban areas. The Nile Delta in Egypt comprises several small scattered urban areas when employing population density or the fraction of built-up area, while urban areas are more concentrated in the night-time light map. Urban areas in Sudan are relatively scarce in Sudan using night-time light; only the city of Khartoum is identified.
+Below, we display the gridded version of the urban areas (in `rboundaries`). The Nile Delta in Egypt comprises several small scattered urban areas when employing population density or the fraction of built-up area, while urban areas are more concentrated in the night-time light map. Urban areas in Sudan are relatively scarce in Sudan using night-time light; only the city of Khartoum is identified.
 
 ![](figures/vig9-1.png){alt="Urban delineation with population, built-up area and night-time light data." width="624"}
 
