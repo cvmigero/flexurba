@@ -6,8 +6,10 @@
 Flexurba is an open-source R package to construct **flex**ible **urba**n
 delineations which can be tailored to specific applications or research
 questions. The package was originally developed to flexibly reconstruct
-the *Degree of Urbanisation* (DEGURBA) classification, but has since
-been expanded to support a broader range of delineation approaches.
+the *Degree of Urbanisation*
+([DEGURBA](https://human-settlement.emergency.copernicus.eu/degurba.php))
+classification, but has since been expanded to support a broader range
+of delineation approaches.
 
 The source code of the package is available on [this GitLab
 repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba)
@@ -52,9 +54,9 @@ remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba",
 ### 1. Reconstructing the DEGURBA grid classification
 
 The DEGURBA methodology classifies the cells of a 1 km² population grid
-into three different categories based on the following rules, detailed
+into three different categories based on the following rules (detailed
 in the [GHSL Data Package
-2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf):
+2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf)):
 
 - **Urban Centres** are clusters of cells (rooks continuity) with a
   minimum population density of 1500 inhabitants per km² of permanent
@@ -87,7 +89,8 @@ DoU_plot_grid(classification1)
 
 The function `DoU_classify_grid()` also allows to adapt the standard
 parameters in the DEGURBA algorithm. For example, the population
-thresholds for urban centres are adapted in the code example below.
+thresholds for urban centres can be adapted by changing the following
+parameters:
 
 - `UC_density_threshold = 1250`: the minimum density threshold for urban
   centres (`UC`) is changed to 1250 inhabitants per km² instead of the
@@ -125,18 +128,21 @@ thresholds on gridded datasets. The accompanying
 [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/index.html)
 package provides preprocessed datasets that can serve as proxy to
 identify urban areas. We can construct urban boundaries based on these
-proxy datasets using the function `apply_threshold()`. The code example
-below enforces a predefined threshold on (1) built-up area and (2)
+proxy datasets using the function `apply_threshold()`. The code examples
+below enforce a predefined threshold on (1) built-up area and (2)
 night-time light data.
 
 ``` r
+# (1) predefined threshold of 15% built-up area
+
 # load the example proxy data for Belgium
 proxy_data_belgium <- load_proxies_belgium()
 
-# apply a minimum built-up area threshold of 15%
+# apply the threshold
 builtupclassification <- apply_threshold(proxy_data_belgium$built, 
                                          type="predefined",
                                          threshold_value = 0.15)
+
 # plot the resulting urban boundaries
 terra::plot(builtupclassification$rboundaries)
 ```
@@ -144,10 +150,13 @@ terra::plot(builtupclassification$rboundaries)
 <img src="man/figures/README-exampleproxies-1.png" alt="Classification by thresholding built dataset" width="100%" />
 
 ``` r
-# apply a minimum built-up area threshold of 15%
+# (2) predefined threshold of 15 nW/cm³/sr
+
+# apply the threshold
 lightclassification <- apply_threshold(proxy_data_belgium$light, 
                                          type="predefined",
                                          threshold_value = 15)
+
 # plot the resulting urban boundaries
 terra::plot(lightclassification$rboundaries)
 ```
@@ -160,16 +169,17 @@ on these, see `vignette("vig8-apply-thresholds")`.
 
 ## Vignettes
 
-For more examples, please consult the documentation pages of the
-individual `flexurba` functions. We also created vignettes with more
-information and example workflows.
+For more code examples, please consult the documentation pages of the
+individual functions. We also created vignettes with more information
+and workflows using `flexurba`.
 
-- The `vignette("flexurba")` is a “Get Started” tutorial on DEGURBA
-  which shows how to download the data from the GHSL website, construct
-  the grid cell classification and the spatial units classification.
+- The `vignette("flexurba")` is a “Get Started” tutorial on using
+  `flexurba` to reconstruct DEGURBA. It shows how to download the data
+  from the GHSL website, construct a grid cell classification and a
+  spatial units classification.
 - The `vignette("vig1-DoU-level2")` showcases how the grid cell and
-  spatial units classification can be constructed according to Level 2
-  of DEGURBA.
+  spatial units classification can be constructed according to second
+  hierarchical level of DEGURBA.
 - The `vignette("vig2-DoU-multiple-configurations")` gives an overview
   on how to use the package to generate multiple alternative versions of
   DEGURBA by systematically varying parameters in the algorithm.
