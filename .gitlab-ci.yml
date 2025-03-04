@@ -3,6 +3,7 @@ image: rocker/geospatial:latest
 variables:
   GIT_DEPTH: 10
   R_LIBS: ci/lib
+  PROJECT_SUBGROUP: research-projects
 
 cache:
   key: global-cache
@@ -72,7 +73,7 @@ pages:preview:
     - if: $CI_MERGE_REQUEST_IID
   environment:
     name: preview/${CI_PROJECT_NAME}/${CI_COMMIT_REF_NAME}
-    url: https://${CI_PROJECT_NAMESPACE}.pages.gitlab.kuleuven.be/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts/public/index.html
+    url: https://${CI_PROJECT_ROOT_NAMESPACE}.pages.gitlab.kuleuven.be/-/${PROJECT_SUBGROUP}/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts/public/index.html
     on_stop: pages:preview:stop
 
 pages:preview:stop:
