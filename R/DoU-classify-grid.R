@@ -33,7 +33,7 @@
 #'
 #' - **Urban centres** are identified as clusters of continuous grid cells (based on rook contiguity) with a minimum density of 1500 inhabitants per km² (or with a minimum built-up area; see section "Built-up area criterium" below), and a minimum total population of 50 000 inhabitants. Gaps smaller than 15 km² in the urban centres are filled and edges are smoothed by a 3x3-majority rule (see section "Edge smoothing" below).
 #' - **Dense urban clusters** are identified as clusters of continuous grid cells (based on rook contiguity) with a minimum density of 1500 inhabitants per km² (or with a minimum built-up area; see section "Built-up area criterium" below), and a minimum total population of 5000 inhabitants.
-#' - **Semi-dense urban clusters** are identified as clusters of continuous grid cells (based on queen contiguity) with a minimum density of 300 inhabitants per km², and a minimum total population of 5000 inhabitants, that are not within 2 km away from urban centres and dense urban clusters. Clusters that are within 2 km away are classified as **suburban and peri-urban cells**.
+#' - **Semi-dense urban clusters** are identified as clusters of continuous grid cells (based on rook contiguity) with a minimum density of 900 inhabitants per km², and a minimum total population of 2500 inhabitants, that are not within 2 km away from urban centres and dense urban clusters. Clusters that are within 2 km away are classified as **suburban and peri-urban cells**.
 #' - **Rural clusters** are clusters of continuous grid cells (based on queen contiguity) with a minimum density of 300 inhabitants per km², and a minimum total population of 500 inhabitants.
 #' - **Low density rural cells** are remaining cells with a population density less than 50 inhabitants per km².
 #' - **Water cells** contain no built-up area, no population, and less than 50% permanent land. All cells not belonging to an other class are considered **very low density rural cells**.
@@ -162,13 +162,13 @@
 #' - `DUC_contiguity_rule` integer (default: `4`).
 #'
 #'      Which cells are considered adjacent in dense urban clusters: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
-#' - `SDUC_density_threshold` numeric (default: `300`).
+#' - `SDUC_density_threshold` numeric (default: `900`).
 #'
 #'      Minimum population density per permanent land of a cell required to belong to a semi-dense urban cluster
-#' - `SDUC_size_threshold` numeric (default: `5000`).
+#' - `SDUC_size_threshold` numeric (default: `2500`).
 #'
 #'      Minimum total population size required for a semi-dense urban cluster
-#' - `SDUC_contiguity_rule` integer (default: `8`).
+#' - `SDUC_contiguity_rule` integer (default: `4`).
 #'
 #'      Which cells are considered adjacent in semi-dense urban clusters: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
 #' - `SDUC_buffer_size` integer (default: `2`).

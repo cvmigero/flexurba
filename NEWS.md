@@ -4,7 +4,7 @@
 
 * New `convert_regions_to_grid()` convert regions from a vector layer to gridded format.
 
-- New R package [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/) with global datasets accompanying the Flexurba R package. The package includes processed population and built-up area derived from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php), and night-time light grid derived from the [Earth Observation Group](https://eogdata.mines.edu/products/vnl/#annual_v2). 
+* New R package [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/) with global datasets accompanying the Flexurba R package. The package includes processed population and built-up area derived from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php), and night-time light grid derived from the [Earth Observation Group](https://eogdata.mines.edu/products/vnl/#annual_v2). 
 
 * New `load_proxies_belgium()` loads a sample of the proxy datasets in `flexurbaData` for the country of Belgium.
 
@@ -29,4 +29,10 @@
   | `DoU_plot_grid()`                   | `plot_grid()`                   |
   | `DoU_plot_units()`                  | `plot_units()`                  |
   
+* The standard grid parameters for semi-dense urban clusters in `DoU_get_grid_parameters()` have been updated to reflect the modifications made to the DEGURBA methodological manual in July 2024. Specifically:
+  * the minimum density threshold (`SDUC_density_threshold`) increased from 300 to 900 inhabitants per km²
+  * the minimum size threshold (`SDUC_size_threshold`) decreased from 5000 to 2500 inhabitants 
+  * the contiguity rule (`SDUC_contiguity_rule`) is modified from the queen (=`8`) to rook (=`4`) contiguity
+  * the buffer size for semi-dense urban clusters `SDUC_buffer_size` is adjusted to 2 km
+<br/><br/>
 * The function reference is restructured and the README, function documentation pages and vignettes are modified to reflect the updates. 

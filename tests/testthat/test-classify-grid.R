@@ -1,7 +1,7 @@
 test_that("DoU_classify_grid() works", {
   expect_equal(
     terra::values(DoU_classify_grid(data = system.file("extdata", "belgium", package = "flexurba"), level1 = FALSE)),
-    terra::values(terra::rast(system.file("extdata", "belgium", "classification6.tif", package = "flexurba")))
+    terra::values(terra::rast(system.file("extdata", "belgium", "classification6v2.tif", package = "flexurba")))
   )
 
   expect_equal(
@@ -11,6 +11,9 @@ test_that("DoU_classify_grid() works", {
         LDR_density_threshold = 70,
         UC_smooth_edge = FALSE,
         DUC_size_threshold = 6000,
+        SDUC_density_threshold = 300,
+        SDUC_size_threshold = 5000,
+        SDUC_contiguity_rule = 8,
         SDUC_buffer_size = 3
       ), level1 = FALSE
     )),
@@ -24,6 +27,8 @@ test_that("DoU_classify_grid() works", {
         UC_size_threshold = 60000,
         UC_max_gap = 3,
         DUC_density_threshold = 1000,
+        SDUC_density_threshold = 300,
+        SDUC_size_threshold = 5000,
         SDUC_contiguity_rule = 4,
         SUrb_contiguity_rule = 4
       ), level1 = FALSE
