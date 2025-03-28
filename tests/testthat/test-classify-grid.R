@@ -11,7 +11,7 @@ test_that("DoU_classify_grid() works", {
         LDR_density_threshold = 70,
         UC_smooth_edge = FALSE,
         DUC_size_threshold = 6000,
-        SDUC_buffer_size = 4
+        SDUC_buffer_size = 3
       ), level1 = FALSE
     )),
     terra::values(terra::rast(system.file("extdata", "belgium", "classification7.tif", package = "flexurba")))

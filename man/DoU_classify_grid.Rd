@@ -56,7 +56,7 @@ The detailed classification rules are as follows:
 \itemize{
 \item \strong{Urban centres} are identified as clusters of continuous grid cells (based on rook contiguity) with a minimum density of 1500 inhabitants per km² (or with a minimum built-up area; see section "Built-up area criterium" below), and a minimum total population of 50 000 inhabitants. Gaps smaller than 15 km² in the urban centres are filled and edges are smoothed by a 3x3-majority rule (see section "Edge smoothing" below).
 \item \strong{Dense urban clusters} are identified as clusters of continuous grid cells (based on rook contiguity) with a minimum density of 1500 inhabitants per km² (or with a minimum built-up area; see section "Built-up area criterium" below), and a minimum total population of 5000 inhabitants.
-\item \strong{Semi-dense urban clusters} are identified as clusters of continuous grid cells (based on queen contiguity) with a minimum density of 300 inhabitants per km², and a minimum total population of 5000 inhabitants, that are at least 3 km away from urban centres and dense urban clusters. Clusters that are less than 3 km away are classified as \strong{suburban and peri-urban cells}.
+\item \strong{Semi-dense urban clusters} are identified as clusters of continuous grid cells (based on queen contiguity) with a minimum density of 300 inhabitants per km², and a minimum total population of 5000 inhabitants, that are not within 2 km away from urban centres and dense urban clusters. Clusters that are within 2 km away are classified as \strong{suburban and peri-urban cells}.
 \item \strong{Rural clusters} are clusters of continuous grid cells (based on queen contiguity) with a minimum density of 300 inhabitants per km², and a minimum total population of 500 inhabitants.
 \item \strong{Low density rural cells} are remaining cells with a population density less than 50 inhabitants per km².
 \item \strong{Water cells} contain no built-up area, no population, and less than 50\% permanent land. All cells not belonging to an other class are considered \strong{very low density rural cells}.
@@ -203,9 +203,9 @@ Minimum total population size required for a semi-dense urban cluster
 \item \code{SDUC_contiguity_rule} integer (default: \code{8}).
 
 Which cells are considered adjacent in semi-dense urban clusters: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
-\item \code{SDUC_buffer_size} integer (default: \code{3}).
+\item \code{SDUC_buffer_size} integer (default: \code{2}).
 
-The minimum distance to urban centres and dense urban clusters required for a semi-dense urban cluster
+The distance to urban centres and dense urban clusters required for a semi-dense urban cluster
 \item \code{SUrb_density_threshold} numeric (default: \code{300}).
 
 Minimum population density per permanent land of a cell required to belong to a suburban or peri-urban area
