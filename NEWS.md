@@ -29,10 +29,15 @@
   | `DoU_plot_grid()`                   | `plot_grid()`                   |
   | `DoU_plot_units()`                  | `plot_units()`                  |
   
-* The standard grid parameters for semi-dense urban clusters in `DoU_get_grid_parameters()` have been updated to reflect the modifications made to the DEGURBA methodological manual in July 2024. Specifically:
+* The grid classification rules for semi-dense urban clusters in Level 2 of DEGURBA have been modified in July 2024. To reflect the most up-to-date rules, the default `flexurba` grid parameters for semi-dense urban clusters in `DoU_get_grid_parameters()` have also been updated. Specifically:
   * the minimum density threshold (`SDUC_density_threshold`) increased from 300 to 900 inhabitants per km²
   * the minimum size threshold (`SDUC_size_threshold`) decreased from 5000 to 2500 inhabitants 
   * the contiguity rule (`SDUC_contiguity_rule`) is modified from the queen (=`8`) to rook (=`4`) contiguity
   * the buffer size for semi-dense urban clusters `SDUC_buffer_size` is adjusted to 2 km
+
+
+  <br/>Note that these changes will affect the results of `DoU_classify_grid()` and `DoU_classify_urban_clusters()` when `level1=TRUE`. The previous classification rules for semi-dense urban clusters can still be applied by specifying them explicit in the function argument `parameters`.
 <br/><br/>
+* The unit classification rules for Level 2 of DEGURBA have been modified in July 2024. To reflect the most up-to-date rules, the `flexurba` function `DoU_classify_units()` is also updated (see the documentation page for more information). The previous classification rules can still be applied by setting the function argument `rules_from_2021=TRUE`. 
+
 * The function reference is restructured and the README, function documentation pages and vignettes are modified to reflect the updates. 

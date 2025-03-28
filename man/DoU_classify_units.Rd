@@ -10,6 +10,7 @@ DoU_classify_units(
   level1 = TRUE,
   values = NULL,
   official_workflow = TRUE,
+  rules_from_2021 = FALSE,
   filename = NULL
 )
 }
@@ -27,6 +28,8 @@ DoU_classify_units(
 }}
 
 \item{official_workflow}{logical. Whether to employ the official workflow of the GHSL (\code{TRUE}) or the alternative workflow (\code{FALSE}). For more details, see section "Workflow" below.}
+
+\item{rules_from_2021}{logical. Whether to employ the most recent classification rules described in GHSL Data Package 2023 (\code{FALSE}) or the original classification rules as described in the 2021 manual (\code{TRUE}). For more details, see section "Modification to the unit classification rules" below.}
 
 \item{filename}{character. Output filename (csv). The resulting classification together with a metadata file (in JSON format) will be saved if \code{filename} is not \code{NULL}.}
 }
@@ -53,12 +56,12 @@ The detailed classification rules are as follows:
 \strong{LEVEL 2:}
 \itemize{
 \item \strong{Cities:} units that have at least 50\% of their population in urban centres
-\item \strong{Dense towns:} units that have a larger share of the population in dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
-\item \strong{Semi-dense towns:} units that have a larger share of the population in semi-dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
-\item \strong{Suburbs or peri-urban areas:} units that have a larger share in suburban or peri-urban cells than in dense + semi-dense urban clusters
-\item \strong{Villages}: units that have the largest share of their rural grid cell population living in rural clusters
-\item \strong{Dispersed rural areas}: units that have the largest share of their rural grid cell population living in low density rural grid cells
-\item \strong{Mostly uninhabited areas}: units that have the largest share of their rural grid cell population living in very low density rural grid cells
+\item \strong{Dense towns:} units that have at least 50\% of their population in the combination of urban centres and dense urban clusters
+\item \strong{Semi-dense towns:} units that have less than 50\% of their population in the combination of urban centres and dense urban clusters, or have less than 50\% of their population in the combination of suburban and peri-urban cells and rural grid cells
+\item \strong{Suburbs or peri-urban areas:} units that have at least 50\% of their population in the combination of suburban and peri-urban cells and rural grid cells
+\item \strong{Villages}: units that have at least 50\% of their population in the combination of urban centres, urban clusters and rural clusters
+\item \strong{Dispersed rural areas}: units that have less than 50\% of their population in the combination of urban centres, urban clusters and rural clusters, or have less than 50\% of their population in very low-density rural grid cells
+\item \strong{Mostly uninhabited areas}: units that have at least 50\% of their population in very low-density rural grid cells
 }
 }
 
@@ -84,6 +87,19 @@ For more information about the official workflow to construct the units classifi
 Besides the official workflow of the GHSL, the function also includes an alternative workflow to construct the spatial units classification. The alternative workflow does not require rasterising the spatial units layer, but relies on the overlap between the spatial units layer and the grid layers.
 
 The three layers should again be preproccessed by the function \code{\link[=DoU_preprocess_units]{DoU_preprocess_units()}}, but this time without \code{resampling_resolution}. For the classification in \code{\link[=DoU_classify_units]{DoU_classify_units()}},  the function \code{\link[exactextractr:exact_extract]{exactextractr::exact_extract()}} is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of \emph{land area} in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
+
+\strong{Modification to the unit classification rules:}
+
+The unit classification rules of Level 2 of DEGURBA were updated in July 2024. By default, the function \code{\link[=DoU_classify_units]{DoU_classify_units()}} applies the latest classification rules, as described in the \href{https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual}{online version} of the methodological manual. However, you can use the original 2021 classification rules by setting the argument \code{rules_from_2021} to \code{TRUE}. In that case, the following rules will be applied:
+\itemize{
+\item \strong{Cities:} units that have at least 50\% of their population in urban centres
+\item \strong{Dense towns:} units that have a larger share of the population in dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
+\item \strong{Semi-dense towns:} units that have a larger share of the population in semi-dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
+\item \strong{Suburbs or peri-urban areas:} units that have a larger share in suburban or peri-urban cells than in dense + semi-dense urban clusters
+\item \strong{Villages}: units that have the largest share of their rural grid cell population living in rural clusters
+\item \strong{Dispersed rural areas}: units that have the largest share of their rural grid cell population living in low density rural grid cells
+\item \strong{Mostly uninhabited areas}: units that have the largest share of their rural grid cell population living in very low density rural grid cells
+}
 }
 
 \examples{

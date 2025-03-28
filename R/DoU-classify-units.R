@@ -9,6 +9,7 @@
 #'    - If `level1=TRUE`: the vector should contain the values for (1) cities, (2) town and semi-dense areas and (3) rural areas.
 #'    - If `level1=FALSE`: the vector should contain the values for (1) cities, (2) dense towns, (3) semi-dense towns, (4) suburb or peri-urban areas, (5) villages, (6) dispersed rural areas and (7) mostly uninhabited areas.
 #' @param official_workflow logical. Whether to employ the official workflow of the GHSL (`TRUE`) or the alternative workflow (`FALSE`). For more details, see section "Workflow" below.
+#' @param rules_from_2021 logical. Whether to employ the most recent classification rules described in GHSL Data Package 2023 (`FALSE`) or the original classification rules as described in the 2021 manual (`TRUE`). For more details, see section "Modification to the unit classification rules" below.
 #' @param filename character. Output filename (csv). The resulting classification together with a metadata file (in JSON format) will be saved if `filename` is not `NULL`.
 #' @return dataframe with for each spatial unit the classification and the share of population per grid class
 #' @section Classification rules:
@@ -26,12 +27,12 @@
 #' **LEVEL 2:**
 #'
 #' - **Cities:** units that have at least 50% of their population in urban centres
-#' - **Dense towns:** units that have a larger share of the population in dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
-#' - **Semi-dense towns:** units that have a larger share of the population in semi-dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
-#' - **Suburbs or peri-urban areas:** units that have a larger share in suburban or peri-urban cells than in dense + semi-dense urban clusters
-#' - **Villages**: units that have the largest share of their rural grid cell population living in rural clusters
-#' - **Dispersed rural areas**: units that have the largest share of their rural grid cell population living in low density rural grid cells
-#' - **Mostly uninhabited areas**: units that have the largest share of their rural grid cell population living in very low density rural grid cells
+#' - **Dense towns:** units that have at least 50% of their population in the combination of urban centres and dense urban clusters
+#' - **Semi-dense towns:** units that have less than 50% of their population in the combination of urban centres and dense urban clusters, or have less than 50% of their population in the combination of suburban and peri-urban cells and rural grid cells
+#' - **Suburbs or peri-urban areas:** units that have at least 50% of their population in the combination of suburban and peri-urban cells and rural grid cells
+#' - **Villages**: units that have at least 50% of their population in the combination of urban centres, urban clusters and rural clusters
+#' - **Dispersed rural areas**: units that have less than 50% of their population in the combination of urban centres, urban clusters and rural clusters, or have less than 50% of their population in very low-density rural grid cells
+#' - **Mostly uninhabited areas**: units that have at least 50% of their population in very low-density rural grid cells
 #'
 #' @section Workflow:
 #'
@@ -54,6 +55,18 @@
 #' Besides the official workflow of the GHSL, the function also includes an alternative workflow to construct the spatial units classification. The alternative workflow does not require rasterising the spatial units layer, but relies on the overlap between the spatial units layer and the grid layers.
 #'
 #' The three layers should again be preproccessed by the function [DoU_preprocess_units()], but this time without `resampling_resolution`. For the classification in [DoU_classify_units()],  the function [exactextractr::exact_extract()] is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
+#' 
+#' **Modification to the unit classification rules:**
+#'
+#' The unit classification rules of Level 2 of DEGURBA were updated in July 2024. By default, the function [DoU_classify_units()] applies the latest classification rules, as described in the [online version](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual) of the methodological manual. However, you can use the original 2021 classification rules by setting the argument `rules_from_2021` to `TRUE`. In that case, the following rules will be applied:
+#' 
+#' - **Cities:** units that have at least 50% of their population in urban centres
+#' - **Dense towns:** units that have a larger share of the population in dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
+#' - **Semi-dense towns:** units that have a larger share of the population in semi-dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
+#' - **Suburbs or peri-urban areas:** units that have a larger share in suburban or peri-urban cells than in dense + semi-dense urban clusters
+#' - **Villages**: units that have the largest share of their rural grid cell population living in rural clusters
+#' - **Dispersed rural areas**: units that have the largest share of their rural grid cell population living in low density rural grid cells
+#' - **Mostly uninhabited areas**: units that have the largest share of their rural grid cell population living in very low density rural grid cells
 #'
 #' @examples
 #' # load the grid data
@@ -98,6 +111,7 @@ DoU_classify_units <- function(data, id = "UID",
                            level1 = TRUE,
                            values = NULL,
                            official_workflow = TRUE,
+                           rules_from_2021 = FALSE,
                            filename = NULL) {
   
   # global variable
@@ -159,7 +173,7 @@ DoU_classify_units <- function(data, id = "UID",
   
   
   # Determine flexurba units classification
-  df <- apply_unit_classification_rules(df, level1 = level1, values = values)
+  df <- apply_unit_classification_rules(df, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
   
   
   
@@ -191,7 +205,7 @@ DoU_classify_units <- function(data, id = "UID",
   if (nrow(df_no_pop) != 0) {
     
     # Determine flexurba units classification
-    df_no_pop <- apply_unit_classification_rules(df_no_pop, level1 = level1, values = values)
+    df_no_pop <- apply_unit_classification_rules(df_no_pop, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
     
     # Insert in general data.frame
     df$flexurba_L1[match(df_no_pop[[id]], df[[id]])] <- df_no_pop$flexurba_L1
@@ -212,10 +226,10 @@ DoU_classify_units <- function(data, id = "UID",
     for (no_raster_id in no_raster) {
       rasterized <- terra::rasterize(data$units %>% dplyr::filter(.data[[id]] == no_raster_id), data$pop, field = id, touches = TRUE)
       df_no_raster <- compute_share_in_classes(data$pop, rasterized, data$classification, level1 = level1, values = values)
-      df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values)
+      df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
       if (is.na(df_no_raster$flexurba_L1)) {
         df_no_raster <- compute_share_in_classes(data$pop, rasterized, data$classification, population = FALSE, level1 = level1, values = values)
-        df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values)
+        df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
       }
       
       # Insert in general data.frame
@@ -466,12 +480,13 @@ get_class_names <- function(level1 = TRUE, values = NULL) {
 #'
 #' @param df dataframe with for each spatial unit the classification and the share of population per grid class
 #' @param level1 logical. Whether to classify the spatial units according to first hierarchical level (`TRUE`) or the second hierarchical level (`FALSE`). For more details, see section "Classification rules" below.
+#' @param rules_from_2021 TODO
 #' @param values vector with the values assigned to the different classes in the resulting units classification:
 #'    - If `level1=TRUE`: the vector should contain the values for (1) cities, (2) town and semi-dense areas and (3) rural areas.
 #'    - If `level1=FALSE`: the vector should contain the values for (1) cities, (2) dense towns, (3) semi-dense towns, (4) suburb or peri-urban areas, (5) villages, (6) dispersed rural areas and (7) mostly uninhabited areas.
 #' @return dataframe with the unit classification
 #' @noRd
-apply_unit_classification_rules <- function(df, level1 = TRUE, values = c(3, 2, 1)) {
+apply_unit_classification_rules <- function(df, level1 = TRUE, values = c(3, 2, 1), rules_from_2021 = rules_from_2021) {
   if (level1) {
     return(df %>% dplyr::mutate(
       flexurba_L1 = factor(
@@ -486,20 +501,38 @@ apply_unit_classification_rules <- function(df, level1 = TRUE, values = c(3, 2, 
     ))
   } else {
     df <- apply_unit_classification_rules(df, level1 = TRUE)
-    return(df %>% dplyr::mutate(
-      flexurba_L2 = factor(
-        dplyr::case_when(
-          flexurba_L1 == 3 ~ values[1],
-          (flexurba_L1 == 2) & (DUC_share >= SDUC_share) & ((DUC_share + SDUC_share) > SUrb_share) ~ values[2],
-          (flexurba_L1 == 2) & (DUC_share < SDUC_share) & ((DUC_share + SDUC_share) > SUrb_share) ~ values[3],
-          (flexurba_L1 == 2) & ((DUC_share + SDUC_share) <= SUrb_share) ~ values[4],
-          (flexurba_L1 == 1) & (RC_share > LDR_share) & (RC_share > VLDR_share) ~ values[5],
-          (flexurba_L1 == 1) & (LDR_share > RC_share) & (LDR_share > VLDR_share) ~ values[6],
-          (flexurba_L1 == 1) & (VLDR_share > RC_share) & (VLDR_share > LDR_share) ~ values[7]
-        ),
-        levels = values
-      )
-    ))
+    
+    if (!rules_from_2021){
+      return(df %>% dplyr::mutate(
+        flexurba_L2 = factor(
+          dplyr::case_when(
+            flexurba_L1 == 3 ~ values[1],
+            (flexurba_L1 == 2) & ((UCentre_share + DUC_share) >= 0.5) ~ values[2],
+            (flexurba_L1 == 2) & ((UCentre_share + DUC_share) < 0.5) & ((SDUC_share + Rural_share) < 0.5) ~ values[3],
+            (flexurba_L1 == 2) & ((SDUC_share + Rural_share) >= 0.5) ~ values[4],
+            (flexurba_L1 == 1) & (RC_share + UCentre_share + UCluster_share >= 0.5) ~ values[5],
+            (flexurba_L1 == 1) & (RC_share + UCentre_share + UCluster_share < 0.5) & (VLDR_share < 0.5)  ~ values[6],
+            (flexurba_L1 == 1) & (VLDR_share >= 0.5) ~ values[7]
+          ),
+          levels = values
+        )
+      ))
+    } else {
+      return(df %>% dplyr::mutate(
+        flexurba_L2 = factor(
+          dplyr::case_when(
+            flexurba_L1 == 3 ~ values[1],
+            (flexurba_L1 == 2) & (DUC_share >= SDUC_share) & ((DUC_share + SDUC_share) > SUrb_share) ~ values[2],
+            (flexurba_L1 == 2) & (DUC_share < SDUC_share) & ((DUC_share + SDUC_share) > SUrb_share) ~ values[3],
+            (flexurba_L1 == 2) & ((DUC_share + SDUC_share) <= SUrb_share) ~ values[4],
+            (flexurba_L1 == 1) & (RC_share > LDR_share) & (RC_share > VLDR_share) ~ values[5],
+            (flexurba_L1 == 1) & (LDR_share > RC_share) & (LDR_share > VLDR_share) ~ values[6],
+            (flexurba_L1 == 1) & (VLDR_share > RC_share) & (VLDR_share > LDR_share) ~ values[7]
+          ),
+          levels = values
+        )
+      ))
+    }
   }
 }
 
@@ -529,5 +562,6 @@ classify_units <- function(data, id = "UID",
                             level1,
                             values,
                             official_workflow,
+                            rules_from_2021 = TRUE,
                             filename))
 }
