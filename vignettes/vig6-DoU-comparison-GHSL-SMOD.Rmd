@@ -43,19 +43,19 @@ Second, there might be a misinterpretation of the official DEGURBA documentation
 
 *3. Disparity between Level 1 and Level 2 documentation*
 
-Third, there is a minor disparity between the Level 1 and Level 2 documentation of [GHSL Data Package 2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf), which is likely at the root of some discrepancies in the table above. More specifically, the disparity lies between the Level 1 and Level 2 documentation of the class 'urban clusters'.
+Third, there is a minor disparity between the Level 1 and Level 2 documentation of [GHSL Data Package 2023](https://publications.jrc.ec.europa.eu/repository/handle/JRC133256), which is likely at the root of some discrepancies in the table above. More specifically, the disparity lies between the Level 1 and Level 2 documentation of the class 'urban clusters'.
 
 In Level 1 of DEGURBA, urban clusters are defined as contiguous grid cells (queen contiguity) with a density of at least 300 inhabitants per km² of permanent land and a total population of at least 5000 inhabitants. Cells belonging to urban centres are removed from urban clusters. In Level 2, urban clusters are subdivided into three sub-classes: (1) dense urban clusters, (2) semi-dense urban clusters and (3) suburban or peri-urban grid cells.
 
-The disparity lies in the identification of "dense urban clusters". In [GHSL Data Package 2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf), dense urban clusters are defined as contiguous cells (rooks contiguity) with a density of at least 1500 inhabitants per km² of permanent land and a total population of at least 5000, and less than 50000 inhabitants. According to this definition, every "dense urban cluster" (in Level 2) is part of an urban cluster (in Level 1). The two levels should thus indeed be nested.
+The disparity lies in the identification of "dense urban clusters". In [GHSL Data Package 2023](https://publications.jrc.ec.europa.eu/repository/handle/JRC133256), dense urban clusters are defined as contiguous cells (rooks contiguity) with a density of at least 1500 inhabitants per km² of permanent land and a total population of at least 5000, and less than 50000 inhabitants. According to this definition, every "dense urban cluster" (in Level 2) is part of an urban cluster (in Level 1). The two levels should thus indeed be nested.
 
-However, when taking a closer look at the details in the [GHSL Data Package 2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf), it appears that not only cells with at least 1500 inhabitants per km² are included in dense urban clusters, but also cells with a built-up density above the average "optimal" built-up density. This is mentioned in two distinct places in the [GHSL Data Package 2023](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf).
+However, when taking a closer look at the details in the [GHSL Data Package 2023](https://publications.jrc.ec.europa.eu/repository/handle/JRC133256), it appears that not only cells with at least 1500 inhabitants per km² are included in dense urban clusters, but also cells with a built-up density above the average "optimal" built-up density. This is mentioned in two distinct places in the [GHSL Data Package 2023](https://publications.jrc.ec.europa.eu/repository/handle/JRC133256).
 
--   In the explanation of the "optimal" built-up area rule in [footnote 30 on page 51](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf):
+-   In the explanation of the "optimal" built-up area rule in [footnote 30 on page 51](https://publications.jrc.ec.europa.eu/repository/handle/JRC133256):
 
 ![](figures/vig6-2.png){alt="GHS-SMOD footnote with notes"}
 
--   In the GHSL SMOD workflow figure [on page 53](https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf):
+-   In the GHSL SMOD workflow figure [on page 53](https://publications.jrc.ec.europa.eu/repository/handle/JRC133256):
 
 ![](figures/vig6-3.png){alt="GHS-SMOD workflow with notes"}
 
