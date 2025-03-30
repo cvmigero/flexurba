@@ -28,8 +28,4 @@ The new `apply_threshold()` function implements these different thresholding app
 
 ### 3. Renaming the DEGURBA specific functions
 
-The functions that are specifically designed to facilitate the reconstruction of the DEGURBA classification have been renamed with the prefix `DoU_` to make a more consistent API and allowing for a better tab-completion. The old function names remain available for backward compatibility.
-
-### 4. Update the default classification rules in `flexurba` function to reflect DEGURBA modifications from July 2024
-
-In July 2024, two modifications were made to the DEGURBA Level 2 methodology: (1) the grid classification rules for semi-dense urban clusters were updated, and (2) the unit classification rules for Level 2 were revised. The default rules in the corresponding `flexurba`-functions have also been adjusted to reflect these changes. More details on these modifications and information on how to use `flexurba` with the original classification rules from the 2021 manual can be found in the [Changelog of Flexurba 0.2.0](../news/index.html).
+The functions that were specifically designed to facilitate the reconstruction of the DEGURBA classification have been renamed with the prefix `DoU_` to make a more consistent API and allowing for a better tab-completion. The old function names remain available for backward compatibility.

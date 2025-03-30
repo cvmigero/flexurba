@@ -170,8 +170,8 @@ on these, see `vignette("vig8-apply-thresholds")`.
 ## Vignettes
 
 For more code examples, please consult the documentation pages of the
-individual functions. We also created vignettes with more information
-and workflows using `flexurba`.
+individual functions. The following vignettes are also available with
+more information and workflows using `flexurba`:
 
 - The `vignette("flexurba")` is a “Get Started” tutorial on using
   `flexurba` to reconstruct DEGURBA. It shows how to download the data

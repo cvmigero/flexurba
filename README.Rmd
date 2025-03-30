@@ -133,7 +133,7 @@ Besides a predefined threshold, the function `apply_threshold()` also implements
 
 ## Vignettes
 
-For more code examples, please consult the documentation pages of the individual functions. We also created vignettes with more information and workflows using `flexurba`.
+For more code examples, please consult the documentation pages of the individual functions. The following vignettes are also available with more information and workflows using `flexurba`:
 
 -   The `vignette("flexurba")` is a "Get Started" tutorial on using `flexurba` to reconstruct DEGURBA. It shows how to download the data from the GHSL website, construct a grid cell classification and a spatial units classification.
 -   The `vignette("vig1-DoU-level2")` showcases how the grid cell and spatial units classification can be constructed according to second hierarchical level of DEGURBA.

@@ -36,8 +36,8 @@
   * the buffer size for semi-dense urban clusters `SDUC_buffer_size` is adjusted to 2 km
 
 
-  <br/>Note that these changes will affect the results of `DoU_classify_grid()` and `DoU_classify_urban_clusters()` when `level1=TRUE`. The previous classification rules for semi-dense urban clusters can still be applied by specifying them explicit in the function argument `parameters`.
+  <br/>Note that these changes will affect the results of `DoU_classify_grid()` and `DoU_classify_grid_urban_clusters()` if `level1`is set to `FALSE`. The previous classification rules for semi-dense urban clusters can still be applied by specifying them explicit in the function argument `parameters`.
 <br/><br/>
-* The unit classification rules for Level 2 of DEGURBA have been modified in July 2024. To reflect the most up-to-date rules, the `flexurba` function `DoU_classify_units()` is also updated (see the documentation page for more information). The previous classification rules can still be applied by setting the function argument `rules_from_2021=TRUE`. 
+* The unit classification rules for Level 2 of DEGURBA have been modified in July 2024. To reflect the most up-to-date rules, the `flexurba` function `DoU_classify_units()` is also updated (see the documentation page for more information). The previous classification rules can still be applied by setting the function argument `rules_from_2021` to `TRUE`. 
 
 * The function reference is restructured and the README, function documentation pages and vignettes are modified to reflect the updates. 

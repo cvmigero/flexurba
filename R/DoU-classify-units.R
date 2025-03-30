@@ -9,7 +9,7 @@
 #'    - If `level1=TRUE`: the vector should contain the values for (1) cities, (2) town and semi-dense areas and (3) rural areas.
 #'    - If `level1=FALSE`: the vector should contain the values for (1) cities, (2) dense towns, (3) semi-dense towns, (4) suburb or peri-urban areas, (5) villages, (6) dispersed rural areas and (7) mostly uninhabited areas.
 #' @param official_workflow logical. Whether to employ the official workflow of the GHSL (`TRUE`) or the alternative workflow (`FALSE`). For more details, see section "Workflow" below.
-#' @param rules_from_2021 logical. Whether to employ the most recent classification rules described in GHSL Data Package 2023 (`FALSE`) or the original classification rules as described in the 2021 manual (`TRUE`). For more details, see section "Modification to the unit classification rules" below.
+#' @param rules_from_2021 logical. Whether to employ the original classification rules as described in the 2021 version of the DEGURBA manual. The DEUGURBA Level 2 unit classification rules have been modified in July 2024. By default, the function uses the most recent rules as described in the [online version](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual) of the methodological manual. For more details, see section "Modification of the unit classification rules" below.
 #' @param filename character. Output filename (csv). The resulting classification together with a metadata file (in JSON format) will be saved if `filename` is not `NULL`.
 #' @return dataframe with for each spatial unit the classification and the share of population per grid class
 #' @section Classification rules:
@@ -56,9 +56,9 @@
 #'
 #' The three layers should again be preproccessed by the function [DoU_preprocess_units()], but this time without `resampling_resolution`. For the classification in [DoU_classify_units()],  the function [exactextractr::exact_extract()] is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of *land area* in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
 #' 
-#' **Modification to the unit classification rules:**
+#' @section Modification of the unit classification rules:
 #'
-#' The unit classification rules of Level 2 of DEGURBA were updated in July 2024. By default, the function [DoU_classify_units()] applies the latest classification rules, as described in the [online version](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual) of the methodological manual. However, you can use the original 2021 classification rules by setting the argument `rules_from_2021` to `TRUE`. In that case, the following rules will be applied:
+#' The unit classification rules of Level 2 of DEGURBA were updated in July 2024. By default, the function [DoU_classify_units()] applies the latest classification rules, as described in the [online version](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual) of the methodological manual. However, you can also use the original 2021 classification rules if desired, by setting the argument `rules_from_2021` to `TRUE`. In that case, the rules to classify units are as follows:
 #' 
 #' - **Cities:** units that have at least 50% of their population in urban centres
 #' - **Dense towns:** units that have a larger share of the population in dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells
