@@ -1,7 +1,7 @@
 #' Division of GHSL tiles in 9 regions
 #'
 #' @description
-#' The Global Human Settlement Layer (GHSL) divides the world into different rectangular tiles. To execute the Degree of Urbanisation in a memory-efficient manner, we grouped these tiles into 9 different regions. These regions are the smallest possible grouping of GHSL tiles, ensuring that no continuous land mass is split across two regions. By splitting the world into different parts, the RAM required to execute the Degree of Urbanisation is optimised. For a concrete example on how to use the regions to construct the grid classification on a global scale, see `vignette("vig3-global-scale")`. 
+#' The Global Human Settlement Layer (GHSL) divides the world into different rectangular tiles. To execute the Degree of Urbanisation in a memory-efficient manner, we grouped these tiles into 9 different regions. These regions are the smallest possible grouping of GHSL tiles, ensuring that no continuous land mass is split across two regions. By splitting the world into different parts, the RAM required to execute the Degree of Urbanisation is optimised. For a concrete example on how to use the regions to construct the grid classification on a global scale, see `vignette("vig3-DoU-global-scale")`. 
 #'
 #' The 9 regions cover approximately the following areas:
 #' - **W_AEA:** Asia - Europe - Africa - Oceania (eastern hemisphere)

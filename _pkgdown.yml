@@ -3,20 +3,26 @@ template:
   bootstrap: 5
 navbar:
   structure:
-    left:  [reference, articles]
     right: [search, code]
   components:
     code:
       icon: fa-code
       href: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
       aria-label: Source Code
+      
+news: 
+  one_page: true
+  releases:
+  - text: "flexurba 0.2.0"
+    href: articles/release-v0.2.0.html
+  
 home:
   sidebar:
     structure: [links, citation, authors, license, funding]
     components:
       funding:
         title: Funding
-        text: <small>The development of this package is supported by Research Foundation Flanders (grant number 11P4224N), by patronage funding provided to KU Leuven for carrying out scientific research into urban processes and change, and partly by Internal Funds KU Leuven grant number STG/20/021. </small>
+        text: <small>The development of this package is supported by Research Foundation Flanders (grant number 11P4224N), by patronage funding provided to KU Leuven for carrying out scientific research into urban processes and change, and by Internal Funds KU Leuven grant number STG/20/021. Flexurba was awarded the GoFundGeo Award co-funded by GISRUK and OSGeo:UK at the GISRUK Conference 2024 in Leeds, which partly supported the development of Flexurba 0.2.0.</small>
   links:
    - text: Journal article
      href: https://doi.org/10.1177/23998083241262545
@@ -24,48 +30,75 @@ repo:
   url:
     home: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba
     
+articles:
+  - title: Reconstruct Degree of Urbanisation
+    navbar: Reconstruct Degree of Urbanisation
+    contents:
+    - vig1-DoU-level2
+    - vig2-DoU-multiple-configurations
+    - vig3-DoU-global-scale
+    - vig4-DoU-comparison-releases
+    - vig5-DoU-computational-requirements
+    - vig6-DoU-comparison-GHSL-SMOD
+    - vig7-DoU-population-grid
+  - title: General urban delineation
+    navbar: General urban delineation
+    contents:
+    - vig8-apply-thresholds
+    - vig9-different-proxies
+  - title: internal
+    contents:
+    - release-v0.2.0
+
+    
 reference: 
-- title: Grid cell classification
+- title: General delineation functions
+  desc: The functions below can be combined to construct urban boundaries by, for example, enforcing thresholds, grouping clusters of adjacent cells or smoothing boundaries.
 - contents:
-  - preprocess_grid
-  - classify_grid
-  - classify_grid_urban_centres
-  - classify_grid_urban_clusters
-  - classify_grid_rural
-  - classify_grid_water
-
-- title: Spatial units classification
-- contents:
-  - preprocess_units
-  - classify_units
-
-
-- title: Download data from GHSL website
-- contents:
-  - download_GHSLdata
-  - crop_GHSLdata
-  
-- title: Datasets
-- contents:
-  - GHSL_tiles
-  - GHSL_tiles_per_region
-  - units_belgium
-  - load_grid_data_belgium
-
-- title: Plotting functions
-- contents:
-  - plot_grid
-  - plot_units
-  
-- title: Utility functions classification
-- contents:
+  - apply_threshold
   - apply_majority_rule
-  - get_optimal_builtup
-  - get_grid_parameters
-  
-- title: General raster operations
-- contents:
   - fill_gaps
   - get_adjacent
   - get_clusters
+  - get_adjacent
   - get_patches
+  - convert_regions_to_grid
+
+- title: Functions to reproduce the DEGURBA delineation
+  desc: The functions below can be used to reconstruct the Degree of Urbanisation delineations, with custom parameter values.
+- subtitle: Grid cell classification
+- contents:
+  - DoU_preprocess_grid
+  - DoU_classify_grid
+  - DoU_classify_grid_urban_centres
+  - DoU_classify_grid_urban_clusters
+  - DoU_classify_grid_rural
+  - DoU_classify_grid_water
+  - DoU_get_grid_parameters
+  - DoU_get_optimal_builtup
+
+- subtitle: Spatial units classification
+- contents:
+  - DoU_preprocess_units
+  - DoU_classify_units
+
+- title: Datasets
+  desc: The package includes several example datasets for belgium, as well as function to download data from the GHSL website.
+- subtitle: Example datasets
+- contents:
+  - units_belgium
+  - load_proxies_belgium
+  - DoU_load_grid_data_belgium
+
+- subtitle: Download data from GHSL website
+- contents:
+  - download_GHSLdata
+  - crop_GHSLdata
+  - GHSL_tiles
+  - GHSL_tiles_per_region
+  
+- title: Plotting functions
+  desc: The functions below can be used to plot the resulting delineations.
+- contents:
+  - DoU_plot_grid
+  - DoU_plot_units

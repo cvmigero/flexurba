@@ -192,3 +192,4 @@ GHSL_labels <- function(level1 = TRUE, grids = TRUE) {
     }
   }
 }
+

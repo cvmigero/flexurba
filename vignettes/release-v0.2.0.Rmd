@@ -1,0 +1,27 @@
+---
+title: "Release of flexurba 0.2.0"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Release of flexurba 0.2.0}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+At GISRUK Conference 2024 in Leeds, `flexurba` was granted the GoFundGeo Award, co-funded by GISRUK and OSGeo:UK. This award was offered to a tool or technique with the potential for wide uptake in the open-source geospatial community. Thanks to the generous support of this award and ongoing support from Research Foundation Flanders (FWO), we have continued to develop the package and are excited to announce Flexurba 0.2.0. The core idea remains the same: enabling the construction of flexible urban delineations that can be tailored to specific applications or research questions. While the package was initially designed to reconstruct the DEGURBA classification, Flexurba 0.2.0 now expands its focus to a broader range of delineation approaches. The new version allows users to create urban boundaries using multiple datasets to proxy urbanisation – including population, built-up area, and night-time light grids – and supports different thresholding methods, including predefined and data-driven thresholds. The most significant modifications in Flexurba 0.2.0 are outlined below.
+
+### 1. The provision of preprocessed proxy datasets
+
+An accompanying R package, [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/index.html), with pre-processed population, built-up area, and night-time light grids to facilitate the exploration of delineations based on different data products. Please refer to the `vignette("vig9-different-proxies")` for guidance on accessing these data layers and using them in combination with the `flexurba` functions to identify urban areas.
+
+### 2. Different thresholding approaches
+
+Constructing boundaries from gridded data typically requires setting thresholds to differentiate urban from rural areas. With the new function `apply_threshold()` function, you can construct urban boundaries with different thresholding approaches. The value of the threshold can vary across two aspects:
+
+1. *How the threshold is determined:* (a) predefined by the user or (b) derived from the underlying data. 
+2. *How/where the threshold is enforced:* (a) consistently across the study area (i.e. an absolute approach) or (b) tailored within a specific country/region (i.e. a relative approach).
+
+See `vignette("vig8-apply-thresholds")` for more information on this function. 
+
+### 3. Renaming and updating the DEGURBA functions
+
+The functions that were specifically designed to facilitate the reconstruction of the DEGURBA classification have been renamed with the prefix `DoU_` to make a more consistent API and allowing for a better tab-completion. The old function names remain available for backward compatibility. In addition, some functions are updated to reflect to modifications made to the DEGURBA methodology in July 2024. More details on these modifications can be found in the [Changelog of Flexurba 0.2.0](../news/index.html).

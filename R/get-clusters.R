@@ -17,7 +17,7 @@
 #' @return SpatRaster with cluster of cells. The value of the cells represent the id of the clusters.
 #' @examples
 #' # load data
-#' grid_data_belgium <- flexurba::load_grid_data_belgium()
+#' grid_data_belgium <- flexurba::DoU_load_grid_data_belgium()
 #'
 #' # get clusters of cells (4-cell connectivity) with at least 1500 inhabitants
 #' # per km² of permanent land and a minimum total population of 50 000

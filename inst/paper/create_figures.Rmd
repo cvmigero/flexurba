@@ -11,14 +11,14 @@ Code example 1:
 ```{r}
 library(flexurba)
 # get the required data
-data_belgium <- load_grid_data_belgium()
+data_belgium <- DoU_load_grid_data_belgium()
 
 # (A) with the standard parameters
-classification_1 <- classify_grid(data_belgium)
+classification_1 <-DoU_classify_grid(data_belgium)
 
 # (B) with decreased population density and size thresholds
 # for urban centres (UC) and urban clusters (UCL)
-classification_2 <- classify_grid(data_belgium,
+classification_2 <-DoU_classify_grid(data_belgium,
   parameters = list(
     UC_density_threshold = 1000,
     UC_size_threshold = 30000,
@@ -28,12 +28,12 @@ classification_2 <- classify_grid(data_belgium,
 )
 
 # (C) with queens contiguity (8-cell connectivity) for urban centres
-classification_3 <- classify_grid(data_belgium,
+classification_3 <-DoU_classify_grid(data_belgium,
   parameters = list(UC_contiguity_rule = 8)
 )
 
 # (D) without the built-up area criterium for urban centres
-classification_4 <- classify_grid(data_belgium,
+classification_4 <-DoU_classify_grid(data_belgium,
   parameters = list(UC_built_criterium = FALSE)
 )
 ```
@@ -49,7 +49,7 @@ library(shadowtext)
 library(ggpubr)
 
 # create plots of the classifications
-plot1 <- plot_grid(classification_1) +
+plot1 <- DoU_plot_grid(classification_1) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -58,7 +58,7 @@ plot1 <- plot_grid(classification_1) +
     bar_cols = c("black")
   )
 
-plot2 <- plot_grid(classification_2) +
+plot2 <- DoU_plot_grid(classification_2) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -67,7 +67,7 @@ plot2 <- plot_grid(classification_2) +
     bar_cols = c("black")
   )
 
-plot3 <- plot_grid(classification_3) +
+plot3 <- DoU_plot_grid(classification_3) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -76,7 +76,7 @@ plot3 <- plot_grid(classification_3) +
     bar_cols = c("black")
   )
 
-plot4 <- plot_grid(classification_4) +
+plot4 <- DoU_plot_grid(classification_4) +
   ggspatial::annotation_scale(
     pad_x = grid::unit(0.08, "npc"),
     pad_y = grid::unit(0.10, "npc"),
@@ -207,25 +207,25 @@ Code example 2
 library(flexurba)
 
 # get the required data
-data_belgium <- load_grid_data_belgium()
-classification <- classify_grid(data_belgium)
+data_belgium <- DoU_load_grid_data_belgium()
+classification <-DoU_classify_grid(data_belgium)
 
 # (A) spatial units classification at the finest GADM level (= Belgian municipalities)
-units_1 <- preprocess_units(
+units_1 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification,
   pop = data_belgium$pop
 )
-units_classification_1 <- classify_units(units_1)
+units_classification_1 <- DoU_classify_units(units_1)
 
 # (B) spatial units classification at the GADM level 3 (= Belgian districts)
-units_2 <- preprocess_units(
+units_2 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification,
   pop = data_belgium$pop,
   dissolve_units_by = "GID_3"
 )
-units_classification_2 <- classify_units(units_2, id = "GID_3")
+units_classification_2 <- DoU_classify_units(units_2, id = "GID_3")
 ```
 
 Figure 2:

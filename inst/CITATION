@@ -6,8 +6,8 @@ bibentry(
   author   = authors,
   journal  = "Environment and Planning B: Urban Analytics and City Science",
   year     = 2024,
-  volume   = 0,
-  number   = 0,
-  pages    = 0,
+  volume   = 51,
+  number   = 7,
+  pages    = 1706-1714,
   doi      = "10.1177/23998083241262545"
 )
