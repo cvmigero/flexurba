@@ -16,8 +16,9 @@ An accompanying R package, [`flexurbaData`](https://flexurbadata-ac82f4.pages.gi
 ### 2. Different thresholding approaches
 
 Constructing boundaries from gridded data typically requires setting thresholds to differentiate urban from rural areas. With the new function `apply_threshold()` function, you can construct urban boundaries with different thresholding approaches. The value of the threshold can vary across two aspects:
-1. How the threshold is determined: (a) predefined by the user or (b) derived from the underlying data. 
-2. How/where the threshold is enforced: (a) consistently across the study area (i.e. an absolute approach) or (b) tailored within a specific country/region (i.e. a relative approach).
+
+1. *How the threshold is determined:* (a) predefined by the user or (b) derived from the underlying data. 
+2. *How/where the threshold is enforced:* (a) consistently across the study area (i.e. an absolute approach) or (b) tailored within a specific country/region (i.e. a relative approach).
 
 See `vignette("vig8-apply-thresholds")` for more information on this function. 
 
