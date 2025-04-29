@@ -11,9 +11,9 @@ the *Degree of Urbanisation*
 classification, but has since been expanded to support a broader range
 of delineation approaches.
 
-The source code of the package is available on [this GitLab
-repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba)
-and the documentation of all functions can be found [on this
+The source code of the package is available on [this
+repository](https://github.com/cvmigero/flexurba) and the documentation
+of all functions can be found [on this
 website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
 
 ### Citation
@@ -28,13 +28,17 @@ Science, 51(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>*
 
 ## Installation
 
-The `flexurba` package can be installed as follows:
+You need the `devtools` package to install R packages from GitHub. If
+you don’t have it installed, run:
 
 ``` r
-install.packages("remotes")
-remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba",
-                        host="https://gitlab.kuleuven.be/", 
-                        upgrade = "always")
+install.packages("devtools")
+```
+
+Afterward, the `flexurba` package can be installed as follows:
+
+``` r
+devtools::install_github("cvmigero/flexurba")
 ```
 
 *Important notes for installation:*

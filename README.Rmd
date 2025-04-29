@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 Flexurba is an open-source R package to construct **flex**ible **urba**n delineations which can be tailored to specific applications or research questions. The package was originally developed to flexibly reconstruct the *Degree of Urbanisation* ([DEGURBA](https://human-settlement.emergency.copernicus.eu/degurba.php)) classification, but has since been expanded to support a broader range of delineation approaches.
 
-The source code of the package is available on [this GitLab repository](https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba) and the documentation of all functions can be found [on this website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
+The source code of the package is available on [this repository](https://github.com/cvmigero/flexurba) and the documentation of all functions can be found [on this website](https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be/).
 
 ### Citation
 
@@ -27,13 +27,16 @@ To acknowledge the use of the package and for an extensive description of its co
 
 ## Installation
 
-The `flexurba` package can be installed as follows:
+You need the `devtools` package to install R packages from GitHub. If you don’t have it installed, run:
 
 ```{r, eval=FALSE}
-install.packages("remotes")
-remotes::install_gitlab("spatial-networks-lab/research-projects/flexurba",
-                        host="https://gitlab.kuleuven.be/", 
-                        upgrade = "always")
+install.packages("devtools")
+```
+
+Afterward, the `flexurba` package can be installed as follows:
+
+```{r, eval=FALSE}
+devtools::install_github("cvmigero/flexurba")
 ```
 
 *Important notes for installation:*

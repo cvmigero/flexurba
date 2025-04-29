@@ -29,7 +29,7 @@ DoU_classify_units(
 
 \item{official_workflow}{logical. Whether to employ the official workflow of the GHSL (\code{TRUE}) or the alternative workflow (\code{FALSE}). For more details, see section "Workflow" below.}
 
-\item{rules_from_2021}{logical. Whether to employ the most recent classification rules described in GHSL Data Package 2023 (\code{FALSE}) or the original classification rules as described in the 2021 manual (\code{TRUE}). For more details, see section "Modification to the unit classification rules" below.}
+\item{rules_from_2021}{logical. Whether to employ the original classification rules as described in the 2021 version of the DEGURBA manual. The DEUGURBA Level 2 unit classification rules have been modified in July 2024. By default, the function uses the most recent rules as described in the \href{https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual}{online version} of the methodological manual. For more details, see section "Modification of the unit classification rules" below.}
 
 \item{filename}{character. Output filename (csv). The resulting classification together with a metadata file (in JSON format) will be saved if \code{filename} is not \code{NULL}.}
 }
@@ -87,10 +87,12 @@ For more information about the official workflow to construct the units classifi
 Besides the official workflow of the GHSL, the function also includes an alternative workflow to construct the spatial units classification. The alternative workflow does not require rasterising the spatial units layer, but relies on the overlap between the spatial units layer and the grid layers.
 
 The three layers should again be preproccessed by the function \code{\link[=DoU_preprocess_units]{DoU_preprocess_units()}}, but this time without \code{resampling_resolution}. For the classification in \code{\link[=DoU_classify_units]{DoU_classify_units()}},  the function \code{\link[exactextractr:exact_extract]{exactextractr::exact_extract()}} is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of \emph{land area} in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
+}
 
-\strong{Modification to the unit classification rules:}
+\section{Modification of the unit classification rules}{
 
-The unit classification rules of Level 2 of DEGURBA were updated in July 2024. By default, the function \code{\link[=DoU_classify_units]{DoU_classify_units()}} applies the latest classification rules, as described in the \href{https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual}{online version} of the methodological manual. However, you can use the original 2021 classification rules by setting the argument \code{rules_from_2021} to \code{TRUE}. In that case, the following rules will be applied:
+
+The unit classification rules of Level 2 of DEGURBA were updated in July 2024. By default, the function \code{\link[=DoU_classify_units]{DoU_classify_units()}} applies the latest classification rules, as described in the \href{https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual}{online version} of the methodological manual. However, you can also use the original 2021 classification rules if desired, by setting the argument \code{rules_from_2021} to \code{TRUE}. In that case, the rules to classify units are as follows:
 \itemize{
 \item \strong{Cities:} units that have at least 50\% of their population in urban centres
 \item \strong{Dense towns:} units that have a larger share of the population in dense urban clusters than in semi-dense urban clusters, and that have a larger share of the population in dense + semi-dense urban clusters than in suburban or peri-urban cells

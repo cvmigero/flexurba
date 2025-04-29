@@ -10,8 +10,8 @@ Authors@R:
   )
 Description: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification.
 RoxygenNote: 7.3.1
-URL: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba, https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be
-BugReports: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba/-/issues
+URL: https://github.com/cvmigero/flexurba, https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba, https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be
+BugReports: https://github.com/cvmigero/flexurba/issues
 Imports: 
     data.table,
     dplyr,

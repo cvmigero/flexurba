@@ -39,7 +39,7 @@ First, differences in coding languages and versions of software libraries can le
 
 *2. Potential misinterpretation*
 
-Second, there might be a misinterpretation of the official DEGURBA documentation from our end. This, in some way, highlights the importance of openly sharing exact source code alongside verbatim documentation. By publicly releasing the `flexurba` package, we hope to resolve discrepancies caused by misinterpretation with the input of the geospatial community and/or feedback of the developers of the official DEGURBA methodology. Please feel free to create an issue on the GitLab repository when you find a potential bug or inconsistency in the source code.
+Second, there might be a misinterpretation of the official DEGURBA documentation from our end. This, in some way, highlights the importance of openly sharing exact source code alongside verbatim documentation. By publicly releasing the `flexurba` package, we hope to resolve discrepancies caused by misinterpretation with the input of the geospatial community and/or feedback of the developers of the official DEGURBA methodology. Please feel free to create an issue on the repository when you find a potential bug or inconsistency in the source code.
 
 *3. Disparity between Level 1 and Level 2 documentation*
 
