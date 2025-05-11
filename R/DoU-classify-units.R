@@ -73,7 +73,7 @@
 #' data_belgium <- flexurba::DoU_load_grid_data_belgium()
 #' # load the units and filter for West-Flanders
 #' units_data <- flexurba::units_belgium %>%
-#'   dplyr::filter(GID_2 == "BEL.2.5_1")
+#'   dplyr::filter(GID_2 == "30000")
 #' # classify the grid
 #' classification <-DoU_classify_grid(data = data_belgium)
 #'
@@ -97,7 +97,7 @@
 #' units_classification2 <- DoU_classify_units(data2, official_workflow = FALSE)
 #' DoU_plot_units(data2$units, units_classification2)
 #'
-#' # spatial units classification, dissolved at GADM level 3 (Belgian districts)
+#' # spatial units classification, dissolved at level 3 (Belgian districts)
 #' data3 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
@@ -226,17 +226,22 @@ DoU_classify_units <- function(data, id = "UID",
     for (no_raster_id in no_raster) {
       rasterized <- terra::rasterize(data$units %>% dplyr::filter(.data[[id]] == no_raster_id), data$pop, field = id, touches = TRUE)
       df_no_raster <- compute_share_in_classes(data$pop, rasterized, data$classification, level1 = level1, values = values)
-      df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
-      if (is.na(df_no_raster$flexurba_L1)) {
+      
+      # if there is no population in the rasterized version, use the share of land instead
+      if (df_no_raster$Tot_Pop[[1]] == 0) {
         df_no_raster <- compute_share_in_classes(data$pop, rasterized, data$classification, population = FALSE, level1 = level1, values = values)
-        df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
       }
+      
+      df_no_raster <- apply_unit_classification_rules(df_no_raster, level1 = level1, values = values, rules_from_2021 = rules_from_2021)
       
       # Insert in general data.frame
       if (level1) {
-        df[nrow(df) + 1, ] <- c(df_no_raster[[id]], rep(NA, 9), df_no_raster$flexurba_L1)
+        df[nrow(df) + 1, ] <- c(df_no_raster[[id]], rep(NA, 10))
+        df[nrow(df), 'flexurba_L1'] <- df_no_raster$flexurba_L1
       } else {
-        df[nrow(df) + 1, ] <- c(df_no_raster[[id]], rep(NA, 21), df_no_raster$flexurba_L1, df_no_raster$flexurba_L2)
+        df[nrow(df) + 1, ] <- c(df_no_raster[[id]], rep(NA, 23))
+        df[nrow(df), 'flexurba_L1'] <- df_no_raster$flexurba_L1
+        df[nrow(df), 'flexurba_L2'] <- df_no_raster$flexurba_L2
       }
     }
   }
@@ -480,13 +485,13 @@ get_class_names <- function(level1 = TRUE, values = NULL) {
 #'
 #' @param df dataframe with for each spatial unit the classification and the share of population per grid class
 #' @param level1 logical. Whether to classify the spatial units according to first hierarchical level (`TRUE`) or the second hierarchical level (`FALSE`). For more details, see section "Classification rules" below.
-#' @param rules_from_2021 TODO
+#' @param rules_from_2021 logical. Whether to employ the original classification rules as described in the 2021 version of the DEGURBA manual. The DEUGURBA Level 2 unit classification rules have been modified in July 2024. By default, the function uses the most recent rules as described in the [online version](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual) of the methodological manual. For more details, see section "Modification of the unit classification rules" below.
 #' @param values vector with the values assigned to the different classes in the resulting units classification:
 #'    - If `level1=TRUE`: the vector should contain the values for (1) cities, (2) town and semi-dense areas and (3) rural areas.
 #'    - If `level1=FALSE`: the vector should contain the values for (1) cities, (2) dense towns, (3) semi-dense towns, (4) suburb or peri-urban areas, (5) villages, (6) dispersed rural areas and (7) mostly uninhabited areas.
 #' @return dataframe with the unit classification
 #' @noRd
-apply_unit_classification_rules <- function(df, level1 = TRUE, values = c(3, 2, 1), rules_from_2021 = rules_from_2021) {
+apply_unit_classification_rules <- function(df, level1 = TRUE, values = c(3, 2, 1), rules_from_2021 = FALSE) {
   if (level1) {
     return(df %>% dplyr::mutate(
       flexurba_L1 = factor(

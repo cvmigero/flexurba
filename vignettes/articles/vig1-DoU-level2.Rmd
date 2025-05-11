@@ -125,7 +125,7 @@ Furthermore, the function `DoU_classify_units()` allows the user to classify uni
 ```{r}
 #| fig.alt: >
 #|   Units classification at district level
-# pre-process the data, dissolve by GADM level 3 (= Belgian districts)
+# pre-process the data, dissolve by level 3 (= Belgian districts)
 data_units2 <- DoU_preprocess_units(
   units = flexurba::units_belgium,
   classification = classification1,

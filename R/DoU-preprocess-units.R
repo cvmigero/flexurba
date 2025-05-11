@@ -15,7 +15,7 @@
 #' @param classification character / SpatRaster. Path to the grid cell classification of the Degree of Urbanisation, or SpatRaster with the grid cell classification
 #' @param pop character / SpatRaster. Path to the population grid, or SpatRaster with the population grid
 #' @param resample_resolution numeric. Resolution to which the grids are resampled during pre-processing. If `NULL`, the grids are resampled to the smallest resolution among the population and classification grid.
-#' @param dissolve_units_by character. If not `NULL`, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain GADM level (see examples).
+#' @param dissolve_units_by character. If not `NULL`, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain administrative level (see examples).
 #' @return named list with the required data to execute the spatial units classification procedure, and their metadata. The list contains the following elements:
 #' - `classification`: the (resampled and cropped) grid cell classification layer
 #' - `pop`: the (resampled and cropped) population grid
@@ -27,7 +27,7 @@
 #' grid_data <- flexurba::DoU_load_grid_data_belgium()
 #' # load the units and filter for West-Flanders
 #' units_data <- flexurba::units_belgium %>%
-#'   dplyr::filter(GID_2 == "BEL.2.5_1")
+#'   dplyr::filter(GID_2 == "30000")
 #' # classify the grid
 #' classification <-DoU_classify_grid(data = grid_data)
 #'
@@ -39,7 +39,7 @@
 #'   resample_resolution = 50
 #' )
 #'
-#' # preprocess the data for units classification at GADM level 3 (Belgian districts)
+#' # preprocess the data for units classification at level 3 (Belgian districts)
 #' data2 <- DoU_preprocess_units(
 #'   units = units_data,
 #'   classification = classification,
@@ -161,7 +161,7 @@ DoU_preprocess_units <- function(units, classification, pop, resample_resolution
 #' @param classification character / SpatRaster. Path to the grid cell classification of the Degree of Urbanisation, or SpatRaster with the grid cell classification
 #' @param pop character / SpatRaster. Path to the population grid, or SpatRaster with the population grid
 #' @param resample_resolution numeric. Resolution to which the grids are resampled during pre-processing. If `NULL`, the grids are resampled to the smallest resolution among the population and classification grid.
-#' @param dissolve_units_by character. If not `NULL`, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain GADM level (see examples).
+#' @param dissolve_units_by character. If not `NULL`, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain administrative level (see examples).
 #' @return named list with the required data to execute the spatial units classification procedure, and their metadata. The list contains the following elements:
 #' - `classification`: the (resampled and cropped) grid cell classification layer
 #' - `pop`: the (resampled and cropped) population grid

@@ -21,7 +21,7 @@ preprocess_units(
 
 \item{resample_resolution}{numeric. Resolution to which the grids are resampled during pre-processing. If \code{NULL}, the grids are resampled to the smallest resolution among the population and classification grid.}
 
-\item{dissolve_units_by}{character. If not \code{NULL}, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain GADM level (see examples).}
+\item{dissolve_units_by}{character. If not \code{NULL}, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain administrative level (see examples).}
 }
 \value{
 named list with the required data to execute the spatial units classification procedure, and their metadata. The list contains the following elements:

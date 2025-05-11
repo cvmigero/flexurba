@@ -21,7 +21,7 @@ DoU_preprocess_units(
 
 \item{resample_resolution}{numeric. Resolution to which the grids are resampled during pre-processing. If \code{NULL}, the grids are resampled to the smallest resolution among the population and classification grid.}
 
-\item{dissolve_units_by}{character. If not \code{NULL}, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain GADM level (see examples).}
+\item{dissolve_units_by}{character. If not \code{NULL}, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain administrative level (see examples).}
 }
 \value{
 named list with the required data to execute the spatial units classification procedure, and their metadata. The list contains the following elements:
@@ -52,7 +52,7 @@ More information about the pre-processing workflow, see \href{https://ghsl.jrc.e
 grid_data <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders
 units_data <- flexurba::units_belgium \%>\%
-  dplyr::filter(GID_2 == "BEL.2.5_1")
+  dplyr::filter(GID_2 == "30000")
 # classify the grid
 classification <-DoU_classify_grid(data = grid_data)
 
@@ -64,7 +64,7 @@ data1 <- DoU_preprocess_units(
   resample_resolution = 50
 )
 
-# preprocess the data for units classification at GADM level 3 (Belgian districts)
+# preprocess the data for units classification at level 3 (Belgian districts)
 data2 <- DoU_preprocess_units(
   units = units_data,
   classification = classification,

@@ -109,7 +109,7 @@ The unit classification rules of Level 2 of DEGURBA were updated in July 2024. B
 data_belgium <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders
 units_data <- flexurba::units_belgium \%>\%
-  dplyr::filter(GID_2 == "BEL.2.5_1")
+  dplyr::filter(GID_2 == "30000")
 # classify the grid
 classification <-DoU_classify_grid(data = data_belgium)
 
@@ -133,7 +133,7 @@ data2 <- DoU_preprocess_units(
 units_classification2 <- DoU_classify_units(data2, official_workflow = FALSE)
 DoU_plot_units(data2$units, units_classification2)
 
-# spatial units classification, dissolved at GADM level 3 (Belgian districts)
+# spatial units classification, dissolved at level 3 (Belgian districts)
 data3 <- DoU_preprocess_units(
   units = units_data,
   classification = classification,
