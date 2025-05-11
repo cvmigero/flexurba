@@ -1,6 +1,6 @@
 test_that("DoU_plot_units() works", {
 
-  gridclassification <- system.file("extdata", "belgium", "classification1.tif", package = "flexurba")
+  gridclassification <- DoU_classify_grid(system.file("extdata", "belgium", package = "flexurba"))
   pop <- system.file("extdata", "belgium", "POP.tif", package = "flexurba")
   data <- flexurba::DoU_preprocess_units(flexurba::units_belgium, gridclassification, pop)
   classification <- flexurba::DoU_classify_units(data)
