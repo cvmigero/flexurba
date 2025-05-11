@@ -6,3 +6,6 @@
 ^code-of-conduct\.md$
 ^flexurba\.Rproj$
 ^vignettes/articles$
+^\.Rproj\.user$
+^docs$
+^pkgdown$

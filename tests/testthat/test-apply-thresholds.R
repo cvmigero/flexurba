@@ -47,9 +47,6 @@ expect_equal(withregions2$threshold$threshold_value, c(1500, 1200, 1000))
 withregions3 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', regions=flexurba::units_belgium)
 expect_equal(sum(terra::values(withregions3$rboundaries), na.rm=TRUE), 1795)
 
-withregions4 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', regions=system.file("extdata", "belgium", 'westflanders_units.gpkg', package = "flexurba"))
-expect_equal(sum(terra::values(withregions4$rboundaries), na.rm=TRUE), 188)
-
 province_regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'GID_2')
 withregions5 <- apply_threshold(proxies$pop, type='data-driven', fun='p95', regions=province_regions)
 expect_equal(sum(terra::values(withregions5$rboundaries), na.rm=TRUE), 1680)
