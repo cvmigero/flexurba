@@ -334,8 +334,8 @@ DoU_classify_grid <- function(data,
     classification <- do.call(terra::mosaic, c(classifications, fun = "max"))
     
     # some ocean areas are not covered by the regions, so extend to cover them
-    valid_mollweide <- terra::rast(system.file("extdata", "valid-mollweide.tif", package = "flexurba"))
-    classification <- terra::extend(classification, valid_mollweide)
+    valid_mollweide_cropped <- terra::vect(valid_mollweide)
+    classification <- terra::extend(classification, valid_mollweide_cropped)
     
     # set NA values = water value
     terra::set.values(classification, which(is.na(classification[])), values[[length(values)]])

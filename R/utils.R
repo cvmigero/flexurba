@@ -7,14 +7,11 @@
 #' @noRd
 mask_mollweide <- function(classification){
   # load valid mollweide data and crop to classification
-  valid_mollweide <- terra::rast(system.file("extdata", "valid-mollweide.tif", package = "flexurba")) %>%
+  valid_mollweide_cropped <- terra::vect(valid_mollweide) %>%
     terra::crop(classification)
   # return maks
-  return(terra::mask(classification, valid_mollweide))
+  return(terra::mask(classification, valid_mollweide_cropped))
 }
-
-
-
 
 #' Convert vector layer to Spatextent
 #'
