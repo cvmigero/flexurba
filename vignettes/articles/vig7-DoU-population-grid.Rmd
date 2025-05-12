@@ -25,7 +25,7 @@ Below, we illustrate one possible approach to preprocess a population grid while
 
 Let's try to use the WorldPop data to produce the grid classification for Ghana. First, load the necessary libraries, and create a folder `data-ghana` to save the data.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
 library(flexurba)
 library(terra)      # package used for processing raster data
 library(ggplot2)    # package used for plotting
@@ -39,16 +39,12 @@ dir.create('data-ghana')
 
 Then, go to the [WorldPop download page](https://hub.worldpop.org/geodata/summary?id=49691) in your browser, download the population grid, and place it in the `data-ghana` folder. After doing that, we can read and plot the population grid as follows.
 
-```{r, echo=FALSE, results=FALSE}
-worldpop_ghana <- terra::rast(system.file('extdata', 'data-ghana', 'gha_ppp_2020_UNadj_constrained.tif', package='flexurba'))
-```
-
 ```{r, eval=FALSE}
 # load the population grid
 worldpop_ghana <- terra::rast('data-ghana/gha_ppp_2020_UNadj_constrained.tif')
 ```
 
-```{r, message=FALSE}
+```{r, eval=FALSE, message=FALSE}
 #| fig.alt: >
 #|   WorldPop Population in Ghana
 # plot the population grid
@@ -65,23 +61,31 @@ ggplot() +
   )
 ```
 
+![](figures/vig7-3.png){alt="WorldPop Population in Ghana"}
+
 Also, many of the cells contain `NA`-values, even within the country's borders. We replace these values with `0`.
 
-```{r}
+```{r, eval=FALSE}
 terra::set.values(worldpop_ghana, which(is.na(worldpop_ghana[])), 0)
 ```
 
-As mentioned earlier, the `flexurba` functions expect a population grid in the Mollweide projection system. Let's check the coordinate system of the data and change it to Mollweide as follows.
+As mentioned earlier, the `flexurba` functions expect a population grid in the Mollweide projection system. Let's check the coordinate system of the data and change it to Mollweide. Here, we employ the weighted sum of all non-NA contributing cells (`method="sum"`), but see `terra::project()` for more options.
 
-```{r}
+```{r, eval=FALSE}
 # print the crs
 terra::crs(worldpop_ghana, describe=TRUE)
 ```
 
 ```{r}
+##     name authority code  area             extent
+## 1 WGS 84      EPSG 4326 World -180, 180, -90, 90
+```
+
+
+```{r, eval=FALSE}
 # reproject the population grid to Mollweide
 worldpop_ghana <- worldpop_ghana %>% 
-  project('ESRI:54009')
+  project('ESRI:54009', method='sum')
 ```
 
 ## Get built-up and land grid
@@ -114,35 +118,71 @@ land_grid <- terra::crop(rast('data-global/LAND.tif'),
 
 Let's take a look at the properties of the built-up and land grids. We see that the `resolution` of these grids is 1000 m, that the grids are already in the Mollweide coordinate system (see `coord. ref.`), and that the grids are perfectly aligned (see `dimensions` and `extent`).
 
-```{r, echo=FALSE, results=FALSE}
-built_grid <- terra::rast(system.file('extdata', 'data-ghana', 'BUILT_S.tif', package='flexurba'))
-land_grid <- terra::rast(system.file('extdata', 'data-ghana', 'LAND.tif', package='flexurba'))
-```
-
-```{r}
+```{r, eval=FALSE}
 built_grid
 ```
 
 ```{r}
+## class       : SpatRaster 
+## dimensions  : 792, 445, 1  (nrow, ncol, nlyr)
+## resolution  : 1000, 1000  (x, y)
+## extent      : -326000, 119000, 586000, 1378000  (xmin, xmax, ymin, ymax)
+## coord. ref. : World_Mollweide 
+## source      : BUILT_S.tif 
+## name        : BUILT_S 
+## min value   :       0 
+## max value   :  703173
+```
+
+```{r, eval=FALSE}
 land_grid
+```
+
+```{r}
+## class       : SpatRaster 
+## dimensions  : 792, 445, 1  (nrow, ncol, nlyr)
+## resolution  : 1000, 1000  (x, y)
+## extent      : -326000, 119000, 586000, 1378000  (xmin, xmax, ymin, ymax)
+## coord. ref. : World_Mollweide 
+## source      : LAND.tif 
+## name        :  LAND 
+## min value   : 0e+00 
+## max value   : 1e+06
 ```
 
 We could actually use one of these grids to resample our `worldpop_ghana` population grid, to ensure that the population grid has a resolution of exactly 1000 m, and that all three grids are perfectly aligned. Here, we use `'sum'` as the resampling method. The value of the resampled cells will be calculated as the weighted sum of all non-NA contributing cells in the original cells, which makes sense since the values of the original grid are population counts. For more information about possible resampling methods, please consult the documentation of `terra::resample()`.
 
-```{r}
+```{r, eval=FALSE}
 # resample the population grid
 worldpop_ghana <- terra::resample(worldpop_ghana, 
                                    built_grid, 
-                                    method='sum')
+                                   method='sum')
   
 # print the properties of the resulting grid
 worldpop_ghana
 ```
 
+```{r}
+## class       : SpatRaster 
+## dimensions  : 792, 445, 1  (nrow, ncol, nlyr)
+## resolution  : 1000, 1000  (x, y)
+## extent      : -326000, 119000, 586000, 1378000  (xmin, xmax, ymin, ymax)
+## coord. ref. : World_Mollweide (ESRI:54009) 
+## source(s)   : memory
+## varname     : BUILT_S 
+## name        : gha_ppp_2020_UNadj_constrained 
+## min value   :                           0.00 
+## max value   :                       24204.26
+```
+
 Let's double-check whether the three grid are exactly aligned.
 
-```{r}
+```{r, eval=FALSE}
 ext(worldpop_ghana) == ext(built_grid) &&  ext(worldpop_ghana) == ext(land_grid)
+```
+
+```{r}
+## [1] TRUE
 ```
 
 Great! Then, we save the preprocessed population grid as follows.
