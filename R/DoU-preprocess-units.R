@@ -6,7 +6,7 @@
 #' - a raster layer with the grid cell classification of the Degree of Urbanisation
 #' - a raster layer with the population grid
 #'
-#' The three input layers are pre-processed as follows. The classification grid and population grid are resampled to the `resample_resolution` with the nearest neighbor algorithm. In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
+#' The three input layers are pre-processed as follows. The classification grid and population grid are resampled to the `resample_resolution` with the nearest neighbour algorithm. In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
 #'
 #' In addition, the function makes sure the extents of the three input layers match. If the bounding box of the units layer is smaller than the extent of the grids, then the grids are cropped to the bounding box of the units layer. Alternatively, if the units layer covers a larger area than the grids, then the units that do not intersect with the grids are discarded (and a warning message is printed). This ensures that the classification algorithm runs efficiently and does not generate any incorrect classifications due to missing data.
 #'

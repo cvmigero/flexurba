@@ -39,9 +39,11 @@ Suggests:
     grid,
     knitr,
     rmarkdown,
+    spelling,
     testthat (>= 3.0.0),
     tidyterra
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 Config/Needs/website: rmarkdown
+Language: en-GB

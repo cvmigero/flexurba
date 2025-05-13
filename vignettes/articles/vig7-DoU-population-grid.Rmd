@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette illustrates how to use the `flexurba` functionalities to reconstruct the Degree of Urbanisation classification with other population grids. The package standard uses the [GHSL-POP grid](https://human-settlement.emergency.copernicus.eu/ghs_pop2023.php) to generate an alternative version of the DEGURBA classification (with the function `download_GHSLdata()`), but any other population grid can be used in principle. In this vignette, we employ the [*Worldpop constrained UN adjusted population grid of Ghana*](https://hub.worldpop.org/geodata/summary?id=49691) with a resolution of 100m as an example (Bondarenko et al., 2020).
+This vignette illustrates how to use the `flexurba` functionalities to reconstruct the Degree of Urbanisation classification with other population grids. The package standard uses the [GHSL-POP grid](https://human-settlement.emergency.copernicus.eu/ghs_pop2023.php) to generate an alternative version of the DEGURBA classification (with the function `download_GHSLdata()`), but any other population grid can be used in principle. In this vignette, we employ the [*WorldPop constrained UN adjusted population grid of Ghana*](https://hub.worldpop.org/geodata/summary?id=49691) with a resolution of 100m as an example (Bondarenko et al., 2020).
 
 ## Required format
 
@@ -185,7 +185,7 @@ ext(worldpop_ghana) == ext(built_grid) &&  ext(worldpop_ghana) == ext(land_grid)
 ## [1] TRUE
 ```
 
-Great! Then, we save the preprocessed population grid as follows.
+Great! Then, we save the pre-processed population grid as follows.
 
 ```{r, eval=FALSE}
 # save the grid

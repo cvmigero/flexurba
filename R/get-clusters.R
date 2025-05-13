@@ -1,7 +1,7 @@
 #' Identify clusters of cells that meet the criteria
 #'
 #' @description
-#' Identify clusters of cells that meet the minimum density criterium/citeria, the mimimum size criterium and the contiguity criterium.
+#' Identify clusters of cells that meet the minimum density criterium/citeria, the minimum size criterium and the contiguity criterium.
 #'
 #' The function can be executed with one density criterium, or with two density criteria:
 #'
@@ -13,7 +13,7 @@
 #' @param minden2 numeric. Minimum density threshold 2
 #' @param xsiz SpatRaster. Grid for the size criterium. If `NULL`, then `xden` is employed for the size criterium.
 #' @param minsiz numeric. Minimum size threshold
-#' @param directions integer. Which cells are considered adjacent:  `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param directions integer. Which cells are considered adjacent:  `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @return SpatRaster with cluster of cells. The value of the cells represent the id of the clusters.
 #' @examples
 #' # load data

@@ -41,7 +41,7 @@ remotes::install_gitlab("spatial-networks-lab/research-projects/celine/flexurbaD
                         host="https://gitlab.kuleuven.be/")
 ```
 
-Afterward, load the necessary libraries and extract the countries Egypt and Sudan from the `ne_country_borders` data (also provided in the `flexurbaData` package):
+Afterwards, load the necessary libraries and extract the countries Egypt and Sudan from the `ne_country_borders` data (also provided in the `flexurbaData` package):
 
 ```{r, eval=FALSE}
 library(flexurba)

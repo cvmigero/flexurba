@@ -1,13 +1,13 @@
 #' Detect patches of cells
 #'
 #' @description
-#' The function detects patches of cells based on rook contiguity (horizontal and vertical neighbors) or queen contiguity (horizontal, vertical and diagonal neighbors).
+#' The function detects patches of cells based on rook contiguity (horizontal and vertical neighbours) or queen contiguity (horizontal, vertical and diagonal neighbours).
 #'
 #' Patches of cells are groups of cells that are surrounded by `NA` of `NaN` values. The function identifies patches by converting the SpatRaster into polygons with the functions `geos::as_geos_geometry()` and `geos::geos_unnest()`. During this conversion polygons are automatically created as cells with rook contiguity. Touching polygons are afterwards dissolved to create patches with queen contiguity.
 #'
 #'  The function is similar as `terra::patches()`, but is faster for large SpatRasters (see details).
 #' @param x SpatRaster
-#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @param cells  character / vector. Either `"all"` or a vector with specific cell values. If `cells="all"`, patches are identified based on all non-`NA` cells in `x`. Otherwise, patches are only identified for cells in `x` with the specific cell values.
 #' @return SpatRaster with patches of cells. The value of the cells represent the id of the patches.
 #' @examples

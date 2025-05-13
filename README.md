@@ -35,7 +35,7 @@ you don’t have it installed, run:
 install.packages("devtools")
 ```
 
-Afterward, the `flexurba` package can be installed as follows:
+Afterwards, the `flexurba` package can be installed as follows:
 
 ``` r
 devtools::install_github("cvmigero/flexurba")
@@ -130,7 +130,7 @@ section ‘Custom specifications’ in the documentation of
 Apart from DEGURBA, several other delineation approaches enforce
 thresholds on gridded datasets. The accompanying
 [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/index.html)
-package provides preprocessed datasets that can serve as proxy to
+package provides pre-processed datasets that can serve as proxy to
 identify urban areas. We can construct urban boundaries based on these
 proxy datasets using the function `apply_threshold()`. The code examples
 below enforce a predefined threshold on (1) built-up area and (2)

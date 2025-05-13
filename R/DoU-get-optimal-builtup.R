@@ -10,7 +10,7 @@
 #' @param  data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]. Ideally, it contains data on a global scale.
 #' @param density_threshold numeric. Minimum population density per permanent land
 #' @param size_threshold numeric. Minimum population size
-#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @return optimal built-up area threshold
 #' @examples
 #  # As illustration, the function is applied for Belgium, ideally the function should be applied at a global scale
@@ -66,7 +66,7 @@ DoU_get_optimal_builtup <- function(data, density_threshold = 1500, size_thresho
 #' @param  data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]. Ideally, it contains data on a global scale.
 #' @param density_threshold numeric. Minimum population density per permanent land
 #' @param size_threshold numeric. Minimum population size
-#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param directions integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @return optimal built-up area threshold
 #' @keywords internal
 #' @export

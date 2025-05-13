@@ -21,7 +21,7 @@ get_adjacent(
 
 \item{include}{logical. Whether to include the focal cells in the resulting grid}
 
-\item{directions}{integer. Which cells are considered adjacent:  \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)}
+\item{directions}{integer. Which cells are considered adjacent:  \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)}
 }
 \value{
 SpatRaster with adjacent cells

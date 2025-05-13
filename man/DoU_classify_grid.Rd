@@ -80,7 +80,7 @@ Minimum population density per permanent land of a cell required to belong to an
 Minimum total population size required for an urban centre
 \item \code{UC_contiguity_rule} integer (default: \code{4}).
 
-Which cells are considered adjacent in urban centres: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in urban centres: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{UC_built_criterium} logical (default: \code{TRUE}).
 
 Whether to use the additional built-up area criterium (see section "Built-up area criterium" below). If \code{TRUE}, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the \code{UC_built_threshold}
@@ -121,7 +121,7 @@ Minimum population density per permanent land of a cell required to belong to an
 Minimum total population size required for an urban cluster
 \item \code{UCL_contiguity_rule} integer (default: \code{8}).
 
-Which cells are considered adjacent in urban clusters: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in urban clusters: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{UCL_smooth_pop} logical (default: \code{FALSE}).
 
 Whether to smooth the population grid before delineating urban clusters. If \code{TRUE}, the population grid will be smoothed with a moving average of window size \code{UCL_smooth_pop_window}.
@@ -149,7 +149,7 @@ Minimum population density per permanent land of a cell required to belong to an
 Minimum total population size required for an urban centre
 \item \code{UC_contiguity_rule} integer (default: \code{4}).
 
-Which cells are considered adjacent in urban centres: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in urban centres: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{UC_built_criterium} logical (default: \code{TRUE}).
 
 Whether to use the additional built-up area criterium (see section "Built-up area criterium" below). If \code{TRUE}, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the \code{UC_built_threshold}
@@ -193,7 +193,7 @@ Whether to use the additional built-up area criterium (see section "Built-up are
 Additional built-up area threshold. Can be a value between \code{0} and \code{1}, representing the minimum built-up area per permanent land, or \code{"optimal"} (see section "Built-up area criterium" below). Ignored when \code{DUC_built_criterium} is \code{FALSE}.
 \item \code{DUC_contiguity_rule} integer (default: \code{4}).
 
-Which cells are considered adjacent in dense urban clusters: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in dense urban clusters: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{SDUC_density_threshold} numeric (default: \code{900}).
 
 Minimum population density per permanent land of a cell required to belong to a semi-dense urban cluster
@@ -202,7 +202,7 @@ Minimum population density per permanent land of a cell required to belong to a 
 Minimum total population size required for a semi-dense urban cluster
 \item \code{SDUC_contiguity_rule} integer (default: \code{4}).
 
-Which cells are considered adjacent in semi-dense urban clusters: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in semi-dense urban clusters: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{SDUC_buffer_size} integer (default: \code{2}).
 
 The distance to urban centres and dense urban clusters required for a semi-dense urban cluster
@@ -214,7 +214,7 @@ Minimum population density per permanent land of a cell required to belong to a 
 Minimum total population size required for a suburban or peri-urban area
 \item \code{SUrb_contiguity_rule} integer (default: \code{8}).
 
-Which cells are considered adjacent in suburban or peri-urban area: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in suburban or peri-urban area: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{RC_density_threshold} numeric (default: \code{300}).
 
 Minimum population density per permanent land of a cell required to belong to a rural cluster
@@ -223,7 +223,7 @@ Minimum population density per permanent land of a cell required to belong to a 
 Minimum total population size required for a rural cluster
 \item \code{RC_contiguity_rule} integer (default: \code{8}).
 
-Which cells are considered adjacent in rural clusters:  \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)
+Which cells are considered adjacent in rural clusters:  \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)
 \item \code{LDR_density_threshold} numeric (default: \code{50}).
 
 Minimum population density per permanent land of a low density rural grid cell

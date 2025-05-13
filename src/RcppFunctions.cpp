@@ -105,13 +105,13 @@ Rcpp::NumericVector majority_rule_R2023A(Rcpp::NumericVector x, int adj_value, i
       size_t candidate_index;         // the index of the most frequent element (default: none)
       int N = 0;                      // number of valid neighbors
       
-      // loop over the neighbors of the cell
+      // loop over the neighbours of the cell
       for (size_t j = start; j < end; j++) {
         
         // count the number of occurrences
         int count = 0;
         
-        // If the neighbor is valid (the focal cell, water cells and ignore cells are not valid neighbors)
+        // If the neighbour is valid (the focal cell, water cells and ignore cells are not valid neighbors)
         if ((j != start+4) && (x[j] != ignore_value) && (x[j] != water_value) 
               && (x[j] != adj_ignore)){
           N++;
