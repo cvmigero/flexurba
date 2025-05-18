@@ -232,7 +232,8 @@
 #'
 #' # classify with standard parameters:
 #' classification1 <- DoU_classify_grid(data = data_belgium)
-#'
+#' 
+#' \donttest{
 #' # classify with custom parameters:
 #' classification2 <- DoU_classify_grid(
 #'   data = data_belgium,
@@ -244,6 +245,7 @@
 #'     UCL_contiguity_rule = 4
 #'   )
 #' )
+#' }
 #'
 #' @export
 DoU_classify_grid <- function(data,
