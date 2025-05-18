@@ -40,6 +40,9 @@ download_GHSLdata(
 
 \item{filenames}{character. Filenames for the output files}
 }
+\value{
+path to the created files.
+}
 \description{
 The function will download data products with certain specifications from the Global Human Settlement Layer (GHSL) website. The following data products are supported:
 \itemize{

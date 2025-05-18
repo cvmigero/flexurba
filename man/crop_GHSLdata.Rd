@@ -26,18 +26,11 @@ crop_GHSLdata(
 
 \item{global_filenames}{vector of length 3 with the filenames of the built-up area, population and land grid in \code{global_directory}}
 }
+\value{
+path to the created files.
+}
 \description{
 The grid cell classification of the Degree of Urbanisation requires three different inputs: a built-up area grid, a population grid, and a land grid. The grids can be downloaded from the GHSL website with \code{\link[=download_GHSLdata]{download_GHSLdata()}}.
 
 This function reads the downloaded grids from the \code{global_directory} and crops them to the provided extent. The newly cropped grids will be saved in the \code{output_directory}, together with their respective metadata (in JSON format).
-}
-\examples{
-\dontrun{
-# assuming "data/global" contains global grid files
-crop_GHSLdata(
-  terra::ext(191547, 485252, 5820718, 6030034),
-  "data/belgium",
-  "data/global"
-)
-}
 }

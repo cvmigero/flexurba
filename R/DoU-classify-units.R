@@ -77,7 +77,7 @@
 #' # classify the grid
 #' classification <-DoU_classify_grid(data = data_belgium)
 #'
-#' \dontrun{
+#' \donttest{
 #' # official workflow
 #' data1 <- DoU_preprocess_units(
 #'   units = units_data,
@@ -95,7 +95,6 @@
 #'   pop = data_belgium$pop
 #' )
 #' units_classification2 <- DoU_classify_units(data2, official_workflow = FALSE)
-#' DoU_plot_units(data2$units, units_classification2)
 #'
 #' # spatial units classification, dissolved at level 3 (Belgian districts)
 #' data3 <- DoU_preprocess_units(
@@ -105,7 +104,6 @@
 #'   dissolve_units_by = "GID_3"
 #' )
 #' units_classification3 <- DoU_classify_units(data3, id = "GID_3")
-#' DoU_plot_units(data3$units, units_classification3)
 #' @export
 DoU_classify_units <- function(data, id = "UID",
                            level1 = TRUE,

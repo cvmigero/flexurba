@@ -47,7 +47,7 @@ In addition, the function makes sure the extents of the three input layers match
 More information about the pre-processing workflow, see \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf}{GHSL Data Package 2023 (Section 2.7.2.3)}.
 }
 \examples{
-\dontrun{
+\donttest{
 # load the grid data
 grid_data <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders

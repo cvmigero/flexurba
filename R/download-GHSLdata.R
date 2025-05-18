@@ -23,6 +23,7 @@
 #' - `extent` is a vector of GHSL tile ids: The data is downloaded for each tile separately and afterwards merged together. For more information about the GHSL tiles and their extent see [`GHSL_tiles`] or [GHSL Download page](https://ghsl.jrc.ec.europa.eu/download.php).
 #' - `extent = "regions"`: The data will be downloaded in 9 pre-defined regions. The pre-defined regions are the smallest grouping of GHSL tiles possible while ensuring that no continuous land mass is split over two regions. The regions are constructed to execute the Degree of Urbanisation classification algorithms in a memory-efficient manner. For each of the regions, the data products will be downloaded and saved in a sub-directory of `output_directory` (e.g., for region `W_AME`, the directory `output_directory/W_AME` is created). For more information, see the documentation of [`GHSL_tiles_per_region`].
 #' @param filenames character. Filenames for the output files
+#' @return path to the created files.
 #' @examples
 #' \dontrun{
 #' # Download the data required for the grid cell classification at a global scale
@@ -207,4 +208,5 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
       write(jsonlite::toJSON(metadata), file.path(output_directory, gsub(".tif", ".json", filenames[[nr]])))
     }
   }
+  return(file.path(output_directory, filenames))
 }

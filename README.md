@@ -24,7 +24,7 @@ of its contribution, please refer to the following journal article:
 *Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An
 open-source R package to flexibly reconstruct the Degree of Urbanisation
 classification. Environment and Planning B: Urban Analytics and City
-Science, 51(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>*
+Science, 51(7), 1706-1714.*
 
 ## Installation
 
@@ -218,8 +218,7 @@ more information and workflows using `flexurba`:
 *Disclaimer: The `flexurba` package includes a reconstruction of
 DEGURBA’s algorithm, and by no means contains an official
 implementation. For the official documents, readers can consult
-[Dijkstra et
-al. (2021)](https://www.sciencedirect.com/science/article/pii/S0094119020300838),
+[Dijkstra et al. (2021)](https://doi.org/10.1016/j.jue.2020.103312),
 [Eurostat
 (2021)](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual)
 and the [Global Human Settlement Layer

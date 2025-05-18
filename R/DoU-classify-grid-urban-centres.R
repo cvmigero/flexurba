@@ -51,23 +51,6 @@
 #' )
 #' DoU_plot_grid(classification2)
 #'
-#' \dontrun{
-#' # urban centre classification according to GHSL Data Package 2022
-#' classification3 <- DoU_classify_grid_urban_centres(data,
-#'   built_criterium = TRUE,
-#'   built_threshold = 0.5,
-#'   smooth_edge_fun = "majority_rule_R2022A"
-#' )
-#'
-#' # urban centre classification according to GHSL Data Package 2023
-#' # (assuming the directory "data/global" contains global data)
-#' optimal_builtup <- DoU_get_optimal_builtup("data/global")
-#' classification4 <- DoU_classify_grid_urban_centres(data,
-#'   built_criterium = TRUE,
-#'   built_threshold = optimal_builtup,
-#'   smooth_edge_fun = "majority_rule_R2023A"
-#' )
-#' }
 #' @export
 DoU_classify_grid_urban_centres <- function(data, density_threshold = 1500, size_threshold = 50000, contiguity_rule = 4, built_criterium = TRUE, built_threshold = 0.2, smooth_pop = FALSE, smooth_pop_window = 5, gap_fill = TRUE, max_gap = 15, smooth_edge = TRUE, smooth_edge_fun = "majority_rule_R2023A", value = 3) {
   

@@ -270,7 +270,6 @@ data_belgium <- DoU_load_grid_data_belgium()
 
 # classify with standard parameters:
 classification1 <- DoU_classify_grid(data = data_belgium)
-DoU_plot_grid(classification1)
 
 # classify with custom parameters:
 classification2 <- DoU_classify_grid(
@@ -280,39 +279,8 @@ classification2 <- DoU_classify_grid(
     UC_size_threshold = 75000,
     UC_gap_fill = FALSE,
     UC_smooth_edge = FALSE,
-     UCL_contiguity_rule = 4
-  )
-)
-DoU_plot_grid(classification2)
-
-\dontrun{
-# classify according to GHSL Data Package 2022 (level 1)
-classification_R2022A <- DoU_classify_grid(
-  data = grid_data,
-  parameters = list(
-    UC_built_criterium = TRUE,
-    UC_built_threshold = 0.5,
-    UC_smooth_edge_fun = "majority_rule_R2022A"
+    UCL_contiguity_rule = 4
   )
 )
 
-# classify according to GHSL Data Package 2023  (level 1)
-# (assuming the directory "data/global" contains global data)
-classification_R2023A <- DoU_classify_grid(
-  data = grid_data,
-  parameters = list(
-    UC_built_criterium = TRUE,
-    UC_built_threshold = "optimal",
-    built_optimal_data = "data/global",
-    UC_smooth_edge_fun = "majority_rule_R2023A"
-  )
-)
-
-# classify in regions (assuming the directory "data/regions contains data
-# for the regions)
-classification_in_regions <- DoU_classify_grid(
-  data = "data/regions",
-  regions = TRUE
-)
-}
 }

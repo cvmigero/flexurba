@@ -117,7 +117,7 @@ Combining the possibilities of (1) how the threshold value is determined and (2)
 
 1.  **Predefined - Absolute**
 
-    The *Degree of Urbanisation* definition developed by [Dijkstra et al. (2021)](https://www.sciencedirect.com/science/article/pii/S0094119020300838) employs a predefined, absolute approach. It applies the predefined population density threshold of 1500 inhabitants per km² across the globe to identify urban centres.
+    The *Degree of Urbanisation* definition developed by [Dijkstra et al. (2021)](https://doi.org/10.1016/j.jue.2020.103312) employs a predefined, absolute approach. It applies the predefined population density threshold of 1500 inhabitants per km² across the globe to identify urban centres.
 
 2.  **Predefined - Relative**
 

@@ -22,7 +22,7 @@
 #' - `units`: the (dissolved and filtered) spatial units (object of class `sf`)
 #' - `metadata`: named list with the metadata of the input files. It contains the elements `units`, `classification` and `pop` (with paths to the respective data sources), `resample_resolution` and `dissolve_units_by` if not `NULL`. (Note that when the input sources are passed by object , the metadata might be empty).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # load the grid data
 #' grid_data <- flexurba::DoU_load_grid_data_belgium()
 #' # load the units and filter for West-Flanders

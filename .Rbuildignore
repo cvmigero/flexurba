@@ -10,3 +10,6 @@
 ^docs$
 ^pkgdown$
 ^cran-comments\.md$
+^dev$
+^doc$
+^Meta$
