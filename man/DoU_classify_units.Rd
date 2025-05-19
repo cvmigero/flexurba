@@ -111,7 +111,7 @@ data_belgium <- flexurba::DoU_load_grid_data_belgium()
 units_data <- flexurba::units_belgium \%>\%
   dplyr::filter(GID_2 == "30000")
 # classify the grid
-classification <-DoU_classify_grid(data = data_belgium)
+classification <- DoU_classify_grid(data = data_belgium)
 
 \donttest{
 # official workflow

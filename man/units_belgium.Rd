@@ -36,7 +36,7 @@ units_belgium <- statsec \%>\%
             NAME_3 = first(tx_adm_dstr_descr_nl),
             GID_4 = first(cd_munty_refnis),
             NAME_4 = first(tx_munty_descr_nl)
-  ) 
+  )
 
 # simplify geometries and convert to Mollweide
 units_belgium <- units_belgium \%>\% select(-cd_munty_refnis) \%>\%

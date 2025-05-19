@@ -41,7 +41,7 @@ The function can be used to plot the results of the grid cell classification of 
 Note that the function is computational quite heavy for large spatial extents (regional or global scale). It is advised to use the \code{extent} argument to plot only a selection of the grid classification.
 }
 \examples{
-classification <-DoU_classify_grid(DoU_load_grid_data_belgium())
+classification <- DoU_classify_grid(DoU_load_grid_data_belgium())
 
 # plot with standard color scheme
 DoU_plot_grid(classification)
