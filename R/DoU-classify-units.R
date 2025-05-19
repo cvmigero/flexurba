@@ -405,7 +405,7 @@ compute_share_in_classes2 <- function(gridoverlap, population = TRUE, level1 = T
   
   
   # calculate the proportion population per flexurba class
-  for (j in 1:length(classes)) {
+  for (j in seq_along(classes)) {
     if (population) {
       df_list[[i]] <- df %>% dplyr::summarize(!!paste(names(classes)[j], name, sep = "_") := sum(
         pop[class %in% classes[[j]]] *

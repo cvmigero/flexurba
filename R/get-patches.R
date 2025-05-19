@@ -83,7 +83,7 @@ get_patches_rook <- function(x, cells = "all") {
   rast_lyr <- polygons %>%
     terra::rasterize(
       y = x,
-      field = 1:nrow(polygons)
+      field = seq_len(nrow(polygons))
     )
   
   names(rast_lyr) <- names(x)
@@ -115,7 +115,7 @@ get_patches_queen <- function(x, cells = "all") {
   
   # create data table
   dt <- data.table::data.table(
-    id = 1:length(neighbor_list),
+    id = seq_along(neighbor_list),
     neighbors = neighbor_list,
     geo = polygons
   )
@@ -130,7 +130,7 @@ get_patches_queen <- function(x, cells = "all") {
   # convert the polygons back to a raster layer
   rast_lyr <- poly_queen %>%
     terra::vect() %>%
-    terra::rasterize(y = x, field = 1:length(poly_queen))
+    terra::rasterize(y = x, field = seq_along(poly_queen))
   names(rast_lyr) <- names(x)
   terra::set.values(rast_lyr, which(is.nan(rast_lyr[])), NA)
   

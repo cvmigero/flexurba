@@ -64,7 +64,7 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
   grids <- crop_to_smallest_extent(built, pop, land)
   
   # check if the grids are in the Mollweide projection
-  for (i in 1:length(grids)) {
+  for (i in seq_along(grids)) {
     if (terra::crs(grids[[i]], proj = TRUE) != terra::crs("ESRI:54009", proj = TRUE)) {
       stop(paste("Invalid argument: the grids should be in the Mollweide projection."))
     }
@@ -88,7 +88,7 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
   metadata_list <- list("metadata_BUILT_s", "metadata_POP", "metadata_LAND")
   
   # write metadata files
-  for (i in 1:length(metadata_list)) {
+  for (i in seq_along(metadata_list)) {
     if (file.exists(file.path(directory, gsub(".tif", ".json", filenames[[i]])))) {
       data[[metadata_list[[i]]]] <- jsonlite::fromJSON(file.path(directory, gsub(".tif", ".json", filenames[[i]])))
     } else {

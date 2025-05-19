@@ -91,7 +91,7 @@ DoU_preprocess_units <- function(units, classification, pop, resample_resolution
     resample_resolution <- min(terra::res(pop), terra::res(classification))
     data$metadata$resample_resolution <- resample_resolution
   }
-  for (i in 1:length(grids)) {
+  for (i in seq_along(grids)) {
     if ((terra::res(grids[[i]])[1] %% resample_resolution) != 0) {
       stop(paste("The resolution of the", gridnames[[i]], "is not a multiple of the resample_resolution"))
     }
