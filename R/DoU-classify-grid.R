@@ -54,7 +54,7 @@
 #'      Minimum total population size required for an urban centre
 #' - `UC_contiguity_rule` integer (default: `4`).
 #'
-#'      Which cells are considered adjacent in urban centres: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in urban centres: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `UC_built_criterium` logical (default: `TRUE`).
 #'
 #'      Whether to use the additional built-up area criterium (see section "Built-up area criterium" below). If `TRUE`, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the `UC_built_threshold`
@@ -93,7 +93,7 @@
 #'      Minimum total population size required for an urban cluster
 #' - `UCL_contiguity_rule` integer (default: `8`).
 #'
-#'      Which cells are considered adjacent in urban clusters: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in urban clusters: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `UCL_smooth_pop` logical (default: `FALSE`).
 #'
 #'      Whether to smooth the population grid before delineating urban clusters. If `TRUE`, the population grid will be smoothed with a moving average of window size `UCL_smooth_pop_window`.
@@ -119,7 +119,7 @@
 #'      Minimum total population size required for an urban centre
 #' - `UC_contiguity_rule` integer (default: `4`).
 #'
-#'      Which cells are considered adjacent in urban centres: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in urban centres: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `UC_built_criterium` logical (default: `TRUE`).
 #'
 #'      Whether to use the additional built-up area criterium (see section "Built-up area criterium" below). If `TRUE`, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the `UC_built_threshold`
@@ -161,7 +161,7 @@
 #'      Additional built-up area threshold. Can be a value between `0` and `1`, representing the minimum built-up area per permanent land, or `"optimal"` (see section "Built-up area criterium" below). Ignored when `DUC_built_criterium` is `FALSE`.
 #' - `DUC_contiguity_rule` integer (default: `4`).
 #'
-#'      Which cells are considered adjacent in dense urban clusters: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in dense urban clusters: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `SDUC_density_threshold` numeric (default: `900`).
 #'
 #'      Minimum population density per permanent land of a cell required to belong to a semi-dense urban cluster
@@ -170,7 +170,7 @@
 #'      Minimum total population size required for a semi-dense urban cluster
 #' - `SDUC_contiguity_rule` integer (default: `4`).
 #'
-#'      Which cells are considered adjacent in semi-dense urban clusters: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in semi-dense urban clusters: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `SDUC_buffer_size` integer (default: `2`).
 #'
 #'      The distance to urban centres and dense urban clusters required for a semi-dense urban cluster
@@ -182,7 +182,7 @@
 #'      Minimum total population size required for a suburban or peri-urban area
 #' - `SUrb_contiguity_rule` integer (default: `8`).
 #'
-#'      Which cells are considered adjacent in suburban or peri-urban area: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in suburban or peri-urban area: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `RC_density_threshold` numeric (default: `300`).
 #'
 #'      Minimum population density per permanent land of a cell required to belong to a rural cluster
@@ -191,7 +191,7 @@
 #'      Minimum total population size required for a rural cluster
 #' - `RC_contiguity_rule` integer (default: `8`).
 #'
-#'      Which cells are considered adjacent in rural clusters:  `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#'      Which cells are considered adjacent in rural clusters:  `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' - `LDR_density_threshold` numeric (default: `50`).
 #'
 #'      Minimum population density per permanent land of a low density rural grid cell
@@ -232,8 +232,8 @@
 #'
 #' # classify with standard parameters:
 #' classification1 <- DoU_classify_grid(data = data_belgium)
-#' DoU_plot_grid(classification1)
-#'
+#' 
+#' \donttest{
 #' # classify with custom parameters:
 #' classification2 <- DoU_classify_grid(
 #'   data = data_belgium,
@@ -242,41 +242,11 @@
 #'     UC_size_threshold = 75000,
 #'     UC_gap_fill = FALSE,
 #'     UC_smooth_edge = FALSE,
-#'      UCL_contiguity_rule = 4
+#'     UCL_contiguity_rule = 4
 #'   )
-#' )
-#' DoU_plot_grid(classification2)
-#'
-#' \dontrun{
-#' # classify according to GHSL Data Package 2022 (level 1)
-#' classification_R2022A <- DoU_classify_grid(
-#'   data = grid_data,
-#'   parameters = list(
-#'     UC_built_criterium = TRUE,
-#'     UC_built_threshold = 0.5,
-#'     UC_smooth_edge_fun = "majority_rule_R2022A"
-#'   )
-#' )
-#'
-#' # classify according to GHSL Data Package 2023  (level 1)
-#' # (assuming the directory "data/global" contains global data)
-#' classification_R2023A <- DoU_classify_grid(
-#'   data = grid_data,
-#'   parameters = list(
-#'     UC_built_criterium = TRUE,
-#'     UC_built_threshold = "optimal",
-#'     built_optimal_data = "data/global",
-#'     UC_smooth_edge_fun = "majority_rule_R2023A"
-#'   )
-#' )
-#'
-#' # classify in regions (assuming the directory "data/regions contains data
-#' # for the regions)
-#' classification_in_regions <- DoU_classify_grid(
-#'   data = "data/regions",
-#'   regions = TRUE
 #' )
 #' }
+#'
 #' @export
 DoU_classify_grid <- function(data,
                           level1 = TRUE,
@@ -334,8 +304,8 @@ DoU_classify_grid <- function(data,
     classification <- do.call(terra::mosaic, c(classifications, fun = "max"))
     
     # some ocean areas are not covered by the regions, so extend to cover them
-    valid_mollweide <- terra::rast(system.file("extdata", "valid-mollweide.tif", package = "flexurba"))
-    classification <- terra::extend(classification, valid_mollweide)
+    valid_mollweide_cropped <- terra::vect(valid_mollweide)
+    classification <- terra::extend(classification, valid_mollweide_cropped)
     
     # set NA values = water value
     terra::set.values(classification, which(is.na(classification[])), values[[length(values)]])

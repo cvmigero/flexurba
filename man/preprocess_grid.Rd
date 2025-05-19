@@ -21,8 +21,6 @@ preprocess_grid(
 \item{rescale_built}{logical. Whether to rescale the values of the built-up area grid (see details)}
 }
 \value{
-named list with the data of Belgium required for the grid classification of the Degree of Urbanisation.
-
 named listed with the required data to execute the grid cell classification procedure. The list contains following elements:
 \itemize{
 \item \code{built}: built-up area grid

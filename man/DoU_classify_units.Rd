@@ -74,7 +74,7 @@ The function includes two different workflows to establish the spatial units cla
 
 \strong{Official workflow according to the GHSL:}
 
-For the official workflow, the three layers should be pre-proccessed by \code{\link[=DoU_preprocess_units]{DoU_preprocess_units()}}. In this function, the classification grid and population grid are resampled to a user-defined \code{resample_resolution} with the nearest neighbor algorithm (the Degree of Urbanisation uses standard a resample resolution of 50 m). In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
+For the official workflow, the three layers should be pre-processed by \code{\link[=DoU_preprocess_units]{DoU_preprocess_units()}}. In this function, the classification grid and population grid are resampled to a user-defined \code{resample_resolution} with the nearest neighbour algorithm (the Degree of Urbanisation uses standard a resample resolution of 50 m). In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
 
 Afterwards, the spatial units classification is constructed with \code{\link[=DoU_classify_units]{DoU_classify_units()}} as follows. The vector layer with small spatial units is rasterised to match the population and classification grid. Based on the overlap of the three grids, the share of population per flexurba grid class is computed per spatial unit with a zonal statistics procedure. The units are subsequently classified according to the classification rules (see above).
 
@@ -86,7 +86,7 @@ For more information about the official workflow to construct the units classifi
 
 Besides the official workflow of the GHSL, the function also includes an alternative workflow to construct the spatial units classification. The alternative workflow does not require rasterising the spatial units layer, but relies on the overlap between the spatial units layer and the grid layers.
 
-The three layers should again be preproccessed by the function \code{\link[=DoU_preprocess_units]{DoU_preprocess_units()}}, but this time without \code{resampling_resolution}. For the classification in \code{\link[=DoU_classify_units]{DoU_classify_units()}},  the function \code{\link[exactextractr:exact_extract]{exactextractr::exact_extract()}} is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of \emph{land area} in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
+The three layers should again be pre-processed by the function \code{\link[=DoU_preprocess_units]{DoU_preprocess_units()}}, but this time without \code{resampling_resolution}. For the classification in \code{\link[=DoU_classify_units]{DoU_classify_units()}},  the function \code{\link[exactextractr:exact_extract]{exactextractr::exact_extract()}} is used to (1) overlay the grids with the spatial units layer, and (2) summarise the values of the population grid and classification grid per unit. The units are subsequently classified according to the classification rules (see above). As an exception, if a unit has no population, it is classified according to the share of \emph{land area} in each of the flexurba grid classes. The alternative workflow is slightly more efficient as it does not require resampling the population and classification grids and rasterising the spatial units layer.
 }
 
 \section{Modification of the unit classification rules}{
@@ -109,11 +109,11 @@ The unit classification rules of Level 2 of DEGURBA were updated in July 2024. B
 data_belgium <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders
 units_data <- flexurba::units_belgium \%>\%
-  dplyr::filter(GID_2 == "BEL.2.5_1")
+  dplyr::filter(GID_2 == "30000")
 # classify the grid
 classification <-DoU_classify_grid(data = data_belgium)
 
-\dontrun{
+\donttest{
 # official workflow
 data1 <- DoU_preprocess_units(
   units = units_data,
@@ -131,9 +131,8 @@ data2 <- DoU_preprocess_units(
   pop = data_belgium$pop
 )
 units_classification2 <- DoU_classify_units(data2, official_workflow = FALSE)
-DoU_plot_units(data2$units, units_classification2)
 
-# spatial units classification, dissolved at GADM level 3 (Belgian districts)
+# spatial units classification, dissolved at level 3 (Belgian districts)
 data3 <- DoU_preprocess_units(
   units = units_data,
   classification = classification,
@@ -141,5 +140,4 @@ data3 <- DoU_preprocess_units(
   dissolve_units_by = "GID_3"
 )
 units_classification3 <- DoU_classify_units(data3, id = "GID_3")
-DoU_plot_units(data3$units, units_classification3)
 }

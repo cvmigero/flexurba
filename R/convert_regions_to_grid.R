@@ -3,7 +3,7 @@
 #' @description
 #' Convert the value of regions associated with a vector layer to a grid layer.
 #' @param regions character / object of class sf. Path to the vector layer with spatial regions, or an object of class sf with spatial regions
-#' @param referencegrid Spatraster. Reference grid used to rasterize the values of the regions.
+#' @param referencegrid SpatRaster. Reference grid used to rasterize the values of the regions.
 #' @param id character. The column that contains the values of the regions. If `NULL` the first column is used.
 #' @return SpatRaster with the regions
 #' @examples

@@ -9,7 +9,7 @@ get_patches(x, directions, cells = "all")
 \arguments{
 \item{x}{SpatRaster}
 
-\item{directions}{integer. Which cells are considered adjacent: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)}
+\item{directions}{integer. Which cells are considered adjacent: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)}
 
 \item{cells}{character / vector. Either \code{"all"} or a vector with specific cell values. If \code{cells="all"}, patches are identified based on all non-\code{NA} cells in \code{x}. Otherwise, patches are only identified for cells in \code{x} with the specific cell values.}
 }
@@ -17,7 +17,7 @@ get_patches(x, directions, cells = "all")
 SpatRaster with patches of cells. The value of the cells represent the id of the patches.
 }
 \description{
-The function detects patches of cells based on rook contiguity (horizontal and vertical neighbors) or queen contiguity (horizontal, vertical and diagonal neighbors).
+The function detects patches of cells based on rook contiguity (horizontal and vertical neighbours) or queen contiguity (horizontal, vertical and diagonal neighbours).
 
 Patches of cells are groups of cells that are surrounded by \code{NA} of \code{NaN} values. The function identifies patches by converting the SpatRaster into polygons with the functions \code{geos::as_geos_geometry()} and \code{geos::geos_unnest()}. During this conversion polygons are automatically created as cells with rook contiguity. Touching polygons are afterwards dissolved to create patches with queen contiguity.
 

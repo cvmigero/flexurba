@@ -9,7 +9,7 @@ convert_regions_to_grid(regions, referencegrid, id = NULL)
 \arguments{
 \item{regions}{character / object of class sf. Path to the vector layer with spatial regions, or an object of class sf with spatial regions}
 
-\item{referencegrid}{Spatraster. Reference grid used to rasterize the values of the regions.}
+\item{referencegrid}{SpatRaster. Reference grid used to rasterize the values of the regions.}
 
 \item{id}{character. The column that contains the values of the regions. If \code{NULL} the first column is used.}
 }

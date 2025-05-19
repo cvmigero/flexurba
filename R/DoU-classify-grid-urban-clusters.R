@@ -10,7 +10,7 @@
 #' @param classification SpatRaster. A grid with the classification of urban centres to which the classification of urban clusters will be added. Note that the grid will be adapted in-place.
 #' @param density_threshold numeric. Minimum population density per permanent land of a cell required to belong to an urban cluster
 #' @param size_threshold numeric. Minimum total population size required for an urban cluster
-#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @param smooth_pop logical. Whether to smooth the population grid before delineating urban clusters. If `TRUE`, the population grid will be smoothed with a moving average of window size `smooth_pop_window`.
 #' @param smooth_pop_window integer. Size of the moving window used to smooth the population grid before delineating urban clusters. Ignored when `smooth_pop` is `FALSE`.
 #' @param value integer. Value assigned to urban clusters in the resulting grid
@@ -79,7 +79,7 @@ DoU_classify_grid_urban_clusters <- function(data, classification, density_thres
 #' @param classification SpatRaster. A grid with the classification of urban centres to which the classification of urban clusters will be added. Note that the grid will be adapted in-place.
 #' @param density_threshold numeric. Minimum population density per permanent land of a cell required to belong to an urban cluster
 #' @param size_threshold numeric. Minimum total population size required for an urban cluster
-#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @param smooth_pop logical. Whether to smooth the population grid before delineating urban clusters. If `TRUE`, the population grid will be smoothed with a moving average of window size `smooth_pop_window`.
 #' @param smooth_pop_window integer. Size of the moving window used to smooth the population grid before delineating urban clusters. Ignored when `smooth_pop` is `FALSE`.
 #' @param value integer. Value assigned to urban clusters in the resulting grid

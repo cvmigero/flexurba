@@ -10,15 +10,7 @@
 #' @param buffer integer. If larger than 0, a buffer of `buffer` cells will be added around the borders of the extent to allow cities or towns at the edges to be correctly classified. 
 #' @param output_filenames vector of length 3 with the filenames used to save the built-up area, population and land grid in `ouput_directory`
 #' @param global_filenames vector of length 3 with the filenames of the built-up area, population and land grid in `global_directory`
-#' @examples
-#' \dontrun{
-#' # assuming "data/global" contains global grid files
-#' crop_GHSLdata(
-#'   terra::ext(191547, 485252, 5820718, 6030034),
-#'   "data/belgium",
-#'   "data/global"
-#' )
-#' }
+#' @return path to the created files.
 #' @export
 crop_GHSLdata <- function(extent, output_directory, global_directory, buffer= 5, output_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"), global_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif")) {
   
@@ -68,11 +60,12 @@ crop_GHSLdata <- function(extent, output_directory, global_directory, buffer= 5,
   
   # check if the area of interest is located on the edge of the Mollweide projection, if so, give
   # a warning for potential distortions
-  valid_mollweide <- terra::rast(system.file("extdata", "valid-mollweide.tif", package = "flexurba")) %>%
+  valid_mollweide_cropped <- terra::vect(valid_mollweide) %>%
     terra::crop(extent)
   
-  if (length(terra::cells(valid_mollweide, c(NA, NaN))[[1]]) > 0) {
+  if (length(terra::cells(valid_mollweide_cropped, c(NA, NaN))[[1]]) > 0) {
     warning("The area of interest is located on the edges of the Mollweide projection. Be aware that this can cause distortions in the grid cell classification and subsequent visualisations and zonal statistics.\n")
     
   }
+  return(file.path(output_directory, output_filenames))
 }

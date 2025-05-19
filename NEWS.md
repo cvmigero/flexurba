@@ -1,3 +1,10 @@
+# flexurba 0.2.1
+
+* Update spatial boundaries in `flexurba::units_belgium` based on data from the [Algemene Directie Statistiek - Statistics Belgium](https://statbel.fgov.be/nl/open-data/statistische-sectoren-2024), as these are available under Creative Commons CC BY 4.0 licence. Note that analysis that rely on `flexurba::units_belgium` might have different results. 
+
+* Several minor modifications on the developers side of the package to prepare for CRAN submission.
+
+
 # flexurba 0.2.0
 
 * New `apply_threshold()` identifies urban areas by applying a threshold on grid cells.

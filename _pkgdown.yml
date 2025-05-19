@@ -34,18 +34,18 @@ articles:
   - title: Reconstruct Degree of Urbanisation
     navbar: Reconstruct Degree of Urbanisation
     contents:
-    - vig1-DoU-level2
-    - vig2-DoU-multiple-configurations
-    - vig3-DoU-global-scale
-    - vig4-DoU-comparison-releases
-    - vig5-DoU-computational-requirements
-    - vig6-DoU-comparison-GHSL-SMOD
-    - vig7-DoU-population-grid
+    - articles/vig1-DoU-level2
+    - articles/vig2-DoU-multiple-configurations
+    - articles/vig3-DoU-global-scale
+    - articles/vig4-DoU-comparison-releases
+    - articles/vig5-DoU-computational-requirements
+    - articles/vig6-DoU-comparison-GHSL-SMOD
+    - articles/vig7-DoU-population-grid
   - title: General urban delineation
     navbar: General urban delineation
     contents:
-    - vig8-apply-thresholds
-    - vig9-different-proxies
+    - articles/vig8-apply-thresholds
+    - articles/vig9-different-proxies
   - title: internal
     contents:
     - release-v0.2.0

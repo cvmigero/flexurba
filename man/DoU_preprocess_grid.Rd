@@ -46,9 +46,3 @@ The function rescales the built-up area and land grid if necessary (see details)
 \details{
 The values of the land grid and built-up area grid should range from \code{0} to \code{1}, representing the proportion of permanent land and built-up area respectively. However, the grid values of the GHSL are standard in m². With a cell size of 1 km², the values thus range from \code{0} to \verb{1 000 000}. The two grids can be rescaled by setting \code{rescale_land=TRUE} and/or \code{rescale_built=TRUE} respectively.
 }
-\examples{
-\dontrun{
-# assuming that "data/belgium" contains the necessary data files
-data_belgium <- DoU_preprocess_grid("data/belgium")
-}
-}

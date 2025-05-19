@@ -5,7 +5,7 @@
 #' @param cells character / integer. Either `"all"` or a specific cell value. If `cells="all"`, adjacent cells are identified for all non-`NA` cells in `x`. Otherwise, adjacent cells are only identified for cells in `x` with the specific cell value.
 #' @param adjacent_value integer. Value assigned to adjacent cells in the resulting grid
 #' @param include logical. Whether to include the focal cells in the resulting grid
-#' @param directions integer. Which cells are considered adjacent:  `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param directions integer. Which cells are considered adjacent:  `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @return SpatRaster with adjacent cells
 #' @examples
 #' set.seed(10)

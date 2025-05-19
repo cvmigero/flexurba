@@ -24,7 +24,7 @@ classify_grid_urban_clusters(
 
 \item{size_threshold}{numeric. Minimum total population size required for an urban cluster}
 
-\item{contiguity_rule}{integer. Which cells are considered adjacent: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)}
+\item{contiguity_rule}{integer. Which cells are considered adjacent: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)}
 
 \item{smooth_pop}{logical. Whether to smooth the population grid before delineating urban clusters. If \code{TRUE}, the population grid will be smoothed with a moving average of window size \code{smooth_pop_window}.}
 

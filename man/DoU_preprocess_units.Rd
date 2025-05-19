@@ -21,7 +21,7 @@ DoU_preprocess_units(
 
 \item{resample_resolution}{numeric. Resolution to which the grids are resampled during pre-processing. If \code{NULL}, the grids are resampled to the smallest resolution among the population and classification grid.}
 
-\item{dissolve_units_by}{character. If not \code{NULL}, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain GADM level (see examples).}
+\item{dissolve_units_by}{character. If not \code{NULL}, the units are dissolved by this column's value, can for example be used to dissolve spatial units to a certain administrative level (see examples).}
 }
 \value{
 named list with the required data to execute the spatial units classification procedure, and their metadata. The list contains the following elements:
@@ -40,19 +40,19 @@ The spatial units classification of the Degree of Urbanisation requires three di
 \item a raster layer with the population grid
 }
 
-The three input layers are pre-processed as follows. The classification grid and population grid are resampled to the \code{resample_resolution} with the nearest neighbor algorithm. In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
+The three input layers are pre-processed as follows. The classification grid and population grid are resampled to the \code{resample_resolution} with the nearest neighbour algorithm. In doing this, the values of the population grid are divided by the oversampling ratio (for example: going from a resolution of 100 m to a resolution of 50 m, the values of the grid are divided by 4).
 
 In addition, the function makes sure the extents of the three input layers match. If the bounding box of the units layer is smaller than the extent of the grids, then the grids are cropped to the bounding box of the units layer. Alternatively, if the units layer covers a larger area than the grids, then the units that do not intersect with the grids are discarded (and a warning message is printed). This ensures that the classification algorithm runs efficiently and does not generate any incorrect classifications due to missing data.
 
 More information about the pre-processing workflow, see \href{https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf}{GHSL Data Package 2023 (Section 2.7.2.3)}.
 }
 \examples{
-\dontrun{
+\donttest{
 # load the grid data
 grid_data <- flexurba::DoU_load_grid_data_belgium()
 # load the units and filter for West-Flanders
 units_data <- flexurba::units_belgium \%>\%
-  dplyr::filter(GID_2 == "BEL.2.5_1")
+  dplyr::filter(GID_2 == "30000")
 # classify the grid
 classification <-DoU_classify_grid(data = grid_data)
 
@@ -64,7 +64,7 @@ data1 <- DoU_preprocess_units(
   resample_resolution = 50
 )
 
-# preprocess the data for units classification at GADM level 3 (Belgian districts)
+# preprocess the data for units classification at level 3 (Belgian districts)
 data2 <- DoU_preprocess_units(
   units = units_data,
   classification = classification,

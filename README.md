@@ -24,7 +24,7 @@ of its contribution, please refer to the following journal article:
 *Van Migerode, C., Poorthuis, A., & Derudder, B. (2024). Flexurba: An
 open-source R package to flexibly reconstruct the Degree of Urbanisation
 classification. Environment and Planning B: Urban Analytics and City
-Science, 51(7), 1706-1714. <https://doi.org/10.1177/23998083241262545>*
+Science, 51(7), 1706-1714.*
 
 ## Installation
 
@@ -35,7 +35,7 @@ you don’t have it installed, run:
 install.packages("devtools")
 ```
 
-Afterward, the `flexurba` package can be installed as follows:
+Afterwards, the `flexurba` package can be installed as follows:
 
 ``` r
 devtools::install_github("cvmigero/flexurba")
@@ -130,7 +130,7 @@ section ‘Custom specifications’ in the documentation of
 Apart from DEGURBA, several other delineation approaches enforce
 thresholds on gridded datasets. The accompanying
 [`flexurbaData`](https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/index.html)
-package provides preprocessed datasets that can serve as proxy to
+package provides pre-processed datasets that can serve as proxy to
 identify urban areas. We can construct urban boundaries based on these
 proxy datasets using the function `apply_threshold()`. The code examples
 below enforce a predefined threshold on (1) built-up area and (2)
@@ -218,8 +218,7 @@ more information and workflows using `flexurba`:
 *Disclaimer: The `flexurba` package includes a reconstruction of
 DEGURBA’s algorithm, and by no means contains an official
 implementation. For the official documents, readers can consult
-[Dijkstra et
-al. (2021)](https://www.sciencedirect.com/science/article/pii/S0094119020300838),
+[Dijkstra et al. (2021)](https://doi.org/10.1016/j.jue.2020.103312),
 [Eurostat
 (2021)](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual)
 and the [Global Human Settlement Layer

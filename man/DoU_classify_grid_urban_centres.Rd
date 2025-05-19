@@ -27,7 +27,7 @@ DoU_classify_grid_urban_centres(
 
 \item{size_threshold}{numeric. Minimum total population size required for an urban centre}
 
-\item{contiguity_rule}{integer. Which cells are considered adjacent: \code{4} for rooks case (horizontal and vertical neighbors) or \code{8} for queens case (horizontal, vertical and diagonal neighbors)}
+\item{contiguity_rule}{integer. Which cells are considered adjacent: \code{4} for rooks case (horizontal and vertical neighbours) or \code{8} for queens case (horizontal, vertical and diagonal neighbours)}
 
 \item{built_criterium}{logical. Whether to use the additional built-up area criterium (see details). If \code{TRUE}, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the \code{built_threshold}}
 
@@ -93,21 +93,4 @@ classification2 <- DoU_classify_grid_urban_centres(data_belgium,
 )
 DoU_plot_grid(classification2)
 
-\dontrun{
-# urban centre classification according to GHSL Data Package 2022
-classification3 <- DoU_classify_grid_urban_centres(data,
-  built_criterium = TRUE,
-  built_threshold = 0.5,
-  smooth_edge_fun = "majority_rule_R2022A"
-)
-
-# urban centre classification according to GHSL Data Package 2023
-# (assuming the directory "data/global" contains global data)
-optimal_builtup <- DoU_get_optimal_builtup("data/global")
-classification4 <- DoU_classify_grid_urban_centres(data,
-  built_criterium = TRUE,
-  built_threshold = optimal_builtup,
-  smooth_edge_fun = "majority_rule_R2023A"
-)
-}
 }

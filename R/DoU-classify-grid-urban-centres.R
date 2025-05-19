@@ -9,7 +9,7 @@
 #' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
 #' @param density_threshold numeric. Minimum population density per permanent land of a cell required to belong to an urban centre
 #' @param size_threshold numeric. Minimum total population size required for an urban centre
-#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @param built_criterium logical. Whether to use the additional built-up area criterium (see details). If `TRUE`, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the `built_threshold`
 #' @param built_threshold numeric. Additional built-up area threshold. A value between `0` and `1`, representing the minimum built-up area per permanent land. Ignored when `built_criterium` is `FALSE`.
 #' @param smooth_pop logical. Whether to smooth the population grid before delineating urban centres. If `TRUE`, the population grid will be smoothed with a moving average of window size `smooth_pop_window`.
@@ -51,23 +51,6 @@
 #' )
 #' DoU_plot_grid(classification2)
 #'
-#' \dontrun{
-#' # urban centre classification according to GHSL Data Package 2022
-#' classification3 <- DoU_classify_grid_urban_centres(data,
-#'   built_criterium = TRUE,
-#'   built_threshold = 0.5,
-#'   smooth_edge_fun = "majority_rule_R2022A"
-#' )
-#'
-#' # urban centre classification according to GHSL Data Package 2023
-#' # (assuming the directory "data/global" contains global data)
-#' optimal_builtup <- DoU_get_optimal_builtup("data/global")
-#' classification4 <- DoU_classify_grid_urban_centres(data,
-#'   built_criterium = TRUE,
-#'   built_threshold = optimal_builtup,
-#'   smooth_edge_fun = "majority_rule_R2023A"
-#' )
-#' }
 #' @export
 DoU_classify_grid_urban_centres <- function(data, density_threshold = 1500, size_threshold = 50000, contiguity_rule = 4, built_criterium = TRUE, built_threshold = 0.2, smooth_pop = FALSE, smooth_pop_window = 5, gap_fill = TRUE, max_gap = 15, smooth_edge = TRUE, smooth_edge_fun = "majority_rule_R2023A", value = 3) {
   
@@ -178,7 +161,7 @@ DoU_classify_grid_urban_centres <- function(data, density_threshold = 1500, size
 #' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
 #' @param density_threshold numeric. Minimum population density per permanent land of a cell required to belong to an urban centre
 #' @param size_threshold numeric. Minimum total population size required for an urban centre
-#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbors) or `8` for queens case (horizontal, vertical and diagonal neighbors)
+#' @param contiguity_rule integer. Which cells are considered adjacent: `4` for rooks case (horizontal and vertical neighbours) or `8` for queens case (horizontal, vertical and diagonal neighbours)
 #' @param built_criterium logical. Whether to use the additional built-up area criterium (see details). If `TRUE`, not only cells that meet the population density requirement will be considered when delineating urban centres, but also cells with a built-up area per permanent land above the `built_threshold`
 #' @param built_threshold numeric. Additional built-up area threshold. A value between `0` and `1`, representing the minimum built-up area per permanent land. Ignored when `built_criterium` is `FALSE`.
 #' @param smooth_pop logical. Whether to smooth the population grid before delineating urban centres. If `TRUE`, the population grid will be smoothed with a moving average of window size `smooth_pop_window`.

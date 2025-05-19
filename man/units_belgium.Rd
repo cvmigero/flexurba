@@ -3,53 +3,46 @@
 \docType{data}
 \name{units_belgium}
 \alias{units_belgium}
-\title{GADM spatial units of Belgium}
+\title{Spatial units of Belgium}
 \format{
 \subsection{\code{units_belgium}}{
 
-A object of class \code{sf} with the GADM spatial units for Belgium
+A object of class \code{sf} with spatial units for Belgium
 }
 }
 \source{
-\url{https://gadm.org/download_world.html}
+\url{https://statbel.fgov.be/nl/open-data/statistische-sectoren-2024}
 }
 \usage{
 units_belgium
 }
 \description{
-An object of class \code{sf} with the small spatial units of Belgium (downloaded from the \href{https://gadm.org/index.html}{GADM website}). The GADM data is filtered and converted to the Mollweide projection with the following code:
+An object of class \code{sf} with the small spatial units of Belgium (based on data from the \href{https://statbel.fgov.be/nl/open-data/statistische-sectoren-2024}{Algemene Directie Statistiek - Statistics Belgium}). The data is aggregated to municipal level and converted to the Mollweide projection with the following code:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# download the GADM data
-download.file(
-  "https://geodata.ucdavis.edu/gadm/gadm4.1/gadm_410-gpkg.zip",
-  "data/GADM/gadm_410-gpkg.zip"
-)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# read the data
+statsec <- st_read('sh_statbel_statistical_sectors_31370_20240101.geojson')
 
-# unzip the file
-unzip("data/GADM/gadm_410-gpkg.zip",
-      files = "gadm_410.gpkg",
-      exdir = "data/GADM")
+# aggregate units to munipal level and rename variables
+units_belgium <- statsec \%>\%
+  group_by(cd_munty_refnis) \%>\%
+  summarise(UID = first(as.integer(cd_munty_refnis)),
+            GID_0 = first(cd_country),
+            NAME_0 = 'Belgium',
+            GID_1 = first(cd_rgn_refnis),
+            NAME_1 = first(tx_rgn_descr_nl),
+            GID_2 = first(cd_prov_refnis),
+            NAME_2 = first(tx_prov_descr_nl),
+            GID_3 = first(cd_dstr_refnis),
+            NAME_3 = first(tx_adm_dstr_descr_nl),
+            GID_4 = first(cd_munty_refnis),
+            NAME_4 = first(tx_munty_descr_nl)
+  ) 
 
-# filter for Belgium, convert to Mollweide, and select only relevant attributes
-units_belgium <-
-  sf::st_read('data/GADM/gadm_410.gpkg', quiet = TRUE) \%>\%
-  dplyr::filter(COUNTRY == "Belgium") \%>\%
-  sf::st_transform('ESRI:54009') \%>\%
-  dplyr::select(
-    c(
-      "UID",
-      "GID_0",
-      "NAME_0",
-      "GID_1",
-      "NAME_1",
-      "GID_2",
-      "NAME_2",
-      "GID_3",
-      "NAME_3",
-      "GID_4",
-      "NAME_4"
-    )
-  )
+# simplify geometries and convert to Mollweide
+units_belgium <- units_belgium \%>\% select(-cd_munty_refnis) \%>\%
+  rmapshaper::ms_simplify() \%>\%
+  st_transform('ESRI:54009') \%>\%
+  rename(geom = geometry)
 }\if{html}{\out{</div>}}
 }
 \keyword{datasets}

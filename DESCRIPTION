@@ -1,23 +1,32 @@
-Package: flexurba
 Type: Package
-Title: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification
-Version: 0.2.0
-Authors@R:
-  c(
-    person("Céline", "Van Migerode", , "celine.vanmigerode@kuleuven.be", role=c("aut", "cre"), comment=c(ORCID = "0000-0002-4023-7665")),
-    person("Ate", "Poorthuis", , "ate.poorthuis@kuleuven.be", role=c("aut"), comment=c(ORCID = "0000-0002-3808-7493")),
-    person("Ben", "Derudder", , "ben.derudder@kuleuven.be", role=c("aut"), comment=c(ORCID = "0000-0001-6195-8544"))
+Package: flexurba
+Title: Construct Flexible Urban Delineations
+Version: 0.2.1
+Authors@R: c(
+    person("Céline", "Van Migerode", , "celine.vanmigerode@kuleuven.be", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0002-4023-7665")),
+    person("Ate", "Poorthuis", , "ate.poorthuis@kuleuven.be", role = "aut",
+           comment = c(ORCID = "0000-0002-3808-7493")),
+    person("Ben", "Derudder", , "ben.derudder@kuleuven.be", role = "aut",
+           comment = c(ORCID = "0000-0001-6195-8544"))
   )
-Description: An open-source R package to flexibly reconstruct the Degree of Urbanisation classification.
-RoxygenNote: 7.3.1
-URL: https://github.com/cvmigero/flexurba, https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba, https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be
+Description: Enables the construction of flexible urban delineations that can be tailored to specific applications or research questions. Originally developed to flexibly reconstruct the Degree of Urbanisation <DOI:10.1016/j.jue.2020.103312> classification of cities, towns and rural areas, but has been expanded to support a broader range of delineation approaches, using multiple datasets – including population, built-up area, and night-time light grids – and different thresholding methods.
+License: MIT + file LICENSE
+URL: https://github.com/cvmigero/flexurba,
+    https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba,
+    https://flexurba-spatial-networks-lab-research-projects--e74426d1c66ecc.pages.gitlab.kuleuven.be
 BugReports: https://github.com/cvmigero/flexurba/issues
+Depends: 
+    R (>= 3.5)
 Imports: 
     data.table,
     dplyr,
     exactextractr,
     fastmatch,
     geos,
+    ggplot2,
+    ggspatial,
+    grid,
     jsonlite,
     lifecycle,
     magrittr,
@@ -25,22 +34,21 @@ Imports:
     Rcpp,
     sf,
     terra (>= 1.7-3),
+    tidyterra,
     utils
-Depends: 
-    R (>= 2.10)
-LazyData: true
-Encoding: UTF-8
-LinkingTo: 
-    Rcpp
-License: MIT + file LICENSE
 Suggests: 
-    ggplot2,
-    ggspatial,
-    grid,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    tidyterra
+    spelling,
+    testthat (>= 3.0.0)
+LinkingTo: 
+    Rcpp
+VignetteBuilder: 
+    knitr
+Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-GB
+LazyData: true
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
+RoxygenNote: 7.3.2
