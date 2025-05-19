@@ -74,7 +74,7 @@ download_GHSLdata(
 To execute the grid classification in these pre-defined regions, we can use the function `DoU_classify_grid()` with the parameter setting `regions=TRUE`. The grid classification procedure will be executed separately in each of the 9 regions and the results are afterwards merged together to produce a global grid classification.
 
 ```{r, eval=FALSE}
-global_classification <-DoU_classify_grid(
+global_classification <- DoU_classify_grid(
   data = "data_in_regions",
   regions = TRUE
 )

@@ -59,7 +59,7 @@ get_clusters <- function(xden, minden, xden2 = NULL, minden2 = NULL, xsiz = NULL
   if (is.null(xsiz)) {
     xsiz <- xden
   }
-  
+
   if (!is.numeric(minden)) {
     stop(paste("Invalid argument:", minden, "is not a valid parameter for the minimum density threshold"))
   }
@@ -69,12 +69,12 @@ get_clusters <- function(xden, minden, xden2 = NULL, minden2 = NULL, xsiz = NULL
   if (!is.null(minsiz) & !is.numeric(minsiz)) {
     stop(paste("Invalid argument:", minsiz, "is not a valid parameter for the minimum size threshold"))
   }
-  
+
   # none or both should be NULL
   if (sum(c(is.null(minden2)), is.null(xden2)) == 1) {
     stop(paste("Invalig arguments: minden2 and xden2 should be both provided or both NULL"))
   }
-  
+
   if (!is.null(xden2)) {
     if ((terra::ext(xden) != terra::ext(xden2)) | (terra::ext(xden) != terra::ext(xsiz))) {
       stop("Invalid argument: extents of the provided grids do not match.")
@@ -84,19 +84,19 @@ get_clusters <- function(xden, minden, xden2 = NULL, minden2 = NULL, xsiz = NULL
       stop("Invalid argument: extents of the provided grids do not match.")
     }
   }
-  
+
   # apply density threshold 1
   densecells <- terra::which.lyr(xden >= minden)
-  
+
   # apply density threshold 2
   if (!is.null(minden2) & !is.null(xden2)) {
     densecells2 <- terra::which.lyr(xden2 >= minden2)
     terra::set.values(densecells, which(densecells2[] == 1), 1)
   }
-  
+
   # get clusters based on contiguity criteria
   densepatches <- densecells %>% flexurba::get_patches(directions = directions)
-  
+
   # get size of the clusters and filter
   zonal_statistics <- xsiz %>%
     terra::zonal(
@@ -106,10 +106,10 @@ get_clusters <- function(xden, minden, xden2 = NULL, minden2 = NULL, xsiz = NULL
     as.data.frame()
   colnames(zonal_statistics) <- c("cluster", "sum")
   largeclusters <- zonal_statistics %>% dplyr::filter(sum >= minsiz)
-  
+
   # only keep clusters sufficiently large
   terra::set.values(densepatches, which(!(densepatches[] %in% largeclusters$cluster)), NA)
   names(densepatches) <- names(xden)
-  
+
   return(densepatches)
 }

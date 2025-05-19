@@ -16,7 +16,8 @@ To run the code in this vignette, you need to install the [`flexurbaData`](https
 ```{r, eval=FALSE}
 install.packages("remotes")
 remotes::install_gitlab("spatial-networks-lab/research-projects/celine/flexurbaData",
-                        host="https://gitlab.kuleuven.be/")
+  host = "https://gitlab.kuleuven.be/"
+)
 ```
 
 Here, we will employ population data to identify urban areas. The code below filters Egypt and Sudan from the `ne_country_borders` data and extracts population data in these countries based on the `processed-ghs-pop.tif` grid. Both datasets are provided within the `flexurbaData` package.
@@ -29,12 +30,13 @@ library(terra)
 
 # extract Egypt and Sudan
 egypt_sudan <- ne_country_borders %>%
-  filter(ISO %in% c('EGY', 'SDZ'))
-  
+  filter(ISO %in% c("EGY", "SDZ"))
+
 # get population data and crop to the extent of Egypt and Sudan
-pop <- rast(system.file("proxies/processed-ghs-pop.tif", 
-                               package = "flexurbaData")) %>% 
-          crop(ext(egypt_sudan))
+pop <- rast(system.file("proxies/processed-ghs-pop.tif",
+  package = "flexurbaData"
+)) %>%
+  crop(ext(egypt_sudan))
 ```
 
 ## Aspect 1: How is the threshold value determined?
@@ -45,14 +47,18 @@ The function `apply_threshold()` implements both approaches. It applies a predef
 
 ```{r, eval=FALSE}
 # (1) predefined threshold of 2000 inhabitants per km²
-predefined <- apply_threshold(grid = pop, 
-                                  type="predefined", 
-                                  threshold_value = 2000)
+predefined <- apply_threshold(
+  grid = pop,
+  type = "predefined",
+  threshold_value = 2000
+)
 
 # (2) data-driven threshold of 99th percentile value across the study area
-data_driven <- apply_threshold(grid = pop, 
-                                 type="data-driven", 
-                                 fun = "p99")
+data_driven <- apply_threshold(
+  grid = pop,
+  type = "data-driven",
+  fun = "p99"
+)
 ```
 
 The outputs contain three different variables: (1) `rboundaries` with a gridded version of the urban areas, (2) `vboundaries` with the urban areas saved as vector layer, (3) `threshold` with more details on the threshold value.
@@ -78,22 +84,26 @@ In the code examples above, we employed an absolute approach. More specifically,
 A relative approach would entail applying different thresholds in the different countries. This could for example be used when the goal is to identify the most urbanised areas per country. Below, we employ a minimum of 2000 inhabitants per km² in Egypt and 300 inhabitants per km² in Sudan. The country borders in the object `egypt_sudan` are passed through the argument `regions`, indicating the relative approach.
 
 ```{r, eval=FALSE}
-# predefined threshold of 2000 inhabitants per km² in Egypt and 
+# predefined threshold of 2000 inhabitants per km² in Egypt and
 # 300 inhabitants per km² in Sudan
-predefined_relative <- apply_threshold(grid = pop, 
-                                       type="predefined", 
-                                       regions = egypt_sudan, 
-                                       threshold_value = c(2000, 300))
+predefined_relative <- apply_threshold(
+  grid = pop,
+  type = "predefined",
+  regions = egypt_sudan,
+  threshold_value = c(2000, 300)
+)
 ```
 
 However, when adopting a relative approach, threshold values are more often determined in a data-driven manner. For instance, we can determine the threshold separately for each country as the 99th percentile value of the country's data:
 
 ```{r, eval=FALSE}
 # data-driven threshold of 99th percentile value per country
-data_driven_relative <- apply_threshold(grid = pop, 
-                                        type="data-driven",
-                                        regions = egypt_sudan,
-                                        fun = "p99")
+data_driven_relative <- apply_threshold(
+  grid = pop,
+  type = "data-driven",
+  regions = egypt_sudan,
+  fun = "p99"
+)
 ```
 
 In Egypt, the 99th percentile value is 2083.6820 inhabitants per km². The value for Sudan is only 282.5375 inhabitants per km².

@@ -67,14 +67,14 @@ options(timeout = 500)
 For Data Package 2022, the data can be downloaded by setting the parameter `release="R2022A"` in the function `download_GHSLdata()`:
 
 ```{r, eval=FALSE}
-# download the GHSL data of Data Package 2022 on a global scale 
+# download the GHSL data of Data Package 2022 on a global scale
 # and save it in the directory "data/global2022"
 download_GHSLdata(
   output_directory = "data/global2022",
   release = "R2022A"
 )
 
-# crop the global files to a custom extent (here: Belgium) 
+# crop the global files to a custom extent (here: Belgium)
 # and save it in the directory "data/belgium2022"
 crop_GHSLdata(
   extent = terra::ext(192000, 485000, 5821000, 6030000),
@@ -86,14 +86,14 @@ crop_GHSLdata(
 For Data Package 2023, the parameter `release` in the function `download_GHSLdata()` should be set to `"R2023"`.
 
 ```{r, eval=FALSE}
-# download the GHSL data of Data Package 2023 on a global scale 
+# download the GHSL data of Data Package 2023 on a global scale
 # and save it in the directory "data/global2023"
 download_GHSLdata(
   output_directory = "data/global2023",
   release = "R2023A"
 )
 
-# crop the global files to a custom extent (here: Belgium) 
+# crop the global files to a custom extent (here: Belgium)
 # and save it in the directory "data/belgium2023"
 crop_GHSLdata(
   extent = terra::ext(192000, 485000, 5821000, 6030000),
@@ -112,7 +112,7 @@ Next, we can execute the grid cell classification with the function `DoU_classif
 
 ```{r, eval=FALSE}
 # create the grid cell classification according to Data Package 2022
-classification2022 <-DoU_classify_grid(
+classification2022 <- DoU_classify_grid(
   data = "data/belgium2022",
   parameters = list(
     UC_built_threshold = 0.5,
@@ -131,9 +131,9 @@ classification2022 <-DoU_classify_grid(
 
 ```{r, eval=FALSE}
 # create the grid cell classification according to Data Package 2023
-# (Note that determining the "optimal" built-up area 
+# (Note that determining the "optimal" built-up area
 # from the global data can take some time)
-classification2023 <-DoU_classify_grid(
+classification2023 <- DoU_classify_grid(
   data = "data/belgium2023",
   parameters = list(
     UC_built_threshold = "optimal",
@@ -163,15 +163,15 @@ In the code below, we use the data and the edge smoothing rule from Data Package
 
 ```{r, eval=FALSE}
 # With built-up area criterium of Data Package 2022: fixed threshold of 50%
-classification_builtup2022 <-DoU_classify_grid(
+classification_builtup2022 <- DoU_classify_grid(
   data = "data/belgium2023",
   parameters = list(UC_built_threshold = 0.5)
 )
 
 # With built-up area criterium of Data Package 2023: "optimal" threshold
-# (Note that determining the "optimal" built-up area 
+# (Note that determining the "optimal" built-up area
 # from the global data can take some time)
-classification_builtup2023 <-DoU_classify_grid(
+classification_builtup2023 <- DoU_classify_grid(
   data = "data/belgium2023",
   parameters = list(
     UC_built_threshold = "optimal",
@@ -185,7 +185,7 @@ More specifically, the 'optimal' built-up area, as defined in Data Package 2023,
 For the data of epoch 2020 in Data Package 2023, we can determine the exact value of this 'optimal' threshold with the function `DoU_get_optimal_builtup()`:
 
 ```{r, eval=FALSE}
-# (Note that determining the "optimal" built-up area 
+# (Note that determining the "optimal" built-up area
 # from the global data can take some time)
 DoU_get_optimal_builtup("data/global2023",
   density_threshold = 1500,

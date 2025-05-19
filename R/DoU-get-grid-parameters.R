@@ -19,7 +19,7 @@
 #' grid_data <- DoU_load_grid_data_belgium()
 #'
 #' # use the adapted parameters to construct a grid cell classification
-#' classification <-DoU_classify_grid(
+#' classification <- DoU_classify_grid(
 #'   data = grid_data,
 #'   parameters = parameters
 #' )
@@ -84,15 +84,15 @@ DoU_get_grid_parameters <- function(level1 = TRUE) {
 }
 
 #' Get the parameters for the DEGURBA grid cell classification
-#' 
-#' @description 
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
-#' `get_grid_parameters()` has been renamed to `DoU_get_grid_parameters()` to create a more consistent API and to better indicate that this function is specifically designed in the context of the DEGURBA classification with `DoU_classify_grid()`. 
+#'
+#' `get_grid_parameters()` has been renamed to `DoU_get_grid_parameters()` to create a more consistent API and to better indicate that this function is specifically designed in the context of the DEGURBA classification with `DoU_classify_grid()`.
 #' @param level1 logical. Whether to return the standard parameters of level 1 of the Degree of Urbanisation (`TRUE`), or level 2 of the Degree of Urbanisation (`FALSE`).
 #' @return named list with the standard parameters
 #' @keywords internal
 #' @export
-get_grid_parameters <- function(level1=TRUE){
+get_grid_parameters <- function(level1 = TRUE) {
   return(DoU_get_grid_parameters(level1))
 }

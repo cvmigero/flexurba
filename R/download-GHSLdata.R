@@ -62,25 +62,25 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
   metadata <- as.list(environment())
   metadata <- within(metadata, rm(output_directory, products, extent, filenames))
   metadata$version <- paste(metadata$version, collapse = "_")
-  
+
   # if directory does not exist: create it
   if (!dir.exists(output_directory)) {
     dir.create(output_directory, recursive = TRUE)
   }
-  
+
   # DOWNLOAD IN REGIONS
   if (all(extent == "regions")) {
     # download the data for each region separately
     for (region in names(flexurba::GHSL_tiles_per_region)) {
       download_GHSLdata(file.path(output_directory, region),
-                        products = products,
-                        epoch = epoch,
-                        release = release,
-                        crs = crs,
-                        resolution = resolution,
-                        version = version,
-                        extent = flexurba::GHSL_tiles_per_region[[region]],
-                        filenames = filenames
+        products = products,
+        epoch = epoch,
+        release = release,
+        crs = crs,
+        resolution = resolution,
+        version = version,
+        extent = flexurba::GHSL_tiles_per_region[[region]],
+        filenames = filenames
       )
     }
   } else {
@@ -88,17 +88,17 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
     if (length(products) != length(filenames)) {
       stop("Invalid argument: the length of the products and filenames should be equal.")
     }
-    
+
     # for each product, download the data
     nr <- 0
     for (type in products) {
       nr <- nr + 1
-      
+
       # check if type is valid
       if (!(type %in% c("BUILT_S", "POP", "LAND"))) {
         stop("Invalid argument: the supported data products are BUILT_S, POP or LAND")
       }
-      
+
       # LAND grid only exists for 2018 - R2022A
       if (type == "LAND") {
         if (epoch != 2018) {
@@ -106,35 +106,35 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
           metadata$epoch <- 2018
           warning("Land grid only exist for epoch 2018. The land grid of 2018 will be downloaded. \n")
         }
-        
+
         if (release != "R2022A") {
           release <- "R2022A"
           metadata$release <- "R2022A"
           warning("Land grid only exist for release R2022A. The land grid of R2022A will be downloaded. \n")
         }
-        
+
         # check if the filename is valid
         if (!endsWith(filenames[[nr]], ".tif")) {
           stop("Invalid agrument: filenames should have extention .tif")
         }
       }
-      
+
       # construct target file
       metadata$file <- file.path(output_directory, filenames[[nr]])
       if (file.exists(metadata$file)) {
         stop(paste("Invalid argument:", metadata$file, "already exists"))
       }
-      
+
       # construct filename based on specifications
       GHSfilename <- paste0("GHS_", type, "_E", epoch, "_GLOBE_", release, "_", crs, "_", resolution, "_", paste(c("V1", "0"), collapse = "_"))
-      
-      
+
+
       # DOWNLOAD GLOBAL DATA
       if (all(extent == "global")) {
         metadata$extent <- c("global")
         tiffile <- file.path(output_directory, paste0(GHSfilename, ".tif"))
         zipfile <- file.path(output_directory, paste0(GHSfilename, ".zip"))
-        
+
         # construct url
         metadata$url <- construct_GHSLurl(type = type, epoch = epoch, release = release, crs = crs, resolution = resolution, version = version)
         # download the data
@@ -152,15 +152,15 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
         utils::unzip(zipfile, files = paste0(GHSfilename, ".tif"), exdir = output_directory)
         file.remove(zipfile)
         file.rename(tiffile, metadata$file)
-        
-        
+
+
         # DOWNLOAD FROM TILE IDS
       } else {
         metadata$extent <- c()
         grids <- list()
         i <- 0
         to_remove <- c()
-        
+
         # download data for each tile
         for (tile in extent) {
           if (is_GHSLtile(tile)) {
@@ -182,7 +182,7 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
             metadata$download_time <- format(Sys.time(), "%a %b %d %X %Y")
             utils::unzip(zipfile, files = paste0(GHSfilename, "_", tile, ".tif"), exdir = output_directory)
             to_remove <- append(to_remove, zipfile)
-            
+
             i <- i + 1
             grids[[i]] <- terra::rast(tiffile)
             to_remove <- append(to_remove, tiffile)
@@ -190,7 +190,7 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
             warning(paste(tile, "is not a valid GHSL tile and is ignored. \n"))
           }
         }
-        
+
         # check the length of the grids, if > 1, merge the grids
         if (length(grids) == 0) {
           stop("No valid GHSL tiles provided")
@@ -203,7 +203,7 @@ download_GHSLdata <- function(output_directory, products = c("POP", "BUILT_S", "
         terra::writeRaster(merged, metadata$file)
         file.remove(to_remove)
       }
-      
+
       # write the metadata
       write(jsonlite::toJSON(metadata), file.path(output_directory, gsub(".tif", ".json", filenames[[nr]])))
     }

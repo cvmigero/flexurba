@@ -13,7 +13,7 @@ test_that("get_clusters() works", {
       vals = c(NA, 1, 1, NA, 1, 1, NA, NA, NA)
     ))
   )
-  
+
   expect_equal(
     terra::values(get_clusters(
       xden = terra::rast(
@@ -27,7 +27,7 @@ test_that("get_clusters() works", {
       vals = c(NA, NA, NA, NA, NA, NA, NA, NA, NA)
     ))
   )
-  
+
   expect_equal(
     terra::values(get_clusters(
       xden = terra::rast(
@@ -45,7 +45,7 @@ test_that("get_clusters() works", {
       vals = c(NA, 1, 1, NA, 1, 1, 1, NA, NA)
     ))
   )
-  
+
   # 2 density thresholds
   expect_equal(
     terra::values(get_clusters(
@@ -66,7 +66,7 @@ test_that("get_clusters() works", {
       vals = c(NA, 1, 1, NA, 1, 1, NA, NA, NA)
     ))
   )
-  
+
   expect_equal(
     terra::values(get_clusters(
       xden = terra::rast(
@@ -85,7 +85,7 @@ test_that("get_clusters() works", {
       vals = c(NA, NA, NA, NA, NA, NA, NA, NA, NA)
     ))
   )
-  
+
   expect_equal(
     terra::values(get_clusters(
       xden = terra::rast(
@@ -108,7 +108,7 @@ test_that("get_clusters() works", {
       vals = c(NA, 1, 1, NA, 1, 1, 1, NA, NA)
     ))
   )
-  
+
   # extents don't match
   expect_error(terra::values(get_clusters(
     xden = terra::rast(
@@ -143,7 +143,7 @@ test_that("get_clusters() works", {
       vals = c(0, 5, 5, 0, 5, 0, 5, 0, 0)
     )
   )))
-  
+
   # invalid directions
   expect_error(terra::values(get_clusters(
     xden = terra::rast(

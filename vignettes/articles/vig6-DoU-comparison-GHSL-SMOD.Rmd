@@ -18,11 +18,13 @@ Despite our attempts to reconstruct the DEGURBA algorithm precisely, there are s
 ```{r eval=FALSE}
 library(flexurba)
 
-download_GHSLdata('regionsdata', extent="regions")
+download_GHSLdata("regionsdata", extent = "regions")
 
-DoU_classify_grid(data = 'regionsdata', 
-              filename = "regionsdata/result.tif",
-              regions = TRUE)
+DoU_classify_grid(
+  data = "regionsdata",
+  filename = "regionsdata/result.tif",
+  regions = TRUE
+)
 ```
 
 *Table: Cross-tabular comparison of global zonal statistics (in the number of square km grid cells) between (1) the Level 1 aggregation of the classes in the GHSL SMOD Layer and (2) the results of the `flexurba` grid classification*.![](figures/vig6-1.PNG){alt="table comparison GHS-SMOD"}

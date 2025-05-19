@@ -24,14 +24,14 @@ construct_GHSLurl <- function(type, epoch = 2020, release = "R2023A", crs = 5400
   if (!(type %in% c("BUILT_S", "POP", "LAND"))) {
     stop("Invalid argument: type should be BUILT_S, POP or LAND")
   }
-  
+
   # check if tile_id is valid
   if (!is.null(tile_id)) {
     if (!is_GHSLtile(tile_id)) {
       stop("Invalid argument: tile_id is not valid")
     }
   }
-  
+
   baseurl <- "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/"
   part1 <- paste0("GHS_", type, "_GLOBE_", release, "/")
   if (type == "BUILT_S" & release == "R2022A") {

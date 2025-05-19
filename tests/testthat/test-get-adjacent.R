@@ -9,7 +9,7 @@ test_that("get_adjacent() works", {
       vals = c(NA, 1, 1, NA, 1, 1, NA, NA, NA)
     ))
   )
-  
+
   expect_equal(
     terra::values(get_adjacent(
       terra::rast(

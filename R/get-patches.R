@@ -65,10 +65,10 @@ get_patches_rook <- function(x, cells = "all") {
   if (!(cells == "all")) {
     terra::values(x)[which(!(x[] %in% cells))] <- NA
   }
-  
+
   # assign same value to all non-NA cells
   terra::values(x)[which(!is.na(x[]))] <- 1
-  
+
   polygons <- terra::as.polygons(x) %>%
     sf::st_as_sf() %>%
     geos::as_geos_geometry() %>%
@@ -78,17 +78,17 @@ get_patches_rook <- function(x, cells = "all") {
     ) %>%
     geos::geos_write_wkt() %>%
     terra::vect()
-  
+
   # convert back to raster layer
   rast_lyr <- polygons %>%
     terra::rasterize(
       y = x,
       field = seq_len(nrow(polygons))
     )
-  
+
   names(rast_lyr) <- names(x)
   terra::set.values(rast_lyr, which(is.nan(rast_lyr[])), NA)
-  
+
   return(rast_lyr)
 }
 
@@ -98,21 +98,21 @@ get_patches_queen <- function(x, cells = "all") {
   if (!(cells == "all")) {
     terra::values(x)[which(!(x[] %in% cells))] <- NA
   }
-  
+
   # assign same value to all non-NA cells
   terra::values(x)[which(!is.na(x[]))] <- 1
-  
+
   geo <- geometry <- group <- neighbors <- length_of_neighbors <- NULL
   # convert to polygons
   polygons <- terra::as.polygons(x) %>%
     sf::st_as_sf() %>%
     geos::as_geos_geometry() %>%
     geos::geos_unnest(keep_multi = FALSE, keep_empty = FALSE)
-  
+
   # get a list of neighbors (= touching polygons)
   neighbor_list <- sf::st_intersects(sf::st_as_sf(polygons), prepared = TRUE, remove_self = TRUE)
   attributes(neighbor_list) <- NULL
-  
+
   # create data table
   dt <- data.table::data.table(
     id = seq_along(neighbor_list),
@@ -120,20 +120,20 @@ get_patches_queen <- function(x, cells = "all") {
     geo = polygons
   )
   dt[, length_of_neighbors := lengths(neighbors), ]
-  
+
   # assign a group id to neighbors
   dt[, group := group_polygons(.SD), ]
-  
+
   # merge geometries whitin the same group
   poly_queen <- dt[, list(geometry = geos::geos_write_wkt(geos::geos_make_collection(geo) %>% geos::geos_unary_union())), by = "group"][, geometry, ]
-  
+
   # convert the polygons back to a raster layer
   rast_lyr <- poly_queen %>%
     terra::vect() %>%
     terra::rasterize(y = x, field = seq_along(poly_queen))
   names(rast_lyr) <- names(x)
   terra::set.values(rast_lyr, which(is.nan(rast_lyr[])), NA)
-  
+
   return(rast_lyr)
 }
 
@@ -141,36 +141,36 @@ get_patches_queen <- function(x, cells = "all") {
 # HELPER FUNCTION FOR GROUPING POLYGONS WITH QUEEN CONTIGUITY
 group_polygons <- function(dt) {
   length_of_neighbors <- NULL
-  
+
   # create empty vector
   group <- rep(NA, nrow(dt))
   no_neigh <- dt[, length_of_neighbors, ] < 1
-  
+
   # assign unique id when no neighbors
   group[no_neigh] <- 1:sum(no_neigh)
-  
+
   # get current group value
   group_val <- sum(no_neigh)
   neighbor_list <- dt[, neighbors]
-  
+
   # as long as not all polygons are assigned to a group
   index <- 0
   while (!is.na(index)) {
     # get the first polygon not assigned to a group
     index <- fastmatch::fmatch(NA, group)
-    
+
     # get neighbors of the polygon
     neighbors <- neighbor_list[index]
-    
+
     currentlist <- c(index)
     previouslist <- c()
-    
+
     # iteratively get all polygons that are touching with the current list
     while (length(previouslist) != length(currentlist)) {
       previouslist <- currentlist
       currentlist <- unique(c(previouslist, unlist(neighbor_list[previouslist])))
     }
-    
+
     # assign id to the group of polygons
     group_val <- group_val + 1
     group[currentlist] <- group_val

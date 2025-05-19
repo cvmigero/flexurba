@@ -27,15 +27,15 @@ fill_gaps <- function(x, max_gap = 15) {
   if (!is.numeric(max_gap)) {
     stop(paste("Invalid argument:", max_gap, "is not a valid parameter for max_gap"))
   }
-  
+
   # convert to polygons
   polygons <- terra::as.polygons(x, dissolve = TRUE) %>%
     sf::st_as_sf()
-  
+
   if (nrow(polygons) > 0) {
     # fill gaps
     polygons <- nngeo::st_remove_holes(polygons, max_area = (max_gap - 1) * prod(terra::res(x)))
-    
+
     # convert to raster
     rast_lyr <- polygons %>%
       terra::vect() %>%
@@ -45,7 +45,7 @@ fill_gaps <- function(x, max_gap = 15) {
       )
     names(rast_lyr) <- names(x)
     terra::set.values(rast_lyr, which(is.na(rast_lyr[])), NA)
-    
+
     return(rast_lyr)
   } else {
     return(x)

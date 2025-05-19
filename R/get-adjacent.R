@@ -26,14 +26,14 @@ get_adjacent <- function(x, cells = "all", adjacent_value = 1, include = TRUE, d
   if (!(directions %in% c(4, 8))) {
     stop("Invalid argument: directions should be either 4 (rooks case) or 8 (queens case)")
   }
-  
+
   adjacent_grid <- x %>% terra::setValues(NA)
-  
+
   # select cells of interest
   if (cells != "all") {
     x <- terra::which.lyr(x == cells)
   }
-  
+
   adjacent_index <- terra::adjacent(
     x = x,
     cells = which(!is.na(x[])),
@@ -46,6 +46,6 @@ get_adjacent <- function(x, cells = "all", adjacent_value = 1, include = TRUE, d
   } else {
     adjacent_grid <- terra::mask(adjacent_grid, x, inverse = TRUE)
   }
-  
+
   return(adjacent_grid)
 }
