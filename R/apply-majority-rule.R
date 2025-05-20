@@ -27,13 +27,21 @@
 #' smoothed <- apply_majority_rule(r)
 #' terra::plot(smoothed)
 #' @export
-apply_majority_rule <- function(x, version = "R2022A", permanent_water = NULL, land = NULL, pop = NULL) {
+apply_majority_rule <- function(
+  x,
+  version = "R2022A",
+  permanent_water = NULL,
+  land = NULL,
+  pop = NULL
+) {
   if (!(version %in% c("R2022A", "R2023A"))) {
     stop("Invalid argument: version should be R2022A or R2023A")
   }
 
   if (version == "R2023A" & any(is.null(c(permanent_water, land, pop)))) {
-    stop("Invalid argument: permanent_water, land and pop are required when version is R2023A")
+    stop(
+      "Invalid argument: permanent_water, land and pop are required when version is R2023A"
+    )
   }
 
   if (version == "R2022A") {
@@ -42,7 +50,6 @@ apply_majority_rule <- function(x, version = "R2022A", permanent_water = NULL, l
     return(apply_majority_rule_R2023A(x, permanent_water, land, pop))
   }
 }
-
 
 
 #' Helper function for majority rule 2022
@@ -70,7 +77,11 @@ apply_majority_rule_R2022A <- function(x) {
   # as long as new cells are added to patches
   while (!no_new_cells) {
     # get cells adjacent cells to the newly added cells
-    adjacent_cells <- flexurba::get_adjacent(newly_added_cells, adjacent_value = adjacent_value, include = FALSE)
+    adjacent_cells <- flexurba::get_adjacent(
+      newly_added_cells,
+      adjacent_value = adjacent_value,
+      include = FALSE
+    )
 
     # combine current patches with the adjacent cells
     patches_with_ajacent <- terra::cover(current_patches, adjacent_cells)
@@ -94,8 +105,6 @@ apply_majority_rule_R2022A <- function(x) {
 
   return(current_patches)
 }
-
-
 
 
 #' Helper function for majority rule 2023
@@ -145,8 +154,10 @@ apply_majority_rule_R2023A <- function(x, permanent_water, land, pop) {
   # as long as new cells are added to urban centres
   while (!no_new_cells) {
     # get cells adjacent to the newly added cells
-    adjacent_cells <- flexurba::get_adjacent(newly_added_cells,
-      adjacent_value = adjacent_value, include = FALSE
+    adjacent_cells <- flexurba::get_adjacent(
+      newly_added_cells,
+      adjacent_value = adjacent_value,
+      include = FALSE
     )
 
     # mask with adjacent cells with ignore grid to get cells that are adjacent AND should be ignored

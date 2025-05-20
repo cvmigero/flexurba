@@ -25,7 +25,16 @@
 #'   labels = c("UC", "UCL", "RUR", "WAT")
 #' )
 #' @export
-DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
+DoU_plot_grid <- function(
+  classification,
+  extent = NULL,
+  level1 = TRUE,
+  palette = NULL,
+  labels = NULL,
+  title = NULL,
+  scalebar = FALSE,
+  filename = NULL
+) {
   # check if classification is SpatRaster, otherwise read the classification from file
   if (!inherits(classification, "SpatRaster")) {
     classification <- terra::rast(classification)
@@ -59,8 +68,12 @@ DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette 
   }
 
   # check if the palette and the values match
-  if (length(setdiff(unlist(terra::unique(classification)), names(palette))) != 0) {
-    warning("Some values in the grid classification are not included in the pallette (displayed in white) \n")
+  if (
+    length(setdiff(unlist(terra::unique(classification)), names(palette))) != 0
+  ) {
+    warning(
+      "Some values in the grid classification are not included in the pallette (displayed in white) \n"
+    )
   }
 
   # global variable
@@ -68,7 +81,10 @@ DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette 
 
   # return plot
   plotobj <- ggplot2::ggplot() +
-    tidyterra::geom_spatraster(data = plot_rast, ggplot2::aes(fill = .data[[layer]])) +
+    tidyterra::geom_spatraster(
+      data = plot_rast,
+      ggplot2::aes(fill = .data[[layer]])
+    ) +
     ggplot2::scale_fill_manual(
       breaks = as.numeric(names(palette)),
       values = palette,
@@ -78,11 +94,21 @@ DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette 
     ggplot2::labs(fill = NULL) +
     ggplot2::ggtitle(title) +
     ggplot2::theme_void() +
-    ggplot2::theme(legend.position = "bottom", plot.margin = grid::unit(c(0, 0, 0, 0), "mm"), plot.title = ggplot2::element_text(hjust = 0.5))
+    ggplot2::theme(
+      legend.position = "bottom",
+      plot.margin = grid::unit(c(0, 0, 0, 0), "mm"),
+      plot.title = ggplot2::element_text(hjust = 0.5)
+    )
 
   if (scalebar) {
     plotobj <- plotobj +
-      ggspatial::annotation_scale(pad_x = grid::unit(0.06, "npc"), pad_y = grid::unit(0.08, "npc"), width_hint = 0.10, height = grid::unit(0.08, "cm"), bar_cols = c("black"))
+      ggspatial::annotation_scale(
+        pad_x = grid::unit(0.06, "npc"),
+        pad_y = grid::unit(0.08, "npc"),
+        width_hint = 0.10,
+        height = grid::unit(0.08, "cm"),
+        bar_cols = c("black")
+      )
   }
 
   if (!is.null(filename)) {
@@ -108,7 +134,25 @@ DoU_plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette 
 #' @return ggplot object
 #' @keywords internal
 #' @export
-plot_grid <- function(classification, extent = NULL, level1 = TRUE, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
+plot_grid <- function(
+  classification,
+  extent = NULL,
+  level1 = TRUE,
+  palette = NULL,
+  labels = NULL,
+  title = NULL,
+  scalebar = FALSE,
+  filename = NULL
+) {
   lifecycle::deprecate_soft("1.0.0.0", "plot_grid()", "DoU_plot_grid()")
-  DoU_plot_grid(classification, extent, level1, palette, labels, title, scalebar, filename)
+  DoU_plot_grid(
+    classification,
+    extent,
+    level1,
+    palette,
+    labels,
+    title,
+    scalebar,
+    filename
+  )
 }

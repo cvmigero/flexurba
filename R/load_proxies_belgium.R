@@ -27,8 +27,23 @@
 #' @export
 load_proxies_belgium <- function() {
   return(list(
-    pop = terra::rast(system.file("extdata", "belgium", "processed-ghs-pop-belgium.tif", package = "flexurba")),
-    built = terra::rast(system.file("extdata", "belgium", "processed-ghs-built-s-belgium.tif", package = "flexurba")),
-    light = terra::rast(system.file("extdata", "belgium", "processed-viirs-light-belgium.tif", package = "flexurba"))
+    pop = terra::rast(system.file(
+      "extdata",
+      "belgium",
+      "processed-ghs-pop-belgium.tif",
+      package = "flexurba"
+    )),
+    built = terra::rast(system.file(
+      "extdata",
+      "belgium",
+      "processed-ghs-built-s-belgium.tif",
+      package = "flexurba"
+    )),
+    light = terra::rast(system.file(
+      "extdata",
+      "belgium",
+      "processed-viirs-light-belgium.tif",
+      package = "flexurba"
+    ))
   ))
 }

@@ -32,7 +32,6 @@ write_metadata <- function(metadata_file, metadata) {
 }
 
 
-
 #' Convert a SpatExtent to a vector layer
 #'
 #' The function returns an object of class `sf` with 1 polygon covering the same area as the SpatExtent
@@ -45,20 +44,20 @@ convert_spatextent_to_layer <- function(extent, crs = "ESRI:54009") {
   extent <- terra::ext(extent) %>%
     as.list()
 
-  return(sf::st_as_sf(
-    x = data.frame(
-      x = c(extent$xmin, extent$xmax),
-      y = c(extent$ymin, extent$ymax)
-    ),
-    coords = c("x", "y"),
-    crs = crs
-  ) %>%
-    sf::st_bbox() %>%
-    sf::st_as_sfc() %>%
-    sf::st_as_sf())
+  return(
+    sf::st_as_sf(
+      x = data.frame(
+        x = c(extent$xmin, extent$xmax),
+        y = c(extent$ymin, extent$ymax)
+      ),
+      coords = c("x", "y"),
+      crs = crs
+    ) %>%
+      sf::st_bbox() %>%
+      sf::st_as_sfc() %>%
+      sf::st_as_sf()
+  )
 }
-
-
 
 
 #' Crop multiple SpatRasters to the one with the smallest extent
@@ -78,8 +77,6 @@ crop_to_smallest_extent <- function(...) {
 }
 
 
-
-
 #' Filter spatial units based on a SpatExtent
 #'
 #' The function filters spatial units based on the provided extent. Only polygons that intersect with the extent are retained.
@@ -89,7 +86,12 @@ crop_to_smallest_extent <- function(...) {
 #' @param filename character. Output filename
 #' @return object of class `sf` with filtered data
 #' @noRd
-filter_units_on_extent <- function(units, extent, crs = "ESRI:54009", filename = NULL) {
+filter_units_on_extent <- function(
+  units,
+  extent,
+  crs = "ESRI:54009",
+  filename = NULL
+) {
   # convert to bbox
   bbox <- convert_spatextent_to_layer(extent, crs)
 
@@ -100,7 +102,11 @@ filter_units_on_extent <- function(units, extent, crs = "ESRI:54009", filename =
   sf::st_geometry(units) <- "geometry"
   units <- units %>%
     sf::st_transform(crs) %>%
-    dplyr::filter(as.vector(sf::st_intersects(.data[["geometry"]], bbox, sparse = FALSE)))
+    dplyr::filter(as.vector(sf::st_intersects(
+      .data[["geometry"]],
+      bbox,
+      sparse = FALSE
+    )))
 
   # write the data
   if (!is.null(filename)) {
@@ -109,7 +115,6 @@ filter_units_on_extent <- function(units, extent, crs = "ESRI:54009", filename =
 
   return(units)
 }
-
 
 
 #' Get the color palette of the Degree of Urbanisation

@@ -17,7 +17,11 @@
 #' DoU_load_grid_data_belgium()
 #' @export
 DoU_load_grid_data_belgium <- function() {
-  return(DoU_preprocess_grid(system.file("extdata", "belgium", package = "flexurba")))
+  return(DoU_preprocess_grid(system.file(
+    "extdata",
+    "belgium",
+    package = "flexurba"
+  )))
 }
 
 #' Load the grid data for Belgium to reconstruct DEGURBA classification

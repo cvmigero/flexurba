@@ -54,29 +54,54 @@
 #'   directions = 8
 #' ))
 #' @export
-get_clusters <- function(xden, minden, xden2 = NULL, minden2 = NULL, xsiz = NULL, minsiz, directions) {
+get_clusters <- function(
+  xden,
+  minden,
+  xden2 = NULL,
+  minden2 = NULL,
+  xsiz = NULL,
+  minsiz,
+  directions
+) {
   # if no grid is provided, use the density grid
   if (is.null(xsiz)) {
     xsiz <- xden
   }
 
   if (!is.numeric(minden)) {
-    stop(paste("Invalid argument:", minden, "is not a valid parameter for the minimum density threshold"))
+    stop(paste(
+      "Invalid argument:",
+      minden,
+      "is not a valid parameter for the minimum density threshold"
+    ))
   }
   if (!is.null(minden2) & !is.numeric(minden2)) {
-    stop(paste("Invalid argument:", minden2, "is not a valid parameter for the minimum density threshold"))
+    stop(paste(
+      "Invalid argument:",
+      minden2,
+      "is not a valid parameter for the minimum density threshold"
+    ))
   }
   if (!is.null(minsiz) & !is.numeric(minsiz)) {
-    stop(paste("Invalid argument:", minsiz, "is not a valid parameter for the minimum size threshold"))
+    stop(paste(
+      "Invalid argument:",
+      minsiz,
+      "is not a valid parameter for the minimum size threshold"
+    ))
   }
 
   # none or both should be NULL
   if (sum(c(is.null(minden2)), is.null(xden2)) == 1) {
-    stop(paste("Invalig arguments: minden2 and xden2 should be both provided or both NULL"))
+    stop(paste(
+      "Invalig arguments: minden2 and xden2 should be both provided or both NULL"
+    ))
   }
 
   if (!is.null(xden2)) {
-    if ((terra::ext(xden) != terra::ext(xden2)) | (terra::ext(xden) != terra::ext(xsiz))) {
+    if (
+      (terra::ext(xden) != terra::ext(xden2)) |
+        (terra::ext(xden) != terra::ext(xsiz))
+    ) {
       stop("Invalid argument: extents of the provided grids do not match.")
     }
   } else {
@@ -101,14 +126,19 @@ get_clusters <- function(xden, minden, xden2 = NULL, minden2 = NULL, xsiz = NULL
   zonal_statistics <- xsiz %>%
     terra::zonal(
       z = densepatches,
-      fun = sum, na.rm = TRUE
+      fun = sum,
+      na.rm = TRUE
     ) %>%
     as.data.frame()
   colnames(zonal_statistics) <- c("cluster", "sum")
   largeclusters <- zonal_statistics %>% dplyr::filter(sum >= minsiz)
 
   # only keep clusters sufficiently large
-  terra::set.values(densepatches, which(!(densepatches[] %in% largeclusters$cluster)), NA)
+  terra::set.values(
+    densepatches,
+    which(!(densepatches[] %in% largeclusters$cluster)),
+    NA
+  )
   names(densepatches) <- names(xden)
 
   return(densepatches)

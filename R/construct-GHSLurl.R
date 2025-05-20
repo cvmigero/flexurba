@@ -19,7 +19,15 @@
 #' construct_GHSLurl("POP", epoch = 2000, resolution = 100)
 #' construct_GHSLurl("LAND", epoch = 2018, resolution = 1000, tile_id = "R3_C19")
 #' @noRd
-construct_GHSLurl <- function(type, epoch = 2020, release = "R2023A", crs = 54009, resolution = 1000, version = c("V1", "0"), tile_id = NULL) {
+construct_GHSLurl <- function(
+  type,
+  epoch = 2020,
+  release = "R2023A",
+  crs = 54009,
+  resolution = 1000,
+  version = c("V1", "0"),
+  tile_id = NULL
+) {
   # check if type is valid
   if (!(type %in% c("BUILT_S", "POP", "LAND"))) {
     stop("Invalid argument: type should be BUILT_S, POP or LAND")
@@ -39,13 +47,53 @@ construct_GHSLurl <- function(type, epoch = 2020, release = "R2023A", crs = 5400
   } else {
     part2 <- ""
   }
-  part3 <- paste0("GHS_", type, "_E", epoch, "_GLOBE_", release, "_", crs, "_", resolution, "/")
+  part3 <- paste0(
+    "GHS_",
+    type,
+    "_E",
+    epoch,
+    "_GLOBE_",
+    release,
+    "_",
+    crs,
+    "_",
+    resolution,
+    "/"
+  )
   part4 <- paste0(paste(c("V1", "0"), collapse = "-"), "/")
   if (is.null(tile_id)) {
     # global grid
-    part5 <- paste0("GHS_", type, "_E", epoch, "_GLOBE_", release, "_", crs, "_", resolution, "_", paste(c("V1", "0"), collapse = "_"))
+    part5 <- paste0(
+      "GHS_",
+      type,
+      "_E",
+      epoch,
+      "_GLOBE_",
+      release,
+      "_",
+      crs,
+      "_",
+      resolution,
+      "_",
+      paste(c("V1", "0"), collapse = "_")
+    )
   } else {
-    part5 <- paste0("tiles/GHS_", type, "_E", epoch, "_GLOBE_", release, "_", crs, "_", resolution, "_", paste(c("V1", "0"), collapse = "_"), "_", tile_id)
+    part5 <- paste0(
+      "tiles/GHS_",
+      type,
+      "_E",
+      epoch,
+      "_GLOBE_",
+      release,
+      "_",
+      crs,
+      "_",
+      resolution,
+      "_",
+      paste(c("V1", "0"), collapse = "_"),
+      "_",
+      tile_id
+    )
   }
   part6 <- ".zip"
   return(paste0(baseurl, part1, part2, part3, part4, part5, part6))

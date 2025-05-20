@@ -25,7 +25,12 @@
 #' @details
 #' The values of the land grid and built-up area grid should range from `0` to `1`, representing the proportion of permanent land and built-up area respectively. However, the grid values of the GHSL are standard in m². With a cell size of 1 km², the values thus range from `0` to `1 000 000`. The two grids can be rescaled by setting `rescale_land=TRUE` and/or `rescale_built=TRUE` respectively.
 #' @export
-DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"), rescale_land = TRUE, rescale_built = TRUE) {
+DoU_preprocess_grid <- function(
+  directory,
+  filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"),
+  rescale_land = TRUE,
+  rescale_built = TRUE
+) {
   # check if the directory exists
   if (!dir.exists(directory)) {
     stop(paste("Invalid argument:", directory, "does not exist"))
@@ -33,7 +38,12 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
 
   # check if files exist in directory
   if (!all(filenames %in% list.files(directory))) {
-    stop(paste("Invalid argument:", paste0(filenames, collapse = ", "), " are no files in ", directory))
+    stop(paste(
+      "Invalid argument:",
+      paste0(filenames, collapse = ", "),
+      " are no files in ",
+      directory
+    ))
   }
 
   # read the grid files
@@ -42,14 +52,20 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
   land <- terra::rast(file.path(directory, filenames[[3]]))
 
   # check if resolution of grids match
-  if (length(unique(c(terra::res(built), terra::res(pop), terra::res(land)))) != 1) {
+  if (
+    length(unique(c(terra::res(built), terra::res(pop), terra::res(land)))) != 1
+  ) {
     stop("Invalid argument: the resolution of the grids do not match")
   }
 
   # get resolution of the grids
   resolution <- terra::res(land)[[1]]
   if (resolution != 1000) {
-    warning(paste0("You are using a grid with a resolution of ", resolution, "m . The official algorithm of the Degree of Urbanisation is designed to be applied on a 1000 m grid.\n"))
+    warning(paste0(
+      "You are using a grid with a resolution of ",
+      resolution,
+      "m . The official algorithm of the Degree of Urbanisation is designed to be applied on a 1000 m grid.\n"
+    ))
   }
 
   # rescale the grids if necessary
@@ -65,8 +81,13 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
 
   # check if the grids are in the Mollweide projection
   for (i in seq_along(grids)) {
-    if (terra::crs(grids[[i]], proj = TRUE) != terra::crs("ESRI:54009", proj = TRUE)) {
-      stop(paste("Invalid argument: the grids should be in the Mollweide projection."))
+    if (
+      terra::crs(grids[[i]], proj = TRUE) !=
+        terra::crs("ESRI:54009", proj = TRUE)
+    ) {
+      stop(paste(
+        "Invalid argument: the grids should be in the Mollweide projection."
+      ))
     }
   }
 
@@ -89,8 +110,13 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
 
   # write metadata files
   for (i in seq_along(metadata_list)) {
-    if (file.exists(file.path(directory, gsub(".tif", ".json", filenames[[i]])))) {
-      data[[metadata_list[[i]]]] <- jsonlite::fromJSON(file.path(directory, gsub(".tif", ".json", filenames[[i]])))
+    if (
+      file.exists(file.path(directory, gsub(".tif", ".json", filenames[[i]])))
+    ) {
+      data[[metadata_list[[i]]]] <- jsonlite::fromJSON(file.path(
+        directory,
+        gsub(".tif", ".json", filenames[[i]])
+      ))
     } else {
       data[[metadata_list[[i]]]] <- NULL
     }
@@ -121,6 +147,11 @@ DoU_preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif
 #' - `metadata_LAND`: the metadata of the land grid.
 #' @keywords internal
 #' @export
-preprocess_grid <- function(directory, filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"), rescale_land = TRUE, rescale_built = TRUE) {
+preprocess_grid <- function(
+  directory,
+  filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"),
+  rescale_land = TRUE,
+  rescale_built = TRUE
+) {
   return(DoU_preprocess_grid(directory, filenames, rescale_land, rescale_built))
 }

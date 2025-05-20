@@ -110,7 +110,11 @@ get_patches_queen <- function(x, cells = "all") {
     geos::geos_unnest(keep_multi = FALSE, keep_empty = FALSE)
 
   # get a list of neighbors (= touching polygons)
-  neighbor_list <- sf::st_intersects(sf::st_as_sf(polygons), prepared = TRUE, remove_self = TRUE)
+  neighbor_list <- sf::st_intersects(
+    sf::st_as_sf(polygons),
+    prepared = TRUE,
+    remove_self = TRUE
+  )
   attributes(neighbor_list) <- NULL
 
   # create data table
@@ -125,7 +129,14 @@ get_patches_queen <- function(x, cells = "all") {
   dt[, group := group_polygons(.SD), ]
 
   # merge geometries whitin the same group
-  poly_queen <- dt[, list(geometry = geos::geos_write_wkt(geos::geos_make_collection(geo) %>% geos::geos_unary_union())), by = "group"][, geometry, ]
+  poly_queen <- dt[,
+    list(
+      geometry = geos::geos_write_wkt(
+        geos::geos_make_collection(geo) %>% geos::geos_unary_union()
+      )
+    ),
+    by = "group"
+  ][, geometry, ]
 
   # convert the polygons back to a raster layer
   rast_lyr <- poly_queen %>%
@@ -168,7 +179,10 @@ group_polygons <- function(dt) {
     # iteratively get all polygons that are touching with the current list
     while (length(previouslist) != length(currentlist)) {
       previouslist <- currentlist
-      currentlist <- unique(c(previouslist, unlist(neighbor_list[previouslist])))
+      currentlist <- unique(c(
+        previouslist,
+        unlist(neighbor_list[previouslist])
+      ))
     }
 
     # assign id to the group of polygons

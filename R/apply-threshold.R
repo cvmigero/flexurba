@@ -74,12 +74,23 @@
 #' terra::plot(datadriven_relative$rboundaries)
 #'
 #' @export
-apply_threshold <- function(grid, type = "predefined", threshold_value = NULL, fun = NULL, ..., regions = NULL, operator = "greater_than", smoothing = TRUE) {
+apply_threshold <- function(
+  grid,
+  type = "predefined",
+  threshold_value = NULL,
+  fun = NULL,
+  ...,
+  regions = NULL,
+  operator = "greater_than",
+  smoothing = TRUE
+) {
   # check if spatraster only has 1 layer
   if (terra::nlyr(grid) > 1) {
     grid <- grid[[1]]
-    warning("The provided grid has multiple layers, be aware that the threshold
-            is derived from and applied to the first layer.")
+    warning(
+      "The provided grid has multiple layers, be aware that the threshold
+            is derived from and applied to the first layer."
+    )
   }
 
   # PROCESS regions
@@ -101,16 +112,18 @@ apply_threshold <- function(grid, type = "predefined", threshold_value = NULL, f
   # CHECK ARGUMENTS
   check_arguments(type, threshold_value, nr_of_regions, fun)
 
-
   # PREDEFINED THRESHOLD
   if (type == "predefined") {
     threshold_per_region <- cbind(region_value, threshold_value)
 
-
-
     # DATA-DRIVEN THRESHOLD
   } else if (type == "data-driven") {
-    threshold_per_region <- derive_data_driven_threshold(grid, numregions, fun, ...)
+    threshold_per_region <- derive_data_driven_threshold(
+      grid,
+      numregions,
+      fun,
+      ...
+    )
   }
 
   names(threshold_per_region) <- c("region_value", "threshold_value")
@@ -120,18 +133,25 @@ apply_threshold <- function(grid, type = "predefined", threshold_value = NULL, f
 
   applied_threshold <- list()
   applied_threshold$rboundaries <- compare_grid_to_threshold(
-    grid, threshold_raster,
-    operator, smoothing
+    grid,
+    threshold_raster,
+    operator,
+    smoothing
   )
-  applied_threshold$vboundaries <- sf::st_as_sf(terra::as.polygons(applied_threshold$rboundaries))
+  applied_threshold$vboundaries <- sf::st_as_sf(terra::as.polygons(
+    applied_threshold$rboundaries
+  ))
 
   if (all(region_levels == "")) {
     applied_threshold$threshold <- threshold_per_region
 
     # add region name to the dataframe
   } else {
-    applied_threshold$threshold <- merge(threshold_per_region, region_levels,
-      by.x = "region_value", by.y = "ID"
+    applied_threshold$threshold <- merge(
+      threshold_per_region,
+      region_levels,
+      by.x = "region_value",
+      by.y = "ID"
     )
   }
 
@@ -147,30 +167,43 @@ check_arguments <- function(type, threshold_value, nr_of_regions, fun) {
   if (type == "predefined") {
     # a threshold_value should be provided
     if (is.null(threshold_value)) {
-      stop("Invalid arguments: if type is 'predefined', then a threshold_value should be provided.")
+      stop(
+        "Invalid arguments: if type is 'predefined', then a threshold_value should be provided."
+      )
     }
 
     # check if provided threshold_value is correct format
-    if (!is.numeric(threshold_value) | !(length(threshold_value) %in% c(1, nr_of_regions))) {
-      stop(paste("Invalid argument: the threshold_value should be a numeric value or a
-                 vector of values with the same length as the number of regions."))
+    if (
+      !is.numeric(threshold_value) |
+        !(length(threshold_value) %in% c(1, nr_of_regions))
+    ) {
+      stop(paste(
+        "Invalid argument: the threshold_value should be a numeric value or a
+                 vector of values with the same length as the number of regions."
+      ))
     }
 
     # warning if function is provided
     if (!is.null(fun)) {
-      warning('A function is provided, but be aware it will not be used as the threshold type is "predefined".')
+      warning(
+        'A function is provided, but be aware it will not be used as the threshold type is "predefined".'
+      )
     }
   }
 
   if (type == "data-driven") {
     # a function should be provided
     if (is.null(fun)) {
-      stop("Invalid arguments: if type is 'data-driven', then a function should be provided.")
+      stop(
+        "Invalid arguments: if type is 'data-driven', then a function should be provided."
+      )
     }
 
     # warning if threshold is provided
     if (!is.null(threshold_value)) {
-      warning('A threshold value is provided, but be aware it will not be used as the threshold type is "data-driven".')
+      warning(
+        'A threshold value is provided, but be aware it will not be used as the threshold type is "data-driven".'
+      )
     }
   }
 }
@@ -212,16 +245,23 @@ derive_data_driven_threshold <- function(grid, regions, fun, ...) {
 
     # else error
   } else {
-    stop("Invalid argument: fun should be 'min', 'max', 'mean', 'median', or
+    stop(
+      "Invalid argument: fun should be 'min', 'max', 'mean', 'median', or
            'pX' where X is a percentile value (e.g., p25 for the
-           25% percentile value")
+           25% percentile value"
+    )
   }
 
   return(threshold_per_region)
 }
 
 
-compare_grid_to_threshold <- function(grid, threshold, operator = "greater_than", smoothing = TRUE) {
+compare_grid_to_threshold <- function(
+  grid,
+  threshold,
+  operator = "greater_than",
+  smoothing = TRUE
+) {
   if (operator == "greater_than") {
     boundaries <- terra::which.lyr(grid > threshold)
   } else if (operator == "greater_or_equal") {
@@ -233,7 +273,9 @@ compare_grid_to_threshold <- function(grid, threshold, operator = "greater_than"
   } else if (operator == "equals") {
     boundaries <- terra::which.lyr(grid == threshold)
   } else {
-    stop("Invalid argument: operator should be one of: 'greater_than', 'greater_or_equal', 'smaller_than', 'smaller_or_equal', 'equals'.")
+    stop(
+      "Invalid argument: operator should be one of: 'greater_than', 'greater_or_equal', 'smaller_than', 'smaller_or_equal', 'equals'."
+    )
   }
 
   if (smoothing) {

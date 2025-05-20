@@ -18,8 +18,10 @@
 convert_regions_to_grid <- function(regions, referencegrid, id = NULL) {
   if (!inherits(regions, "sf")) {
     if (!is.character(regions)) {
-      stop('Invalid argument: regions should be the path to a vector layer with
-           spatial units, or an object of class "sf"')
+      stop(
+        'Invalid argument: regions should be the path to a vector layer with
+           spatial units, or an object of class "sf"'
+      )
     }
     regions <- sf::st_read(regions, quiet = TRUE)
   }

@@ -35,7 +35,18 @@
 #'   labels = c("C", "T", "R")
 #' )
 #' @export
-DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent = NULL, column = NULL, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
+DoU_plot_units <- function(
+  units,
+  classification = NULL,
+  level1 = TRUE,
+  extent = NULL,
+  column = NULL,
+  palette = NULL,
+  labels = NULL,
+  title = NULL,
+  scalebar = FALSE,
+  filename = NULL
+) {
   # global variable
   .data <- NULL
 
@@ -74,26 +85,38 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
     }
     sf::st_geometry(units) <- "geometry"
     units <- units %>%
-      dplyr::filter(as.vector(sf::st_intersects(.data[["geometry"]], extent, sparse = FALSE)))
+      dplyr::filter(as.vector(sf::st_intersects(
+        .data[["geometry"]],
+        extent,
+        sparse = FALSE
+      )))
   }
 
   # join units and classification
   if (!is.null(classification)) {
     if (length(intersect(names(classification), names(units))) == 0) {
-      stop("Invalid argument: there is no common column in 'classification' and 'units'")
+      stop(
+        "Invalid argument: there is no common column in 'classification' and 'units'"
+      )
     }
     suppressMessages(units <- units %>% dplyr::left_join(classification))
   }
 
   # check if the column name is present in the data.frame
   if (!(column %in% names(units))) {
-    stop(paste("Invalid argument:", column, "is not a column in the provided data"))
+    stop(paste(
+      "Invalid argument:",
+      column,
+      "is not a column in the provided data"
+    ))
   }
 
   # check if the palette and the values match
   units[[column]] <- as.factor(units[[column]])
   if (length(setdiff(unique(units[[column]]), names(palette))) != 0) {
-    warning("Some values in the spatial units classification are not included in the pallette (displayed in white) \n")
+    warning(
+      "Some values in the spatial units classification are not included in the pallette (displayed in white) \n"
+    )
   }
 
   # return plot
@@ -108,11 +131,21 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
     ggplot2::labs(fill = NULL) +
     ggplot2::ggtitle(title) +
     ggplot2::theme_void() +
-    ggplot2::theme(legend.position = "bottom", plot.margin = grid::unit(c(0, 0, 0, 0), "mm"), plot.title = ggplot2::element_text(hjust = 0.5))
+    ggplot2::theme(
+      legend.position = "bottom",
+      plot.margin = grid::unit(c(0, 0, 0, 0), "mm"),
+      plot.title = ggplot2::element_text(hjust = 0.5)
+    )
 
   if (scalebar) {
     plotobj <- plotobj +
-      ggspatial::annotation_scale(pad_x = grid::unit(0.06, "npc"), pad_y = grid::unit(0.08, "npc"), width_hint = 0.10, height = grid::unit(0.08, "cm"), bar_cols = c("black"))
+      ggspatial::annotation_scale(
+        pad_x = grid::unit(0.06, "npc"),
+        pad_y = grid::unit(0.08, "npc"),
+        width_hint = 0.10,
+        height = grid::unit(0.08, "cm"),
+        bar_cols = c("black")
+      )
   }
 
   if (!is.null(filename)) {
@@ -140,7 +173,29 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
 #' @param filename character. Path to the location to save the plot
 #' @return ggplot object
 #' @export
-plot_units <- function(units, classification = NULL, level1 = TRUE, extent = NULL, column = NULL, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
+plot_units <- function(
+  units,
+  classification = NULL,
+  level1 = TRUE,
+  extent = NULL,
+  column = NULL,
+  palette = NULL,
+  labels = NULL,
+  title = NULL,
+  scalebar = FALSE,
+  filename = NULL
+) {
   lifecycle::deprecate_soft("1.0.0.0", "plot_units()", "DoU_plot_units()")
-  DoU_plot_units(units, classification, level1, extent, column, palette, labels, title, scalebar, filename)
+  DoU_plot_units(
+    units,
+    classification,
+    level1,
+    extent,
+    column,
+    palette,
+    labels,
+    title,
+    scalebar,
+    filename
+  )
 }
