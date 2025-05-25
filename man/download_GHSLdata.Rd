@@ -27,7 +27,7 @@ download_GHSLdata(
 
 \item{crs}{integer. EPSG code of the coordinate system: for example, \code{54009} for Mollweide.}
 
-\item{resolution}{integer. Resolution (in metersfor Mollweide projection).}
+\item{resolution}{integer. Resolution (in meters for Mollweide projection).}
 
 \item{version}{vector with the version code and number}
 

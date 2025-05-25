@@ -24,6 +24,21 @@ test_that("DoU_classify_units() works", {
     as.vector(units_classification$flexurba_L1)[100:110],
     c("2", "2", "3", "2", "2", "2", "2", "1", "2", "2", "2")
   )
+  
+  # alternative workflow
+  units_classification_alternative <- flexurba::DoU_classify_units(
+    data,
+    official_workflow = FALSE
+  )
+  
+  expect_equal(
+    as.vector(units_classification_alternative$flexurba_L1)[20:30],
+    c("3", "2", "3", "2", "2", "3", "1", "2", "2", "3", "2")
+  )
+  expect_equal(
+    as.vector(units_classification_alternative$flexurba_L1)[100:110],
+    c("2", "2", "2", "3", "2", "2", "2", "2", "1", "3", "2")
+  )
 
   # units classification by dissolving municipalities to arrondissements
   data2 <- flexurba::DoU_preprocess_units(
@@ -41,14 +56,28 @@ test_that("DoU_classify_units() works", {
 
   # units should be in Mollweide projection
   expect_error(flexurba::DoU_preprocess_units(
-    sf::st_transform(units, 4326),
+    sf::st_transform(flexurba::units_belgium, 4326),
     classification,
     pop
+  ))
+  
+  # invalid classification
+  expect_error(flexurba::DoU_preprocess_units(
+    flexurba::units_belgium, 
+    classification=4326,
+    pop
+  ))
+  
+  # invalid pop
+  expect_error(flexurba::DoU_preprocess_units(
+    flexurba::units_belgium, 
+    classification,
+    pop=flexurba::units_belgium
   ))
 
   # resolution of grids should be multiple of resample resolution
   expect_error(flexurba::DoU_preprocess_units(
-    units,
+    flexurba::units_belgium,
     classification,
     pop,
     resample_resolution = 58
@@ -56,12 +85,12 @@ test_that("DoU_classify_units() works", {
 
   # invalid dissolve_units_by parameter
   expect_error(flexurba::DoU_preprocess_units(
-    units,
+    flexurba::units_belgium,
     classification,
     pop,
     dissolve_units_by = "ERROR"
   ))
-
+  
   # invalid values
   expect_error(flexurba::DoU_classify_units(data, values = "ERROR"))
   expect_error(flexurba::DoU_classify_units(data, values = c(9, 8, 7)))

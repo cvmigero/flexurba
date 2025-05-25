@@ -18,13 +18,18 @@ test_that("DoU_plot_units() works", {
     flexurba::units_belgium,
     classification,
     extent = sf::st_bbox(
-      flexurba::units_belgium %>% dplyr::filter(NAME_4 == "Brugge"),
-      column='flexurba_L2',
-      level1=FALSE,
-      title='TEST',
-      scalebar=TRUE,
-      filename=file.path(tempdir(), 'test.png')
+        flexurba::units_belgium %>% dplyr::filter(NAME_4 == "Brugge")
+    ),
+    column='flexurba_L1',
+    title='TEST',
+    scalebar=TRUE,
+    filename=file.path(tempdir(), 'test.png')
     )
+  )
+  
+  expect_no_error(plot_units(
+    flexurba::units_belgium,
+    classification
   ))
 
   expect_no_error(DoU_plot_units(

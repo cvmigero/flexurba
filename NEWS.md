@@ -2,7 +2,9 @@
 
 * Update spatial boundaries in `flexurba::units_belgium` based on data from the [Algemene Directie Statistiek - Statistics Belgium](https://statbel.fgov.be/nl/open-data/statistische-sectoren-2024), as these are available under Creative Commons CC BY 4.0 licence. Note that analysis that rely on `flexurba::units_belgium` might have different results. 
 
-* Several minor modifications on the developers side of the package to prepare for CRAN submission.
+* Update parameter list in the function `flexurba::DoU_get_grid_parameters()`. The values `UC_smooth_pop` and `UC_smooth_pop_window` were missing from Level 1. 
+
+* Several minor modifications on the developers side of the package to prepare for a CRAN submission.
 
 
 # flexurba 0.2.0

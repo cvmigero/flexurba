@@ -688,7 +688,7 @@ test_that("the different parameters work", {
         UC_contiguity_rule = 8,
         UC_built_criterium = TRUE,
         UC_built_threshold = 0.25,
-        built_optimal_data = NULL,
+        built_optimal_data = system.file("extdata", "belgium", package = "flexurba"),
         UC_gap_fill = TRUE,
         UC_max_gap = 7,
         UC_smooth_edge = TRUE,
@@ -696,7 +696,7 @@ test_that("the different parameters work", {
         DUC_density_threshold = 1200,
         DUC_size_threshold = 4500,
         DUC_built_criterium = TRUE,
-        DUC_built_threshold = 0.25,
+        DUC_built_threshold = "optimal",
         DUC_contiguity_rule = 8,
         SDUC_density_threshold = 800,
         SDUC_size_threshold = 2000,
@@ -777,8 +777,8 @@ test_that("the different parameters work", {
         UC_size_threshold = 60000,
         UC_contiguity_rule = 8,
         UC_built_criterium = TRUE,
-        UC_built_threshold = 0.25,
-        built_optimal_data = NULL,
+        UC_built_threshold = "optimal",
+        built_optimal_data = system.file("extdata", "belgium", package = "flexurba"),
         UC_smooth_pop = TRUE,
         UC_smooth_pop_window = 5,
         UC_gap_fill = TRUE,
@@ -1028,4 +1028,51 @@ test_that("the errors are thrown in case of invalid arguments", {
       water_built_threshold = 'WRONG'
     )
   )
+  
+  # general grid classification
+  expect_error(
+    DoU_classify_grid(
+      data = data,
+      parameters = list(wrongvalue = TRUE)
+    )
+  )
+  
+  expect_error(
+    DoU_classify_grid(
+      data = data,
+      parameters = list(LDR_density_threshold = TRUE)
+    )
+  )
+  
+  expect_error(
+    DoU_classify_grid(
+      data = data,
+      parameters = list(UC_built_threshold = "optimal",
+                        built_optimal_data = NULL)
+    )
+   )
+    
+    # preprocess grid
+  expect_error(
+    DoU_preprocess_grid(
+      system.file("extdata", package = "flexurba")
+    )
+  )
+})
+
+test_that("the depricated functions exist", {
+  
+  expect_no_error({
+    data_belgium <- preprocess_grid(system.file("extdata", 
+                                        "belgium", package = "flexurba"))
+    classification <- classify_grid_urban_centres(data_belgium)
+    classification <- classify_grid_urban_clusters(data_belgium, 
+                                        classification = classification)
+    classification <- classify_grid_rural(data_belgium, 
+                                        classification = classification)
+    classification <- classify_grid_water(data_belgium, 
+                                        classification = classification)
+  })
+  
+  
 })

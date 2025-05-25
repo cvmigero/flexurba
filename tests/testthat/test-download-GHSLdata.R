@@ -13,7 +13,7 @@ test_that("download_GHSLdata() works", {
   
   expect_no_error(
     download_GHSLdata(
-      output_directory=tempdir(),
+      output_directory=file.path(tempdir(), 'test'),
       products = c("POP", 'BUILT_S'),
       epoch = 1975,
       crs = 54009,
@@ -24,7 +24,28 @@ test_that("download_GHSLdata() works", {
   
   expect_error(
     download_GHSLdata(
-      products = c('WRONG'),
+      products = c('POP'),
+      output_directory=tempdir(),
+      epoch = 2022,
+      filenames = c('POP.tif')
+    ))
+  
+  expect_error(
+    download_GHSLdata(
+      products = c('ONLY ONE'),
+      output_directory=tempdir()
+    ))
+  
+  expect_error(
+    download_GHSLdata(
+      products = c('POP'),
+      output_directory=tempdir(),
+      filenames = c('POP')
+    ))
+  
+  expect_error(
+    download_GHSLdata(
+      products = c('POP', 'BUILT', 'WRONG'),
       output_directory=tempdir()
     ))
   

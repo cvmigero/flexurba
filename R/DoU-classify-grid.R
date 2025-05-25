@@ -150,7 +150,10 @@
 #'      - `"majority_rule_R2022A"` to use the edge smoothing algorithm in GHSL Data Package 2022 (see section "Edge smoothing" below)
 #'      - `"majority_rule_R2023A"` to use the edge smoothing algorithm in GHSL Data Package 2023 (see section "Edge smoothing" below)
 #'      - a custom function with a signature similar as [apply_majority_rule()].
-#' - `DUC_size_threshold` numeric (default: `1500`).
+#' - `DUC_density_threshold` numeric (default: `1500`).
+#'
+#'      Minimum population density required for a dense urban cluster
+#' - `DUC_size_threshold` numeric (default: `5000`).
 #'
 #'      Minimum total population size required for a dense urban cluster
 #' - `DUC_built_criterium` logical (default: `TRUE`).
