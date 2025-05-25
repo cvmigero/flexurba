@@ -14,8 +14,8 @@
 #' @param products vector with the types of the data products: `"BUILT_S"`, `"POP"` and/or `"LAND"` for the built-up area grid, the population grid and the land grid respectively
 #' @param epoch integer. Epoch
 #' @param release character. Release code (only release `"R2022A"` and `"R2023A"` are supported)
-#' @param crs integer. EPSG code of the coordinate system: for example, `4326` for WGS84 and `54009` for Mollweide.
-#' @param resolution integer. Resolution (in meters)
+#' @param crs integer. EPSG code of the coordinate system: for example, `54009` for Mollweide.
+#' @param resolution integer. Resolution (in meters for Mollweide projection).
 #' @param version vector with the version code and number
 #' @param extent character or vector representing the spatial extent. There are three possibilities:
 #'
@@ -123,7 +123,7 @@ download_GHSLdata <- function(
           epoch <- 2018
           metadata$epoch <- 2018
           warning(
-            "Land grid only exist for epoch 2018. The land grid of 2018 will be downloaded. \n"
+            "Land grid only exists for epoch 2018. The land grid of 2018 will be downloaded. \n"
           )
         }
 
@@ -131,7 +131,7 @@ download_GHSLdata <- function(
           release <- "R2022A"
           metadata$release <- "R2022A"
           warning(
-            "Land grid only exist for release R2022A. The land grid of R2022A will be downloaded. \n"
+            "Land grid only exists for release R2022A. The land grid of R2022A will be downloaded. \n"
           )
         }
 

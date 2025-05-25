@@ -20,6 +20,7 @@ crop_GHSLdata <- function(
   output_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"),
   global_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif")
 ) {
+  
   # check if input and output names are valid
   if (!(length(output_filenames) == length(global_filenames))) {
     stop(
@@ -28,6 +29,17 @@ crop_GHSLdata <- function(
   }
   if (!all(endsWith(c(output_filenames, global_filenames), ".tif"))) {
     stop("output_filenames and global_filenames should have extension .tif")
+  }
+  
+  # check if other arguments are valid
+  if (!all(file.exists(file.path(global_directory, global_filenames)))) {
+    stop("global files do not exist")
+  }
+  if (!inherits(extent, 'SpatExtent')) {
+    stop("extent is not a valid SpatExtent")
+  }
+  if (!is.numeric(buffer) & buffer >= 0) {
+    stop("buffer should be numeric and >= 0")
   }
 
   if (!dir.exists(output_directory)) {
@@ -90,7 +102,8 @@ crop_GHSLdata <- function(
   valid_mollweide_cropped <- terra::vect(valid_mollweide) %>%
     terra::crop(extent)
 
-  if (length(terra::cells(valid_mollweide_cropped, c(NA, NaN))[[1]]) > 0) {
+  if (!all(terra::relate(valid_mollweide_cropped, 
+                         terra::as.polygons(extent), 'covers'))) {
     warning(
       "The area of interest is located on the edges of the Mollweide projection. Be aware that this can cause distortions in the grid cell classification and subsequent visualisations and zonal statistics.\n"
     )

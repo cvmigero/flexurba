@@ -4,11 +4,15 @@ test_that("DoU_plot_grid() works", {
     "belgium",
     package = "flexurba"
   ))
+  
   expect_no_error(DoU_plot_grid(classification))
 
   expect_no_error(DoU_plot_grid(
     classification,
-    extent = terra::ext(191547.7, 265536.5, 5946882.3, 6015989.7)
+    extent = terra::ext(191547.7, 265536.5, 5946882.3, 6015989.7),
+    title='TEST',
+    scalebar=TRUE,
+    filename=file.path(tempdir(), 'test.png')
   ))
 
   expect_error(DoU_plot_grid(

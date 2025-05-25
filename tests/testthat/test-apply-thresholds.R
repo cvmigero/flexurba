@@ -7,6 +7,7 @@ test_that("apply_threshold() and convert_regions_to_grid() works", {
     length(unique(terra::values(convert_regions_to_grid(units, proxies$pop)))),
     580
   )
+  
   expect_equal(
     length(unique(terra::values(convert_regions_to_grid(
       units,
@@ -15,6 +16,7 @@ test_that("apply_threshold() and convert_regions_to_grid() works", {
     )))),
     12
   )
+  
   expect_error(convert_regions_to_grid("wrongpath.geojson", proxies$pop))
   expect_error(convert_regions_to_grid(units, proxies$pop, "wrongid"))
 
