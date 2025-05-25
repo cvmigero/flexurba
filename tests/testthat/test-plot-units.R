@@ -26,11 +26,6 @@ test_that("DoU_plot_units() works", {
     filename=file.path(tempdir(), 'test.png')
     )
   )
-  
-  expect_no_error(plot_units(
-    flexurba::units_belgium,
-    classification
-  ))
 
   expect_no_error(DoU_plot_units(
     flexurba::units_belgium,

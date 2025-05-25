@@ -182,7 +182,10 @@ Function used to smooth the edges of urban centres. Ignored when \code{UC_smooth
 \item \code{"majority_rule_R2023A"} to use the edge smoothing algorithm in GHSL Data Package 2023 (see section "Edge smoothing" below)
 \item a custom function with a signature similar as \code{\link[=apply_majority_rule]{apply_majority_rule()}}.
 }
-\item \code{DUC_size_threshold} numeric (default: \code{1500}).
+\item \code{DUC_density_threshold} numeric (default: \code{1500}).
+
+Minimum population density required for a dense urban cluster
+\item \code{DUC_size_threshold} numeric (default: \code{5000}).
 
 Minimum total population size required for a dense urban cluster
 \item \code{DUC_built_criterium} logical (default: \code{TRUE}).
