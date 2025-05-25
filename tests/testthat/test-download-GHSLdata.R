@@ -38,13 +38,6 @@ test_that("download_GHSLdata() works", {
   
   expect_error(
     download_GHSLdata(
-      products = c('POP'),
-      output_directory=tempdir(),
-      filenames = c('POP')
-    ))
-  
-  expect_error(
-    download_GHSLdata(
       products = c('POP', 'BUILT', 'WRONG'),
       output_directory=tempdir()
     ))

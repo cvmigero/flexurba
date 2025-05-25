@@ -11,8 +11,7 @@ test_that("DoU_plot_grid() works", {
     classification,
     extent = terra::ext(191547.7, 265536.5, 5946882.3, 6015989.7),
     title='TEST',
-    scalebar=TRUE,
-    filename=file.path(tempdir(), 'test.png')
+    scalebar=TRUE
   ))
 
   expect_error(DoU_plot_grid(

@@ -22,8 +22,7 @@ test_that("DoU_plot_units() works", {
     ),
     column='flexurba_L1',
     title='TEST',
-    scalebar=TRUE,
-    filename=file.path(tempdir(), 'test.png')
+    scalebar=TRUE
     )
   )
 
