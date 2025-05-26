@@ -15,11 +15,9 @@ Rcpp::NumericVector majority_rule_R2022A(Rcpp::NumericVector x, int value_of_int
     // compute the end index of window around cell i (with nw = length of window)
     size_t end = start + nw;
     
-    // get value of focal cell (index: start + 4)
-    int focalcell = x[start+4];
-    
+    // focal cell (index: start + 4)
     // if the focal cell is NAN or not the value of interest: do nothing
-    if (std::isnan(focalcell) || (focalcell != value_of_interest)) {
+    if (std::isnan(x[start+4]) || (x[start+4] != value_of_interest)) {
       out[i] = Rcpp::NumericVector::get_na();
       
     } else {
@@ -87,12 +85,10 @@ Rcpp::NumericVector majority_rule_R2023A(Rcpp::NumericVector x, int adj_value, i
     // compute the end index of window around cell i (with nw = length of window)
     size_t end = start + nw;
     
-    // get value of focal cell (index: start + 4)
-    int focalcell = x[start+4];
-    
+    // focal cell (index: start + 4)
     // if the focal cell is NAN or not adjacent to an urban centre: do nothing
-    if (std::isnan(focalcell) || 
-        ((focalcell != adj_value) && (focalcell != adj_ignore))) {
+    if (std::isnan(x[start+4]) || 
+        ((x[start+4] != adj_value) && (x[start+4] != adj_ignore))) {
       out[i] = Rcpp::NumericVector::get_na();
       
     } else {

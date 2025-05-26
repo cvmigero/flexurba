@@ -30,7 +30,7 @@ Imports:
     dplyr,
     exactextractr,
     fastmatch,
-    geos,
+    geos (> 0.2.1),
     ggplot2,
     ggspatial,
     grid,
@@ -51,7 +51,8 @@ Suggests:
 LinkingTo: 
     Rcpp
 VignetteBuilder: 
-    knitr
+    knitr, 
+    rmarkdown
 Config/Needs/website: rmarkdown
 Config/testthat/edition: 3
 Encoding: UTF-8
