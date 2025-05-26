@@ -30,7 +30,7 @@ Imports:
     dplyr,
     exactextractr,
     fastmatch,
-    geos (>= 0.2.1),
+    geos,
     ggplot2,
     ggspatial,
     grid,
