@@ -27,16 +27,10 @@ To acknowledge the use of the package and for an extensive description of its co
 
 ## Installation
 
-You need the `devtools` package to install R packages from GitHub. If you don’t have it installed, run:
+The `flexurba` package can be installed as follows:
 
 ```{r, eval=FALSE}
-install.packages("devtools")
-```
-
-Afterwards, the `flexurba` package can be installed as follows:
-
-```{r, eval=FALSE}
-devtools::install_github("cvmigero/flexurba")
+install.packages("flexurba")
 ```
 
 *Important notes for installation:*
