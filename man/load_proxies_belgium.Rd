@@ -13,19 +13,19 @@ named list with gridded population, built-up area and night-time light data for 
 The function loads example population, built-up area and night-time light data for Belgium. It is based on the global datasets provided in the accompanying \href{https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be}{\code{flexurbaData} package}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# POPULATION DATA
-terra::rast(system.file("proxies/processed-ghs-pop.tif", package = "flexurbaData")) \%>\% 
+terra::rast(system.file("proxies/processed-ghs-pop.tif", package = "flexurbaData")) \%>\%
    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
-   terra::writeRaster('inst/extdata/belgium/processed-ghs-pop-belgium.tif')  
-   
+   terra::writeRaster('inst/extdata/belgium/processed-ghs-pop-belgium.tif')
+
 # BUILT-UP AREA DATA
-terra::rast(system.file("proxies/processed-ghs-built-s.tif", package = "flexurbaData")) \%>\% 
+terra::rast(system.file("proxies/processed-ghs-built-s.tif", package = "flexurbaData")) \%>\%
    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
-   terra::writeRaster('inst/extdata/belgium/processed-ghs-built-s-belgium.tif')  
+   terra::writeRaster('inst/extdata/belgium/processed-ghs-built-s-belgium.tif')
 
 # LIGHT DATA
-terra::rast(system.file("proxies/processed-viirs-light.tif", package = "flexurbaData")) \%>\% 
+terra::rast(system.file("proxies/processed-viirs-light.tif", package = "flexurbaData")) \%>\%
    terra::crop(terra::ext(187000, 490000, 5816000, 6035000)) \%>\%
-   terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')  
+   terra::writeRaster('inst/extdata/belgium/processed-viirs-light-belgium.tif')
 }\if{html}{\out{</div>}}
 
 The data are processed versions of the population and built-up grid from the \href{https://human-settlement.emergency.copernicus.eu/download.php}{Global Human Settlement Layer} and the night-time light grid from the \href{https://eogdata.mines.edu/products/vnl/#annual_v2}{Earth Observation Group}. See the \href{https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be}{\code{flexurbaData} package} for more information of how these raw data produced were processed.

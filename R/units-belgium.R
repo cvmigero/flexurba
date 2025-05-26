@@ -5,7 +5,7 @@
 #' ```{r, eval=FALSE}
 #' # read the data
 #' statsec <- st_read('sh_statbel_statistical_sectors_31370_20240101.geojson')
-#' 
+#'
 #' # aggregate units to munipal level and rename variables
 #' units_belgium <- statsec %>%
 #'   group_by(cd_munty_refnis) %>%
@@ -20,8 +20,8 @@
 #'             NAME_3 = first(tx_adm_dstr_descr_nl),
 #'             GID_4 = first(cd_munty_refnis),
 #'             NAME_4 = first(tx_munty_descr_nl)
-#'   ) 
-#' 
+#'   )
+#'
 #' # simplify geometries and convert to Mollweide
 #' units_belgium <- units_belgium %>% select(-cd_munty_refnis) %>%
 #'   rmapshaper::ms_simplify() %>%

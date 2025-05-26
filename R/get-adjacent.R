@@ -21,19 +21,27 @@
 #' adj2 <- get_adjacent(r, cells = 1, include = FALSE)
 #' terra::plot(adj2)
 #' @export
-get_adjacent <- function(x, cells = "all", adjacent_value = 1, include = TRUE, directions = 8) {
+get_adjacent <- function(
+  x,
+  cells = "all",
+  adjacent_value = 1,
+  include = TRUE,
+  directions = 8
+) {
   # check if directions argument is valid
   if (!(directions %in% c(4, 8))) {
-    stop("Invalid argument: directions should be either 4 (rooks case) or 8 (queens case)")
+    stop(
+      "Invalid argument: directions should be either 4 (rooks case) or 8 (queens case)"
+    )
   }
-  
+
   adjacent_grid <- x %>% terra::setValues(NA)
-  
+
   # select cells of interest
   if (cells != "all") {
     x <- terra::which.lyr(x == cells)
   }
-  
+
   adjacent_index <- terra::adjacent(
     x = x,
     cells = which(!is.na(x[])),
@@ -46,6 +54,6 @@ get_adjacent <- function(x, cells = "all", adjacent_value = 1, include = TRUE, d
   } else {
     adjacent_grid <- terra::mask(adjacent_grid, x, inverse = TRUE)
   }
-  
+
   return(adjacent_grid)
 }

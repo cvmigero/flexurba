@@ -17,15 +17,19 @@
 #' DoU_load_grid_data_belgium()
 #' @export
 DoU_load_grid_data_belgium <- function() {
-  return(DoU_preprocess_grid(system.file("extdata", "belgium", package = "flexurba")))
+  return(DoU_preprocess_grid(system.file(
+    "extdata",
+    "belgium",
+    package = "flexurba"
+  )))
 }
 
 #' Load the grid data for Belgium to reconstruct DEGURBA classification
-#' 
-#' @description 
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
-#' `load_grid_data_belgium()` has been renamed to `DoU_load_grid_data_belgium()` to create a more consistent API and to better indicate that this function is specifically designed for reconstructing the DEGURBA classification with `DoU_classify_grid()`. 
+#'
+#' `load_grid_data_belgium()` has been renamed to `DoU_load_grid_data_belgium()` to create a more consistent API and to better indicate that this function is specifically designed for reconstructing the DEGURBA classification with `DoU_classify_grid()`.
 #' @return named list with the data of Belgium required for the grid classification of the Degree of Urbanisation.
 #' @keywords internal
 #' @export

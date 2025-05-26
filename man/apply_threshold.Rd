@@ -70,32 +70,40 @@ For more details on these thresholding approaches, including their advantages an
 proxies <- load_proxies_belgium()
 
 # option 1: predefined - absolute threshold
-predefined_absolute <- apply_threshold(proxies$pop, type='predefined',
-                                       threshold_value=1500)
+predefined_absolute <- apply_threshold(proxies$pop,
+  type = "predefined",
+  threshold_value = 1500
+)
 terra::plot(predefined_absolute$rboundaries)
 
 # option 2: data-driven - absolute threshold
-datadriven_absolute <- apply_threshold(proxies$pop, type='data-driven', 
-                                       fun='p90')
+datadriven_absolute <- apply_threshold(proxies$pop,
+  type = "data-driven",
+  fun = "p90"
+)
 terra::plot(datadriven_absolute$rboundaries)
 
 # in the examples below we will use 'Bruxelles', 'Vlaanderen' and 'Wallonie' as separate regions
-regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, 'NAME_1')
+regions <- convert_regions_to_grid(flexurba::units_belgium, proxies$pop, "NAME_1")
 terra::plot(regions)
 
 # option 3: predefined - relative threshold
-# note that the threshold values are linked to the regions in alphabetical 
-# order based on their IDs. So, the threshold of 1500 is applied to 
+# note that the threshold values are linked to the regions in alphabetical
+# order based on their IDs. So, the threshold of 1500 is applied to
 # 'Bruxelles', # 1200 to 'Vlaanderen', and 1000 to 'Wallonie'.
-predefined_relative <- apply_threshold(proxies$pop, type='predefined',
-                                       threshold_value=c(1500, 1200, 1000),
-                                       regions=regions)
+predefined_relative <- apply_threshold(proxies$pop,
+  type = "predefined",
+  threshold_value = c(1500, 1200, 1000),
+  regions = regions
+)
 terra::plot(predefined_relative$rboundaries)
 
 # option 4: data-driven - relative threshold
-datadriven_relative <- apply_threshold(proxies$pop, type='data-driven',
-                                       fun='p95',
-                                       regions=regions)
+datadriven_relative <- apply_threshold(proxies$pop,
+  type = "data-driven",
+  fun = "p95",
+  regions = regions
+)
 terra::plot(datadriven_relative$rboundaries)
 
 }

@@ -26,6 +26,8 @@ home:
   links:
    - text: Journal article
      href: https://doi.org/10.1177/23998083241262545
+   - text: FlexurbaData package
+     href: https://flexurbadata-ac82f4.pages.gitlab.kuleuven.be/
 repo:
   url:
     home: https://gitlab.kuleuven.be/spatial-networks-lab/research-projects/flexurba

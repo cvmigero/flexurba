@@ -19,8 +19,6 @@
 "GHSL_tiles"
 
 
-
-
 #' Check if a tile is a valid GHSL tile
 #' @description
 #' The Global Human Settlement Layer (GHSL) divides the world into different rectangular areas called "tiles". The function checks if the `tile_id` represents a valid GHSL tile.

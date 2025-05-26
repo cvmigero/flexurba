@@ -20,11 +20,11 @@ SpatRaster with the regions
 Convert the value of regions associated with a vector layer to a grid layer.
 }
 \examples{
-# load data for urban proxies and regions 
+# load data for urban proxies and regions
 proxies <- load_proxies_belgium()
 regions <- flexurba::units_belgium
 
 # convert Belgian provinces ('GID_2') to a zonal grid
-gridded_regions <- convert_regions_to_grid(regions, proxies$pop, 'GID_2')
+gridded_regions <- convert_regions_to_grid(regions, proxies$pop, "GID_2")
 terra::plot(gridded_regions)
 }

@@ -1,11 +1,11 @@
 #' Replace non-valid mollweide cells with NA
 #'
-#' The function returns the input classification, but replaces the value of 
+#' The function returns the input classification, but replaces the value of
 #' non-valid mollweide cells with NA
 #' @param classification SpatRaster. Grid cell classification
 #' @return SpatRaster
 #' @noRd
-mask_mollweide <- function(classification){
+mask_mollweide <- function(classification) {
   # load valid mollweide data and crop to classification
   valid_mollweide_cropped <- terra::vect(valid_mollweide) %>%
     terra::crop(classification)
@@ -21,7 +21,7 @@ mask_mollweide <- function(classification){
 #' @noRd
 convert_layer_to_spatextent <- function(layer) {
   extent <- sf::st_bbox(layer)
-  
+
   return(terra::ext(c(extent$xmin, extent$xmax, extent$ymin, extent$ymax)))
 }
 
@@ -30,7 +30,6 @@ write_metadata <- function(metadata_file, metadata) {
   json_file <- jsonlite::toJSON(metadata)
   write(json_file, metadata_file)
 }
-
 
 
 #' Convert a SpatExtent to a vector layer
@@ -44,21 +43,21 @@ convert_spatextent_to_layer <- function(extent, crs = "ESRI:54009") {
   # get the coordinates
   extent <- terra::ext(extent) %>%
     as.list()
-  
-  return(sf::st_as_sf(
-    x = data.frame(
-      x = c(extent$xmin, extent$xmax),
-      y = c(extent$ymin, extent$ymax)
-    ),
-    coords = c("x", "y"),
-    crs = crs
-  ) %>%
-    sf::st_bbox() %>%
-    sf::st_as_sfc() %>%
-    sf::st_as_sf())
+
+  return(
+    sf::st_as_sf(
+      x = data.frame(
+        x = c(extent$xmin, extent$xmax),
+        y = c(extent$ymin, extent$ymax)
+      ),
+      coords = c("x", "y"),
+      crs = crs
+    ) %>%
+      sf::st_bbox() %>%
+      sf::st_as_sfc() %>%
+      sf::st_as_sf()
+  )
 }
-
-
 
 
 #' Crop multiple SpatRasters to the one with the smallest extent
@@ -78,8 +77,6 @@ crop_to_smallest_extent <- function(...) {
 }
 
 
-
-
 #' Filter spatial units based on a SpatExtent
 #'
 #' The function filters spatial units based on the provided extent. Only polygons that intersect with the extent are retained.
@@ -89,27 +86,35 @@ crop_to_smallest_extent <- function(...) {
 #' @param filename character. Output filename
 #' @return object of class `sf` with filtered data
 #' @noRd
-filter_units_on_extent <- function(units, extent, crs = "ESRI:54009", filename = NULL) {
+filter_units_on_extent <- function(
+  units,
+  extent,
+  crs = "ESRI:54009",
+  filename = NULL
+) {
   # convert to bbox
   bbox <- convert_spatextent_to_layer(extent, crs)
-  
+
   # global variable
   .data <- NULL
-  
+
   # filter the units
   sf::st_geometry(units) <- "geometry"
   units <- units %>%
     sf::st_transform(crs) %>%
-    dplyr::filter(as.vector(sf::st_intersects(.data[["geometry"]], bbox, sparse = FALSE)))
-  
+    dplyr::filter(as.vector(sf::st_intersects(
+      .data[["geometry"]],
+      bbox,
+      sparse = FALSE
+    )))
+
   # write the data
   if (!is.null(filename)) {
     sf::st_write(units, filename, append = FALSE)
   }
-  
+
   return(units)
 }
-
 
 
 #' Get the color palette of the Degree of Urbanisation
@@ -189,4 +194,3 @@ GHSL_labels <- function(level1 = TRUE, grids = TRUE) {
     }
   }
 }
-

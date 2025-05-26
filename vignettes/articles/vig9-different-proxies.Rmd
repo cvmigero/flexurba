@@ -38,7 +38,8 @@ The code below demonstrates how to access these data layers and employ them to i
 ```{r, eval=FALSE}
 install.packages("remotes")
 remotes::install_gitlab("spatial-networks-lab/research-projects/celine/flexurbaData",
-                        host="https://gitlab.kuleuven.be/")
+  host = "https://gitlab.kuleuven.be/"
+)
 ```
 
 Afterwards, load the necessary libraries and extract the countries Egypt and Sudan from the `ne_country_borders` data (also provided in the `flexurbaData` package):
@@ -51,49 +52,58 @@ library(terra)
 
 # extract country borders of Egypt and Sudan
 egypt_sudan <- ne_country_borders %>%
-  filter(ISO %in% c('EGY', 'SDZ'))
+  filter(ISO %in% c("EGY", "SDZ"))
 ```
 
 The population, built-up area and night-time light data can consequently be retrieved as follows:
 
 ```{r, eval=FALSE}
 # get population data
-pop <- rast(system.file("proxies/processed-ghs-pop.tif", 
-                               package = "flexurbaData"))
+pop <- rast(system.file("proxies/processed-ghs-pop.tif",
+  package = "flexurbaData"
+))
 
-built <- rast(system.file("proxies/processed-ghs-built-s.tif", 
-                               package = "flexurbaData"))
+built <- rast(system.file("proxies/processed-ghs-built-s.tif",
+  package = "flexurbaData"
+))
 
-light <- rast(system.file("proxies/processed-viirs-light.tif", 
-                               package = "flexurbaData"))
+light <- rast(system.file("proxies/processed-viirs-light.tif",
+  package = "flexurbaData"
+))
 ```
 
 To save computing time, we will crop the global data layers to the extent of Egypt and Sudan.
 
 ```{r, eval=FALSE}
 # crop the data layers
-pop <-  crop(pop, ext(egypt_sudan))
-built <-  crop(built, ext(egypt_sudan))
-light <-  crop(light, ext(egypt_sudan))
+pop <- crop(pop, ext(egypt_sudan))
+built <- crop(built, ext(egypt_sudan))
+light <- crop(light, ext(egypt_sudan))
 ```
 
 The function `apply_threshold()` is used to identify urban areas. As illustration, we construct urban areas with a minimum population density threshold of 2000 inhabitants per km², a minimum built-up threshold of 10% and a minimum of 15 nW/cm³/sr, respectively. For more information about different thresholding approaches, see `vignette("vig8-apply-thresholds")`.
 
 ```{r, eval=FALSE}
 # minimum 2000 inhab/km²
-pop_urban_areas <- apply_threshold(grid = pop, 
-                                   type = "predefined",
-                                   threshold_value = 2000)
+pop_urban_areas <- apply_threshold(
+  grid = pop,
+  type = "predefined",
+  threshold_value = 2000
+)
 
 # minimum 10%
-built_urban_areas <- apply_threshold(grid = built, 
-                                   type = "predefined",
-                                   threshold_value = 0.10)
+built_urban_areas <- apply_threshold(
+  grid = built,
+  type = "predefined",
+  threshold_value = 0.10
+)
 
 # minimum 15 nW/cm³/sr
-light_urban_areas <- apply_threshold(grid = light, 
-                                   type = "predefined",
-                                   threshold_value = 15)
+light_urban_areas <- apply_threshold(
+  grid = light,
+  type = "predefined",
+  threshold_value = 15
+)
 ```
 
 The outputs contain three different variables: (1) `rboundaries` with a gridded version of the urban areas, (2) `vboundaries` with the urban areas saved as vector layer, (3) `threshold` with more details on the utilised threshold value. The data of these variables can be used for further analyses.

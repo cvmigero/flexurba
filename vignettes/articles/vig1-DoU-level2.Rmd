@@ -39,13 +39,13 @@ Afterwards, the classification with the standard parameter settings can be const
 #|   Grid classification with the standard parameters
 # classification with the standard parameters
 classification1 <- DoU_classify_grid(
-  data = data_belgium, 
+  data = data_belgium,
   level1 = FALSE
 )
 
 # plot the classification
 DoU_plot_grid(
-  classification1, 
+  classification1,
   level1 = FALSE
 )
 ```
@@ -77,7 +77,7 @@ classification2 <- flexurba::DoU_classify_grid(
 
 # plot the classification
 DoU_plot_grid(
-  classification2, 
+  classification2,
   level1 = FALSE
 )
 ```
@@ -108,13 +108,13 @@ data_units <- DoU_preprocess_units(
 
 # get the units classification
 units_classification <- DoU_classify_units(
-  data_units, 
+  data_units,
   level1 = FALSE
 )
 
 # plot the classification
 plot_units(
-  units = data_units$units, 
+  units = data_units$units,
   classification = units_classification,
   level1 = FALSE
 )
@@ -135,15 +135,15 @@ data_units2 <- DoU_preprocess_units(
 
 # get the units classification
 units_classification2 <- DoU_classify_units(
-  data_units2, 
-  level1 = FALSE, 
+  data_units2,
+  level1 = FALSE,
   id = "GID_3"
 )
 
 # plot the classifications
 plot_units(
-  units = data_units2$units, 
-  classification = units_classification2, 
+  units = data_units2$units,
+  classification = units_classification2,
   level1 = FALSE
 )
 ```

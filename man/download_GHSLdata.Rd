@@ -25,9 +25,9 @@ download_GHSLdata(
 
 \item{release}{character. Release code (only release \code{"R2022A"} and \code{"R2023A"} are supported)}
 
-\item{crs}{integer. EPSG code of the coordinate system: for example, \code{4326} for WGS84 and \code{54009} for Mollweide.}
+\item{crs}{integer. EPSG code of the coordinate system: for example, \code{54009} for Mollweide.}
 
-\item{resolution}{integer. Resolution (in meters)}
+\item{resolution}{integer. Resolution (in meters for Mollweide projection).}
 
 \item{version}{vector with the version code and number}
 

@@ -150,7 +150,10 @@
 #'      - `"majority_rule_R2022A"` to use the edge smoothing algorithm in GHSL Data Package 2022 (see section "Edge smoothing" below)
 #'      - `"majority_rule_R2023A"` to use the edge smoothing algorithm in GHSL Data Package 2023 (see section "Edge smoothing" below)
 #'      - a custom function with a signature similar as [apply_majority_rule()].
-#' - `DUC_size_threshold` numeric (default: `1500`).
+#' - `DUC_density_threshold` numeric (default: `1500`).
+#'
+#'      Minimum population density required for a dense urban cluster
+#' - `DUC_size_threshold` numeric (default: `5000`).
 #'
 #'      Minimum total population size required for a dense urban cluster
 #' - `DUC_built_criterium` logical (default: `TRUE`).
@@ -222,7 +225,7 @@
 #' @section Regions:
 #' Because of the large amount of data at a global scale, the grid classification procedure is quite memory-consuming. To optimise the procedure, we divided the world in 9 pre-defined regions. These regions are the smallest grouping of GHSL tiles while ensuring that no continuous land mass is split into two different regions (for more information, see the figure below and [`GHSL_tiles_per_region`]).
 #'
-#' If `regions=TRUE`, a global grid classification is created by (1) executing the grid classification procedure separately in the 9 pre-defined regions, and (2) afterwards merging these classifications together. The argument `data` should contain the path to a directory with the data of all pre-defined regions (for example as created by `download_GHSLdata(... extent="regions"`). Note that although the grid classification is optimised, it still takes approx. 145 minutes and requires 116 GB RAM to execute the grid classification with the standard parameters (performed on a Kubernetes server with 32 cores and 256 GB RAM). For a concrete example on how to construct the grid classification on a global scale, see `vignette("vig3-DoU-global-scale")`. 
+#' If `regions=TRUE`, a global grid classification is created by (1) executing the grid classification procedure separately in the 9 pre-defined regions, and (2) afterwards merging these classifications together. The argument `data` should contain the path to a directory with the data of all pre-defined regions (for example as created by `download_GHSLdata(... extent="regions"`). Note that although the grid classification is optimised, it still takes approx. 145 minutes and requires 116 GB RAM to execute the grid classification with the standard parameters (performed on a Kubernetes server with 32 cores and 256 GB RAM). For a concrete example on how to construct the grid classification on a global scale, see `vignette("vig3-DoU-global-scale")`.
 #'
 #' \figure{figure_GHSL_tiles_per_region.png}{GHSL tiles}
 #'
@@ -232,7 +235,7 @@
 #'
 #' # classify with standard parameters:
 #' classification1 <- DoU_classify_grid(data = data_belgium)
-#' 
+#'
 #' \donttest{
 #' # classify with custom parameters:
 #' classification2 <- DoU_classify_grid(
@@ -248,13 +251,14 @@
 #' }
 #'
 #' @export
-DoU_classify_grid <- function(data,
-                          level1 = TRUE,
-                          parameters = NULL,
-                          values = NULL,
-                          regions = FALSE,
-                          filename = NULL) {
-  
+DoU_classify_grid <- function(
+  data,
+  level1 = TRUE,
+  parameters = NULL,
+  values = NULL,
+  regions = FALSE,
+  filename = NULL
+) {
   # check values argument
   if (is.null(values)) {
     values <- if (level1) c(3, 2, 1, 0) else c(30, 23, 22, 21, 13, 12, 11, 10)
@@ -262,29 +266,32 @@ DoU_classify_grid <- function(data,
   if ((level1 & length(values) != 4) || (!level1 & length(values) != 8)) {
     stop("Invalid argument: the length of the values argument is not correct.")
   }
-  
+
   # IN REGIONS
   if (regions) {
     # check if the data is valid
     if (!is.character(data)) {
-      stop("Invalid argument: if regions=TRUE, 'data' should contain the path to the directory where the data for the regions is saved")
+      stop(
+        "Invalid argument: if regions=TRUE, 'data' should contain the path to the directory where the data for the regions is saved"
+      )
     }
     if (!all(names(flexurba::GHSL_tiles_per_region) %in% list.files(data))) {
-      stop("Invalid argument: data directory does not contain the data for all regions, see download_GHSLdata(... extent='regions') to download the data")
+      stop(
+        "Invalid argument: data directory does not contain the data for all regions, see download_GHSLdata(... extent='regions') to download the data"
+      )
     }
-    
+
     # create a list to save the classifications
     classifications <- list()
     count <- 0
-    
+
     # for each region, generate the classification
     for (region in names(flexurba::GHSL_tiles_per_region)) {
-      
       # create directory to save the classification file
       if (!dir.exists(file.path(data, region, "classifications"))) {
         dir.create(file.path(data, region, "classifications"))
       }
-      
+
       # execute grid classification
       classification1 <- DoU_classify_grid(
         data = file.path(data, region),
@@ -292,85 +299,105 @@ DoU_classify_grid <- function(data,
         parameters = parameters,
         values = values,
         regions = FALSE,
-        filename = file.path(data, region, "classifications", basename(filename))
+        filename = file.path(
+          data,
+          region,
+          "classifications",
+          basename(filename)
+        )
       )
-      
+
       # save classification in list
       count <- count + 1
       classifications[[count]] <- classification1
     }
-    
+
     # merge the classification per region
     classification <- do.call(terra::mosaic, c(classifications, fun = "max"))
-    
+
     # some ocean areas are not covered by the regions, so extend to cover them
     valid_mollweide_cropped <- terra::vect(valid_mollweide)
     classification <- terra::extend(classification, valid_mollweide_cropped)
-    
+
     # set NA values = water value
-    terra::set.values(classification, which(is.na(classification[])), values[[length(values)]])
-    
+    terra::set.values(
+      classification,
+      which(is.na(classification[])),
+      values[[length(values)]]
+    )
+
     # but mask non-valid mollweide cells
     classification <- mask_mollweide(classification)
-    
-    
-    
+
     # NOT IN REGIONS
   } else {
-    
     # get the default parameters
     default_parameters <- DoU_get_grid_parameters(level1)
-    
+
     # check if all provided parameters are valid
     diff <- setdiff(names(parameters), names(default_parameters))
     if (length(diff) > 0) {
-      stop(paste("Invalid argument: the following parameter values are not valid", paste(diff, collapse = " ")))
+      stop(paste(
+        "Invalid argument: the following parameter values are not valid",
+        paste(diff, collapse = " ")
+      ))
     }
-    
+
     # merge default parameters with provided parameters to get all parameters
-    default_parameters <- within(default_parameters, rm(list = names(parameters)))
+    default_parameters <- within(
+      default_parameters,
+      rm(list = names(parameters))
+    )
     parameters <- c(parameters, default_parameters)
-    
-    
+
     # read data
     if (is.character(data)) {
       data <- DoU_preprocess_grid(data)
     }
-    
+
     # check if data is valid
-    if (!all(c("pop", "land", "pop_per_land", "built_per_land", "built") %in% names(data))) {
-      stop("Invalid argument: The data should contain a named list of pop, land, built, pop_per_land and built_per_land as generated by the function DoU_preprocess_grid.")
+    if (
+      !all(
+        c("pop", "land", "pop_per_land", "built_per_land", "built") %in%
+          names(data)
+      )
+    ) {
+      stop(
+        "Invalid argument: The data should contain a named list of pop, land, built, pop_per_land and built_per_land as generated by the function DoU_preprocess_grid."
+      )
     }
-    
+
     # execute the classification
     if (level1) {
       classification <- classify_grid_level1(data, parameters, values)
     } else {
       classification <- classify_grid_level2(data, parameters, values)
     }
-    
+
     # if a buffer was applied when cropping the grid, remove the buffer again
-    if (!is.null(data$metadata_POP$buffer) && (data$metadata_POP$buffer > 0)){
-      classification <- terra::crop(classification, terra::ext(data$pop) - data$metadata_POP$buffer)
+    if (!is.null(data$metadata_POP$buffer) && (data$metadata_POP$buffer > 0)) {
+      classification <- terra::crop(
+        classification,
+        terra::ext(data$pop) - data$metadata_POP$buffer
+      )
     }
   }
-  
-  
+
   # WRITE OUTPUT
   if (!is.null(filename)) {
     # create directory if it does not exist
     if (!dir.exists(dirname(filename))) {
       dir.create(dirname(filename))
     }
-    
+
     # check the filename
     if (!endsWith(filename, ".tif")) {
       stop("Invalid argument: filename should have extention '.tif'")
     }
-    
+
     # write the output
     terra::writeRaster(classification, filename, overwrite = TRUE)
-    
+
     # construct the metadata
     parameters$file <- filename
     if (!is.null(data) & !regions) {
@@ -383,44 +410,50 @@ DoU_classify_grid <- function(data,
     if (is.list(parameters$built_optimal_data)) {
       parameters$built_optimal_data <- "from_object"
     }
-    
+
     # write the metadata
     metadata_file <- paste0(gsub(".tif", ".json", filename))
     write_metadata(metadata_file, parameters)
   }
-  
+
   return(classification)
 }
-
-
 
 
 #' Helper function for grid classification level 1
 #'
 #' @description
-#' The function reconstructs the grid cell classification of the Degree of Urbanisation. 
+#' The function reconstructs the grid cell classification of the Degree of Urbanisation.
 #' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
 #' @param parameters named list with the parameters to adapt the standard specifications in the Degree of Urbanisation classification.
 #' @param values vector with the values assigned to the different classes in the resulting classification: (1) urban centres, (2) urban clusters, (3) rural grid cells and (4) water cells.
 #' @returns SpatRaster
 #' @noRd
 classify_grid_level1 <- function(data, parameters, values) {
-  
   # identify 'optimal' built-up area threshold
-  if ((parameters$UC_built_threshold == "optimal") && parameters$UC_built_criterium == TRUE) {
+  if (
+    (parameters$UC_built_threshold == "optimal") &&
+      parameters$UC_built_criterium == TRUE
+  ) {
     if (is.null(parameters$built_optimal_data)) {
-      stop(paste("Invalid argument: no optimal built threshold parameter can be determined, because built_optimal_data is not provided"))
+      stop(paste(
+        "Invalid argument: no optimal built threshold parameter can be determined, because built_optimal_data is not provided"
+      ))
     }
-    
+
     # get the optimal threshold
-    parameters$UC_built_threshold <- ceiling(flexurba::DoU_get_optimal_builtup(
-      parameters$built_optimal_data,
-      parameters$UC_density_threshold,
-      parameters$UCL_size_threshold,
-      parameters$UC_contiguity_rule
-    ) * 100) / 100
+    parameters$UC_built_threshold <- ceiling(
+      flexurba::DoU_get_optimal_builtup(
+        parameters$built_optimal_data,
+        parameters$UC_density_threshold,
+        parameters$UCL_size_threshold,
+        parameters$UC_contiguity_rule
+      ) *
+        100
+    ) /
+      100
   }
-  
+
   # CLASS 3: URBAN CENTRES
   classification <- flexurba::DoU_classify_grid_urban_centres(
     data = data,
@@ -437,7 +470,7 @@ classify_grid_level1 <- function(data, parameters, values) {
     smooth_pop_window = parameters$UC_smooth_pop_window,
     value = values[[1]]
   )
-  
+
   # CLASS 2: URBAN CLUSTERS
   classification <- flexurba::DoU_classify_grid_urban_clusters(
     data = data,
@@ -449,14 +482,14 @@ classify_grid_level1 <- function(data, parameters, values) {
     classification = classification,
     value = values[[2]]
   )
-  
+
   # CLASS 1: RURAL GRID CELLS
   classification <- flexurba::DoU_classify_grid_rural(
     data = data,
     classification = classification,
     value = values[[3]]
   )
-  
+
   # CLASS 0: WATER
   classification <- flexurba::DoU_classify_grid_water(
     data = data,
@@ -467,9 +500,9 @@ classify_grid_level1 <- function(data, parameters, values) {
     value = values[[4]],
     allow_overwrite = c(values[[3]])
   )
-  
+
   names(classification) <- c("layer")
-  
+
   return(classification)
 }
 
@@ -477,43 +510,57 @@ classify_grid_level1 <- function(data, parameters, values) {
 #' Helper function for grid classification level 2
 #'
 #' @description
-#' The function reconstructs the grid cell classification of the Degree of Urbanisation. 
+#' The function reconstructs the grid cell classification of the Degree of Urbanisation.
 #' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
 #' @param parameters named list with the parameters to adapt the standard specifications in the Degree of Urbanisation classification.
 #' @param values vector with the values assigned to the different classes in the resulting classification: (1) urban centres, (2) dense urban clusters, (3) semi-dense urban clusters, (4) suburban or peri-urban cells, (5) rural clusters, (6) low density rural cells, (7) very low density rural cells and (8) water cells.
 #' @returns SpatRaster
 #' @noRd
 classify_grid_level2 <- function(data, parameters, values) {
-  
   # identify 'optimal' built-up area threshold if necessary
-  if ((parameters$UC_built_threshold == "optimal") && (parameters$UC_built_criterium == TRUE) ||
-      (parameters$DUC_built_threshold == "optimal") && (parameters$DUC_built_criterium == TRUE)) {
-    
+  if (
+    (parameters$UC_built_threshold == "optimal") &&
+      (parameters$UC_built_criterium == TRUE) ||
+      (parameters$DUC_built_threshold == "optimal") &&
+        (parameters$DUC_built_criterium == TRUE)
+  ) {
     # check if the argument is valid
     if (is.null(parameters$built_optimal_data)) {
-      stop(paste("Invalid argument:", "no optimal built threshold parameter can be determined, because built_optimal_data is not provided"))
+      stop(paste(
+        "Invalid argument:",
+        "no optimal built threshold parameter can be determined, because built_optimal_data is not provided"
+      ))
     }
-    
+
     # get the optimal threshold
-    optimal_threshold <- ceiling(flexurba::DoU_get_optimal_builtup(
-      parameters$built_optimal_data,
-      parameters$DUC_density_threshold,
-      parameters$DUC_size_threshold,
-      parameters$DUC_contiguity_rule
-    ) * 100) / 100
-    
+    optimal_threshold <- ceiling(
+      flexurba::DoU_get_optimal_builtup(
+        parameters$built_optimal_data,
+        parameters$DUC_density_threshold,
+        parameters$DUC_size_threshold,
+        parameters$DUC_contiguity_rule
+      ) *
+        100
+    ) /
+      100
+
     # store the optimal threshold
-    if ((parameters$UC_built_threshold == "optimal") && (parameters$UC_built_criterium == TRUE)) {
+    if (
+      (parameters$UC_built_threshold == "optimal") &&
+        (parameters$UC_built_criterium == TRUE)
+    ) {
       parameters$UC_built_threshold <- optimal_threshold
     }
-    
+
     # store the optimal threshold
-    if ((parameters$DUC_built_threshold == "optimal") && (parameters$DUC_built_criterium == TRUE)) {
+    if (
+      (parameters$DUC_built_threshold == "optimal") &&
+        (parameters$DUC_built_criterium == TRUE)
+    ) {
       parameters$DUC_built_threshold <- optimal_threshold
     }
   }
-  
-  
+
   # CLASS 30: URBAN CENTRES
   classification <- flexurba::DoU_classify_grid_urban_centres(
     data = data,
@@ -528,8 +575,8 @@ classify_grid_level2 <- function(data, parameters, values) {
     smooth_edge_fun = parameters$UC_smooth_edge_fun,
     value = values[1]
   )
-  
-  # CLASS 23: DENSE URBAN CLUSTERS: 
+
+  # CLASS 23: DENSE URBAN CLUSTERS:
   # dense urban clusters are similarly identified as urban centres (a minimum density, minimum built-up and minimum size criteria)
   # but without gap filling and edge smoothing
   dense_urban_cluster <- flexurba::DoU_classify_grid_urban_centres(
@@ -544,19 +591,22 @@ classify_grid_level2 <- function(data, parameters, values) {
     value = values[2]
   )
   classification <- terra::cover(classification, dense_urban_cluster)
-  
-  
+
   # CLASS 22: SEMI-DENSE URBAN CLUSTERS
   # a semi-dense urban cluster is not within 2 km away from dense urban cluster and urban centres.
   # so, create a buffer around the current classification of dense urban clusters and urban centres
   buffer <- classification
-  if (!is.numeric(parameters$SDUC_buffer_size)){
-    stop(paste("Invalid argument:", parameters$SDUC_buffer_size, "is not a valid parameter for SDUC_buffer_size"))
+  if (!is.numeric(parameters$SDUC_buffer_size)) {
+    stop(paste(
+      "Invalid argument:",
+      parameters$SDUC_buffer_size,
+      "is not a valid parameter for SDUC_buffer_size"
+    ))
   }
   for (i in 1:parameters$SDUC_buffer_size) {
     buffer <- flexurba::get_adjacent(buffer)
   }
-  
+
   # get semi-dense urban clusters
   urban_clusters <- flexurba::get_clusters(
     xden = data$pop_per_land,
@@ -565,19 +615,24 @@ classify_grid_level2 <- function(data, parameters, values) {
     minsiz = parameters$SDUC_size_threshold,
     directions = parameters$SDUC_contiguity_rule
   )
-  
+
   # check if the semi-dense urban clusters overlap with the buffer
-  overlapping_clusters <- terra::values(urban_clusters)[which(!is.na(buffer[]))] %>%
+  overlapping_clusters <- terra::values(urban_clusters)[which(
+    !is.na(buffer[])
+  )] %>%
     unique()
-  
+
   # only keep the semi-dense urban clusters if they do not overlap with the buffer
   terra::set.values(
-    classification, which(is.na(classification[]) &
-                            !is.na(urban_clusters[]) &
-                            !(urban_clusters[] %in% overlapping_clusters)),
+    classification,
+    which(
+      is.na(classification[]) &
+        !is.na(urban_clusters[]) &
+        !(urban_clusters[] %in% overlapping_clusters)
+    ),
     values[3]
   )
-  
+
   # CLASS 21: SURBURBAN OR PERI-URBAN
   urban_clusters <- flexurba::get_clusters(
     xden = data$pop_per_land,
@@ -586,14 +641,16 @@ classify_grid_level2 <- function(data, parameters, values) {
     minsiz = parameters$SUrb_size_threshold,
     directions = parameters$SUrb_contiguity_rule
   )
-  
+
   terra::set.values(
-    classification, which(is.na(classification[]) &
-                            !is.na(urban_clusters[])),
+    classification,
+    which(
+      is.na(classification[]) &
+        !is.na(urban_clusters[])
+    ),
     values[4]
   )
-  
-  
+
   # CLASS 13: RURAL CLUSTERS
   # rural clusters are similarly identified as urban clusters (minimum density and minimum size criteria)
   classification <- flexurba::DoU_classify_grid_urban_clusters(
@@ -604,16 +661,27 @@ classify_grid_level2 <- function(data, parameters, values) {
     classification = classification,
     value = values[5]
   )
-  
+
   # check the argument
   if (!is.numeric(parameters$LDR_density_threshold)) {
-    stop(paste("Invalid argument:", parameters$LDR_density_threshold, "is not a valid parameter for the minimum density threshold"))
+    stop(paste(
+      "Invalid argument:",
+      parameters$LDR_density_threshold,
+      "is not a valid parameter for the minimum density threshold"
+    ))
   }
-  
+
   # CLASS 12: LOW DENSITY RURAL CELLS
   # all remaining cell with a population density per permanent land above the low density threshold
-  terra::set.values(classification, which(is.na(classification[]) & (data$pop_per_land[] >= parameters$LDR_density_threshold)), values[6])
-  
+  terra::set.values(
+    classification,
+    which(
+      is.na(classification[]) &
+        (data$pop_per_land[] >= parameters$LDR_density_threshold)
+    ),
+    values[6]
+  )
+
   # CLASS 11: VERY LOW DENSITY RURAL CELLS
   # all remaining cells
   classification <- flexurba::DoU_classify_grid_rural(
@@ -621,7 +689,7 @@ classify_grid_level2 <- function(data, parameters, values) {
     classification = classification,
     value = values[7]
   )
-  
+
   # CLASS 10: cells
   classification <- flexurba::DoU_classify_grid_water(
     data = data,
@@ -632,21 +700,21 @@ classify_grid_level2 <- function(data, parameters, values) {
     value = values[8],
     allow_overwrite = c(values[7])
   )
-  
+
   # mask non-valid mollweide cells
   classification <- mask_mollweide(classification)
-  
+
   names(classification) <- c("layer")
-  
+
   return(classification)
 }
 
 #' Create the DEGURBA grid cell classification
-#' 
-#' @description 
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
-#' `classify_grid()` has been renamed to `DoU_classify_grid()` to create a more consistent API and to better indicate that this function is specifically designed for the DEGURBA grid classification. 
+#'
+#' `classify_grid()` has been renamed to `DoU_classify_grid()` to create a more consistent API and to better indicate that this function is specifically designed for the DEGURBA grid classification.
 #' @param data path to the directory with the data, or named list with the data as returned by function [DoU_preprocess_grid()]
 #' @param level1 logical. Whether to classify the grid according to first hierarchical level (`TRUE`) or the second hierarchical level (`FALSE`). For more details, see section "Classification rules" below.
 #' @param parameters named list with the parameters to adapt the standard specifications in the Degree of Urbanisation classification. For more details, see section "Custom specifications" below.
@@ -658,16 +726,20 @@ classify_grid_level2 <- function(data, parameters, values) {
 #' @return SpatRaster with the grid cell classification
 #' @keywords internal
 #' @export
-classify_grid <- function(data,
-                          level1 = TRUE,
-                          parameters = NULL,
-                          values = NULL,
-                          regions = FALSE,
-                          filename = NULL){
-  return(DoU_classify_grid(data,
-                      level1,
-                      parameters,
-                      values,
-                      regions,
-                      filename))
+classify_grid <- function(
+  data,
+  level1 = TRUE,
+  parameters = NULL,
+  values = NULL,
+  regions = FALSE,
+  filename = NULL
+) {
+  return(DoU_classify_grid(
+    data,
+    level1,
+    parameters,
+    values,
+    regions,
+    filename
+  ))
 }

@@ -110,9 +110,10 @@ Apart from DEGURBA, several other delineation approaches enforce thresholds on g
 proxy_data_belgium <- load_proxies_belgium()
 
 # apply the threshold
-builtupclassification <- apply_threshold(proxy_data_belgium$built, 
-                                         type="predefined",
-                                         threshold_value = 0.15)
+builtupclassification <- apply_threshold(proxy_data_belgium$built,
+  type = "predefined",
+  threshold_value = 0.15
+)
 
 # plot the resulting urban boundaries
 terra::plot(builtupclassification$rboundaries)
@@ -124,9 +125,10 @@ terra::plot(builtupclassification$rboundaries)
 # (2) predefined threshold of 15 nW/cm³/sr
 
 # apply the threshold
-lightclassification <- apply_threshold(proxy_data_belgium$light, 
-                                         type="predefined",
-                                         threshold_value = 15)
+lightclassification <- apply_threshold(proxy_data_belgium$light,
+  type = "predefined",
+  threshold_value = 15
+)
 
 # plot the resulting urban boundaries
 terra::plot(lightclassification$rboundaries)

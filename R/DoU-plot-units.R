@@ -18,7 +18,7 @@
 #' @examples
 #' # get spatial units classification
 #' data_belgium <- DoU_load_grid_data_belgium()
-#' grid_classification <-DoU_classify_grid(data_belgium)
+#' grid_classification <- DoU_classify_grid(data_belgium)
 #' data1 <- DoU_preprocess_units(
 #'   units = flexurba::units_belgium,
 #'   classification = grid_classification,
@@ -35,26 +35,36 @@
 #'   labels = c("C", "T", "R")
 #' )
 #' @export
-DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent = NULL, column = NULL, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
-  
+DoU_plot_units <- function(
+  units,
+  classification = NULL,
+  level1 = TRUE,
+  extent = NULL,
+  column = NULL,
+  palette = NULL,
+  labels = NULL,
+  title = NULL,
+  scalebar = FALSE,
+  filename = NULL
+) {
   # global variable
   .data <- NULL
-  
+
   # use standard palette if no palette is provided
   if (is.null(palette)) {
     palette <- utils::head(GHSL_palette(level1), -1)
   }
-  
+
   # use standard labels if no labels are provided
   if (is.null(labels)) {
     labels <- GHSL_labels(level1, grids = FALSE)
   }
-  
+
   # check if palette and labels are of the same length
   if (length(palette) != length(labels)) {
     stop("Invalid argument: palette and labels must have the same length")
   }
-  
+
   # get the column name of the units classification
   if (is.null(column)) {
     if (level1) {
@@ -63,7 +73,7 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
       column <- "flexurba_L2"
     }
   }
-  
+
   # crop units to extent
   if (!is.null(extent)) {
     if (inherits(extent, "SpatExtent")) {
@@ -75,28 +85,40 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
     }
     sf::st_geometry(units) <- "geometry"
     units <- units %>%
-      dplyr::filter(as.vector(sf::st_intersects(.data[["geometry"]], extent, sparse = FALSE)))
+      dplyr::filter(as.vector(sf::st_intersects(
+        .data[["geometry"]],
+        extent,
+        sparse = FALSE
+      )))
   }
-  
+
   # join units and classification
   if (!is.null(classification)) {
     if (length(intersect(names(classification), names(units))) == 0) {
-      stop("Invalid argument: there is no common column in 'classification' and 'units'")
+      stop(
+        "Invalid argument: there is no common column in 'classification' and 'units'"
+      )
     }
     suppressMessages(units <- units %>% dplyr::left_join(classification))
   }
-  
+
   # check if the column name is present in the data.frame
   if (!(column %in% names(units))) {
-    stop(paste("Invalid argument:", column, "is not a column in the provided data"))
+    stop(paste(
+      "Invalid argument:",
+      column,
+      "is not a column in the provided data"
+    ))
   }
-  
+
   # check if the palette and the values match
   units[[column]] <- as.factor(units[[column]])
   if (length(setdiff(unique(units[[column]]), names(palette))) != 0) {
-    warning("Some values in the spatial units classification are not included in the pallette (displayed in white) \n")
+    warning(
+      "Some values in the spatial units classification are not included in the pallette (displayed in white) \n"
+    )
   }
-  
+
   # return plot
   plotobj <- ggplot2::ggplot() +
     ggplot2::geom_sf(data = units, ggplot2::aes(fill = .data[[column]])) +
@@ -109,13 +131,23 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
     ggplot2::labs(fill = NULL) +
     ggplot2::ggtitle(title) +
     ggplot2::theme_void() +
-    ggplot2::theme(legend.position = "bottom", plot.margin = grid::unit(c(0, 0, 0, 0), "mm"), plot.title = ggplot2::element_text(hjust = 0.5))
-  
+    ggplot2::theme(
+      legend.position = "bottom",
+      plot.margin = grid::unit(c(0, 0, 0, 0), "mm"),
+      plot.title = ggplot2::element_text(hjust = 0.5)
+    )
+
   if (scalebar) {
     plotobj <- plotobj +
-      ggspatial::annotation_scale(pad_x = grid::unit(0.06, "npc"), pad_y = grid::unit(0.08, "npc"), width_hint = 0.10, height = grid::unit(0.08, "cm"), bar_cols = c("black"))
+      ggspatial::annotation_scale(
+        pad_x = grid::unit(0.06, "npc"),
+        pad_y = grid::unit(0.08, "npc"),
+        width_hint = 0.10,
+        height = grid::unit(0.08, "cm"),
+        bar_cols = c("black")
+      )
   }
-  
+
   if (!is.null(filename)) {
     ggplot2::ggsave(filename, plotobj)
   }
@@ -123,11 +155,11 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
 }
 
 #' Plot the spatial units classification
-#' 
-#' @description 
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
-#' `plot_units()` has been renamed to `DoU_plot_units()` to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with `DoU_classify_units()`. 
+#'
+#' `plot_units()` has been renamed to `DoU_plot_units()` to create a more consistent API and to better indicate that this function is specifically designed for plotting the DEGURBA classification generated with `DoU_classify_units()`.
 #' @keywords internal
 #' @param units object of class `sf`. The spatial units to be displayed on the plot
 #' @param classification dataframe with the classification of the spatial units, as returned by `DoU_classify_units()`. If `NULL`, it is assumed that the classification results are merged in the `units` object.
@@ -141,7 +173,29 @@ DoU_plot_units <- function(units, classification = NULL, level1 = TRUE, extent =
 #' @param filename character. Path to the location to save the plot
 #' @return ggplot object
 #' @export
-plot_units <- function(units, classification = NULL, level1 = TRUE, extent = NULL, column = NULL, palette = NULL, labels = NULL, title = NULL, scalebar = FALSE, filename = NULL) {
+plot_units <- function(
+  units,
+  classification = NULL,
+  level1 = TRUE,
+  extent = NULL,
+  column = NULL,
+  palette = NULL,
+  labels = NULL,
+  title = NULL,
+  scalebar = FALSE,
+  filename = NULL
+) {
   lifecycle::deprecate_soft("1.0.0.0", "plot_units()", "DoU_plot_units()")
-  DoU_plot_units(units, classification, level1, extent, column, palette, labels, title, scalebar, filename) 
+  DoU_plot_units(
+    units,
+    classification,
+    level1,
+    extent,
+    column,
+    palette,
+    labels,
+    title,
+    scalebar,
+    filename
+  )
 }

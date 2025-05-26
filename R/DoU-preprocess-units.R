@@ -29,7 +29,7 @@
 #' units_data <- flexurba::units_belgium %>%
 #'   dplyr::filter(GID_2 == "30000")
 #' # classify the grid
-#' classification <-DoU_classify_grid(data = grid_data)
+#' classification <- DoU_classify_grid(data = grid_data)
 #'
 #' # preprocess the data for units classification
 #' data1 <- DoU_preprocess_units(
@@ -49,41 +49,53 @@
 #' )
 #' }
 #' @export
-DoU_preprocess_units <- function(units, classification, pop, resample_resolution = NULL, dissolve_units_by = NULL) {
+DoU_preprocess_units <- function(
+  units,
+  classification,
+  pop,
+  resample_resolution = NULL,
+  dissolve_units_by = NULL
+) {
   # create the output object
   data <- list()
   data$metadata <- list()
-  
+
   # read the data of the units
   if (!inherits(units, "sf")) {
     if (!is.character(units)) {
-      stop('Invalid argument: units should be the path to a vector layer with small spatial units, or an object of class "sf"')
+      stop(
+        'Invalid argument: units should be the path to a vector layer with small spatial units, or an object of class "sf"'
+      )
     }
     data$metadata$units <- units
     units <- sf::st_read(units, quiet = TRUE)
   } else {
     data$metadata$units <- ""
   }
-  
+
   # read the data of the classification
   if (!inherits(classification, "SpatRaster")) {
     if (!is.character(classification)) {
-      stop("Invalid argument: units should be the path to a raster layer with the grid cell classification, or a SpatRaster")
+      stop(
+        "Invalid argument: units should be the path to a raster layer with the grid cell classification, or a SpatRaster"
+      )
     }
     classification <- terra::rast(classification)
   }
   data$metadata$classification <- terra::sources(classification)
-  
+
   # read the data of the population
   if (!inherits(pop, "SpatRaster")) {
     if (!is.character(pop)) {
-      stop("Invalid argument: units should be the path to a raster layer with the population grid, or a SpatRaster")
+      stop(
+        "Invalid argument: units should be the path to a raster layer with the population grid, or a SpatRaster"
+      )
     }
     pop <- terra::rast(pop)
   }
   data$metadata$pop <- terra::sources(pop)
   data$metadata$dissolve_units_by <- dissolve_units_by
-  
+
   # check resolution and coordinate system
   grids <- list(classification, pop)
   gridnames <- list("classification grid", "population grid")
@@ -91,45 +103,64 @@ DoU_preprocess_units <- function(units, classification, pop, resample_resolution
     resample_resolution <- min(terra::res(pop), terra::res(classification))
     data$metadata$resample_resolution <- resample_resolution
   }
-  for (i in 1:length(grids)) {
+  for (i in seq_along(grids)) {
     if ((terra::res(grids[[i]])[1] %% resample_resolution) != 0) {
-      stop(paste("The resolution of the", gridnames[[i]], "is not a multiple of the resample_resolution"))
+      stop(paste(
+        "The resolution of the",
+        gridnames[[i]],
+        "is not a multiple of the resample_resolution"
+      ))
     }
-    
-    if (terra::crs(grids[[i]], proj = TRUE) != terra::crs("ESRI:54009", proj = TRUE)) {
-      stop(paste("The coordinate system of the", gridnames[[i]], "is not Mollweide"))
+
+    if (
+      terra::crs(grids[[i]], proj = TRUE) !=
+        terra::crs("ESRI:54009", proj = TRUE)
+    ) {
+      stop(paste(
+        "The coordinate system of the",
+        gridnames[[i]],
+        "is not Mollweide"
+      ))
     }
   }
   if (sf::st_crs(units) != sf::st_crs("ESRI:54009")) {
     stop("The coordinate system of the spatial units layer is not Mollweide")
   }
-  
+
   # oversample classification grid
   oversample_factor <- terra::res(classification)[1] / resample_resolution
   if (oversample_factor != 1) {
-    classification <- terra::disagg(classification, oversample_factor, method = "near")
+    classification <- terra::disagg(
+      classification,
+      oversample_factor,
+      method = "near"
+    )
   }
-  
+
   # oversample population grid (and divide value by oversample-factor)
   oversample_factor <- terra::res(pop)[1] / resample_resolution
   if (oversample_factor != 1) {
-    pop <- terra::disagg(pop, oversample_factor, method = "near") / (oversample_factor * oversample_factor)
+    pop <- terra::disagg(pop, oversample_factor, method = "near") /
+      (oversample_factor * oversample_factor)
   }
-  
+
   # crop classification and pop to smallest extent
   l <- crop_to_smallest_extent(classification, pop)
   data$classification <- l[[1]]
   data$pop <- l[[2]]
-  
+
   # crop grids on the bounding box of the units layer
-  data$classification <- terra::crop(data$classification, terra::ext(sf::st_bbox(units)))
+  data$classification <- terra::crop(
+    data$classification,
+    terra::ext(sf::st_bbox(units))
+  )
   data$pop <- terra::crop(data$pop, terra::ext(sf::st_bbox(units)))
-  
+
   sf::st_geometry(units) <- "geometry"
-  
+
   # global variable
   .data <- NULL
-  
+
   # dissolve units by group
   if (!is.null(dissolve_units_by)) {
     if (dissolve_units_by %in% names(units)) {
@@ -137,26 +168,32 @@ DoU_preprocess_units <- function(units, classification, pop, resample_resolution
         dplyr::group_by(.data[[dissolve_units_by]]) %>%
         dplyr::summarize(geometry = sf::st_union(.data[["geometry"]]))
     } else {
-      stop(paste("Invalid parameter:", dissolve_units_by, "is not a column in the units data."))
+      stop(paste(
+        "Invalid parameter:",
+        dissolve_units_by,
+        "is not a column in the units data."
+      ))
     }
   }
-  
+
   # only remain units that intersect with the extent of the grids
   data$units <- filter_units_on_extent(units, data$pop)
   if (nrow(data$units) != nrow(units)) {
-    warning("Units which not intersect with the population and classification grid are discarded. \n")
+    warning(
+      "Units which not intersect with the population and classification grid are discarded. \n"
+    )
   }
-  
+
   return(data)
 }
 
 
 #' Preprocess the data for the DEGURBA spatial units classification
-#' 
-#' @description 
+#'
+#' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
-#' `preprocess_grid()` has been renamed to `DoU_preprocess_grid()` to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with `DoU_classify_units()`. 
+#'
+#' `preprocess_grid()` has been renamed to `DoU_preprocess_grid()` to create a more consistent API and to better indicate that this function is specifically designed for preprocessing the units data to reconstruct the DEGURBA classification with `DoU_classify_units()`.
 #' @param units character / object of class `sf`. Path to the vector layer with small spatial units, or an object of class `sf` with the small spatial units
 #' @param classification character / SpatRaster. Path to the grid cell classification of the Degree of Urbanisation, or SpatRaster with the grid cell classification
 #' @param pop character / SpatRaster. Path to the population grid, or SpatRaster with the population grid
@@ -169,6 +206,18 @@ DoU_preprocess_units <- function(units, classification, pop, resample_resolution
 #' - `metadata`: named list with the metadata of the input files. It contains the elements `units`, `classification` and `pop` (with paths to the respective data sources), `resample_resolution` and `dissolve_units_by` if not `NULL`. (Note that when the input sources are passed by object , the metadata might be empty).
 #' @keywords internal
 #' @export
-preprocess_units <- function(units, classification, pop, resample_resolution = NULL, dissolve_units_by = NULL){
-  return(DoU_preprocess_units(units, classification, pop, resample_resolution, dissolve_units_by))
+preprocess_units <- function(
+  units,
+  classification,
+  pop,
+  resample_resolution = NULL,
+  dissolve_units_by = NULL
+) {
+  return(DoU_preprocess_units(
+    units,
+    classification,
+    pop,
+    resample_resolution,
+    dissolve_units_by
+  ))
 }
