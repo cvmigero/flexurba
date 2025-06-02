@@ -3,15 +3,19 @@ Package: flexurba
 Title: Construct Flexible Urban Delineations
 Version: 0.2.1
 Authors@R: c(
-    person("Céline", "Van Migerode", , "celine.vanmigerode@kuleuven.be", role = c("aut", "cre", "cph"),
+    person("Céline", "Van Migerode", , "celine.vanmigerode@kuleuven.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4023-7665")),
     person("Ate", "Poorthuis", , "ate.poorthuis@kuleuven.be", role = "aut",
            comment = c(ORCID = "0000-0002-3808-7493")),
     person("Ben", "Derudder", , "ben.derudder@kuleuven.be", role = "aut",
-           comment = c(ORCID = "0000-0001-6195-8544"))
+           comment = c(ORCID = "0000-0001-6195-8544")),
+    person("KU Leuven", role = "cph"),
+    person("FWO", role = "fnd")
   )
 Description: Enables the construction of flexible urban delineations that
-    can be tailored to specific applications or research questions.
+    can be tailored to specific applications or research questions, see Van
+    Migerode et al. (2024) <DOI:10.1177/23998083241262545> and Van Migerode
+    et al. (2025) <DOI:10.5281/zenodo.15173220>.
     Originally developed to flexibly reconstruct the Degree of
     Urbanisation <DOI:10.1016/j.jue.2020.103312> classification of cities,
     towns and rural areas. Now it also support a broader range of
