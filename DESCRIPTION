@@ -17,9 +17,10 @@ Description: Enables the construction of flexible urban delineations that
     Migerode et al. (2024) <DOI:10.1177/23998083241262545> and Van Migerode
     et al. (2025) <DOI:10.5281/zenodo.15173220>.
     Originally developed to flexibly reconstruct the Degree of
-    Urbanisation <DOI:10.1016/j.jue.2020.103312> classification of cities,
-    towns and rural areas. Now it also support a broader range of
-    delineation approaches, using multiple datasets – including
+    Urbanisation classification of cities,
+    towns and rural areas developed by Dijkstra et al. 
+    (2021) <DOI:10.1016/j.jue.2020.103312>. Now it also support a broader 
+    range of delineation approaches, using multiple datasets – including
     population, built-up area, and night-time light grids – and different
     thresholding methods.
 License: MIT + file LICENSE

@@ -25,35 +25,21 @@
 #' @param filenames character. Filenames for the output files
 #' @return path to the created files.
 #' @examples
-#' \dontrun{
-#' # Download the data required for the grid cell classification at a global scale
-#' download_GHSLdata(
-#'   output_directory = "data/global",
-#'   extent = "global"
-#' )
-#'
+#' \donttest{
 #' # Download the data required for the grid cell classification
-#' # for specific GHSL_ids
+#' # for a specific GHSL tile
 #' download_GHSLdata(
 #'   output_directory = "data/tiles",
 #'   extent = c("R3_C19", "R4_C19")
 #' )
 #'
-#' # Download the data required for the grid cell classification
-#' # in the pre-defined regions
-#' download_GHSLdata(
-#'   output_directory = "data/regions",
-#'   extent = "regions"
-#' )
-#'
-#' # Download the population grid for epoch 2000 in a resolution of 100 m
+#' # Download the population grid for epoch 2000
 #' download_GHSLdata(
 #'   output_directory = "data/population",
 #'   products = "POP",
 #'   extent = c("R3_C19", "R4_C19"),
 #'   epoch = 2000,
-#'   resolution = 100,
-#'   filenames = "POP_100.tif"
+#'   filenames = "POP_2000.tif"
 #' )
 #' }
 #' @export
