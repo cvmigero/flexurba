@@ -1,3 +1,13 @@
+# flexurba 0.2.2
+
+Process CRAN feedback:
+
+* Arguments `filenames` in `flexurba::download_GHSLdata()`, and `output_filenames` and `global_filenames` in `flexurba::crop_GHSLdata()` are now required as per CRAN policy. 
+
+* Minor changes to unit test such that files created in the temporary directory are cleaned up.
+
+* Changes to examples of `download_GHSLdata`. 
+
 # flexurba 0.2.1
 
 * Update spatial boundaries in `flexurba::units_belgium` based on data from the [Algemene Directie Statistiek - Statistics Belgium](https://statbel.fgov.be/nl/open-data/statistische-sectoren-2024), as these are available under Creative Commons CC BY 4.0 licence. Note that analysis that rely on `flexurba::units_belgium` might have different results. 
