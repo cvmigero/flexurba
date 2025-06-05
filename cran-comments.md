@@ -21,4 +21,4 @@ Done. We changed the examples and replaced the tag with \donttest.
 > In your examples/vignettes/tests you can write to tempdir().
 > For more details: \<<https://contributor.r-project.org/cran-cookbook/code_issues.html#writing-files-and-directories-to-the-home-filespace>
 
-Fixed. The argument 'filenames', 'output_filenames' and 'global_filenames' in the functions download_GHSLdata and crop_GHSLdata are now required. In addition, these functions require the argument 'output_directory' which has to be specified by the user.
+Fixed. The `filenames` arguments in the functions `download_GHSLdata` and `crop_GHSLdata` are now required. Additionally, both functions require the user to specify an `output_directory`, so I believe we are not writing by default here. All code chunks in the vignette `flexurba.Rmd` are also set to `eval = FALSE`, ensuring no files are written to the user's file system. If I have  overlooked any other code that may cause the specific issue, please let me know and I will happy to fix it.

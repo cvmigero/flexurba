@@ -7,7 +7,7 @@
 #' @param extent SpatRaster, or any other object that has a SpatExtent
 #' @param output_directory character. Path to the directory to save the cropped grids
 #' @param global_directory character. Path to the directory where the global grids are saved (created with [download_GHSLdata()])
-#' @param output_filenames vector of length 3 with the filenames used to save the built-up area, population and land grid in `ouput_directory`
+#' @param output_filenames vector of length 3 with the filenames used to save the built-up area, population and land grid in `output_directory`
 #' @param global_filenames vector of length 3 with the filenames of the built-up area, population and land grid in `global_directory`
 #' @param buffer integer. If larger than 0, a buffer of `buffer` cells will be added around the borders of the extent to allow cities or towns at the edges to be correctly classified.
 #' @return path to the created files.

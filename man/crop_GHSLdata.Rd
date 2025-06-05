@@ -20,7 +20,7 @@ crop_GHSLdata(
 
 \item{global_directory}{character. Path to the directory where the global grids are saved (created with \code{\link[=download_GHSLdata]{download_GHSLdata()}})}
 
-\item{output_filenames}{vector of length 3 with the filenames used to save the built-up area, population and land grid in \code{ouput_directory}}
+\item{output_filenames}{vector of length 3 with the filenames used to save the built-up area, population and land grid in \code{output_directory}}
 
 \item{global_filenames}{vector of length 3 with the filenames of the built-up area, population and land grid in \code{global_directory}}
 
