@@ -57,20 +57,17 @@ These are also the three data products that are required for the grid cell class
 }
 \examples{
 \donttest{
-# Download the data required for the grid cell classification
-# for a specific GHSL tile
+# Download the population grid for epoch 2000 for specific tiles
 download_GHSLdata(
-  output_directory = "data/tiles",
-  extent = c("R3_C19", "R4_C19")
-)
-
-# Download the population grid for epoch 2000
-download_GHSLdata(
-  output_directory = "data/population",
+  output_directory = tempdir(),
+  filename = "POP_2000.tif",
   products = "POP",
   extent = c("R3_C19", "R4_C19"),
   epoch = 2000,
-  filenames = "POP_2000.tif"
 )
+\dontshow{
+ unlink(file.path(tempdir(), 'POP_2000.tif'))
+ unlink(file.path(tempdir(), 'POP_2000.json'))
+}
 }
 }
