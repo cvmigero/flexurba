@@ -6,18 +6,20 @@
 \usage{
 download_GHSLdata(
   output_directory,
-  products = c("POP", "BUILT_S", "LAND"),
+  filenames,
+  products = c("BUILT_S", "POP", "LAND"),
   epoch = 2020,
   release = "R2023A",
   crs = 54009,
   resolution = 1000,
   version = c("V1", "0"),
-  extent = "global",
-  filenames = c("POP.tif", "BUILT_S.tif", "LAND.tif")
+  extent = "global"
 )
 }
 \arguments{
 \item{output_directory}{character. Path to the output directory}
+
+\item{filenames}{character. Filenames for the output files}
 
 \item{products}{vector with the types of the data products: \code{"BUILT_S"}, \code{"POP"} and/or \code{"LAND"} for the built-up area grid, the population grid and the land grid respectively}
 
@@ -37,8 +39,6 @@ download_GHSLdata(
 \item \code{extent} is a vector of GHSL tile ids: The data is downloaded for each tile separately and afterwards merged together. For more information about the GHSL tiles and their extent see \code{\link{GHSL_tiles}} or \href{https://ghsl.jrc.ec.europa.eu/download.php}{GHSL Download page}.
 \item \code{extent = "regions"}: The data will be downloaded in 9 pre-defined regions. The pre-defined regions are the smallest grouping of GHSL tiles possible while ensuring that no continuous land mass is split over two regions. The regions are constructed to execute the Degree of Urbanisation classification algorithms in a memory-efficient manner. For each of the regions, the data products will be downloaded and saved in a sub-directory of \code{output_directory} (e.g., for region \code{W_AME}, the directory \code{output_directory/W_AME} is created). For more information, see the documentation of \code{\link{GHSL_tiles_per_region}}.
 }}
-
-\item{filenames}{character. Filenames for the output files}
 }
 \value{
 path to the created files.

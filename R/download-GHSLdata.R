@@ -11,6 +11,7 @@
 #'
 #' *Note that the land grid is only available for epoch 2018 and release R2022A on the GHSL website. The land grid will consequently always be downloaded with these specifications, regardless of the epoch and release specified in the arguments (a warning message is printed).*
 #' @param output_directory character. Path to the output directory
+#' @param filenames vector of the output filenames to save the downloaded products.
 #' @param products vector with the types of the data products: `"BUILT_S"`, `"POP"` and/or `"LAND"` for the built-up area grid, the population grid and the land grid respectively
 #' @param epoch integer. Epoch
 #' @param release character. Release code (only release `"R2022A"` and `"R2023A"` are supported)
@@ -42,14 +43,14 @@
 #' @export
 download_GHSLdata <- function(
   output_directory,
-  products = c("POP", "BUILT_S", "LAND"),
+  filenames,
+  products = c("BUILT_S", "POP", "LAND"),
   epoch = 2020,
   release = "R2023A",
   crs = 54009,
   resolution = 1000,
   version = c("V1", "0"),
-  extent = "global",
-  filenames = c("POP.tif", "BUILT_S.tif", "LAND.tif")
+  extent = "global"
 ) {
   # create metadata list
   metadata <- as.list(environment())
@@ -59,6 +60,11 @@ download_GHSLdata <- function(
   )
   metadata$version <- paste(metadata$version, collapse = "_")
 
+  # check if filenames are provided
+  if (missing(filenames)) {
+    stop("Invalid argument: 'filenames' is now required (as per CRAN policies)")
+  }
+  
   # if directory does not exist: create it
   if (!dir.exists(output_directory)) {
     dir.create(output_directory, recursive = TRUE)
