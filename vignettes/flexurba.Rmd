@@ -35,11 +35,10 @@ Below is a basic example which shows how to use the ``flexurba` package to (1) d
 
 The grid classification of the Degree of Urbanisation requires three data sources: a population grid, built-up area grid and land grid. The code below demonstrates how the `flexurba` functions can be used to download the required data. Alternatively, the required data can be download from the [GHSL website](https://ghsl.jrc.ec.europa.eu/) directly.
 
+Below we assume that there is a folder `data` in the current working directory.
+
 ```{r example1a, eval = FALSE}
 library(flexurba)
-
-# create a directory to save the data:
-dir.create("data")
 
 # make sure the time out is large enough to download all the data
 options(timeout = 500)

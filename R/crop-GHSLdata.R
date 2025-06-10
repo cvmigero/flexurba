@@ -7,19 +7,23 @@
 #' @param extent SpatRaster, or any other object that has a SpatExtent
 #' @param output_directory character. Path to the directory to save the cropped grids
 #' @param global_directory character. Path to the directory where the global grids are saved (created with [download_GHSLdata()])
-#' @param buffer integer. If larger than 0, a buffer of `buffer` cells will be added around the borders of the extent to allow cities or towns at the edges to be correctly classified.
-#' @param output_filenames vector of length 3 with the filenames used to save the built-up area, population and land grid in `ouput_directory`
+#' @param output_filenames vector of length 3 with the filenames used to save the built-up area, population and land grid in `output_directory`
 #' @param global_filenames vector of length 3 with the filenames of the built-up area, population and land grid in `global_directory`
+#' @param buffer integer. If larger than 0, a buffer of `buffer` cells will be added around the borders of the extent to allow cities or towns at the edges to be correctly classified.
 #' @return path to the created files.
 #' @export
 crop_GHSLdata <- function(
   extent,
   output_directory,
   global_directory,
-  buffer = 5,
-  output_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"),
-  global_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif")
+  output_filenames,
+  global_filenames,
+  buffer = 5
 ) {
+  
+  if (missing(output_filenames) | missing(global_filenames)){
+    stop("Invalid argument: 'output_filenames' and 'global_filenames' are now required (as per CRAN policies)")
+  }
   
   # check if input and output names are valid
   if (!(length(output_filenames) == length(global_filenames))) {

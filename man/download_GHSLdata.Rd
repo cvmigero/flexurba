@@ -6,18 +6,20 @@
 \usage{
 download_GHSLdata(
   output_directory,
-  products = c("POP", "BUILT_S", "LAND"),
+  filenames,
+  products = c("BUILT_S", "POP", "LAND"),
   epoch = 2020,
   release = "R2023A",
   crs = 54009,
   resolution = 1000,
   version = c("V1", "0"),
-  extent = "global",
-  filenames = c("POP.tif", "BUILT_S.tif", "LAND.tif")
+  extent = "global"
 )
 }
 \arguments{
 \item{output_directory}{character. Path to the output directory}
+
+\item{filenames}{character. Filenames for the output files}
 
 \item{products}{vector with the types of the data products: \code{"BUILT_S"}, \code{"POP"} and/or \code{"LAND"} for the built-up area grid, the population grid and the land grid respectively}
 
@@ -37,8 +39,6 @@ download_GHSLdata(
 \item \code{extent} is a vector of GHSL tile ids: The data is downloaded for each tile separately and afterwards merged together. For more information about the GHSL tiles and their extent see \code{\link{GHSL_tiles}} or \href{https://ghsl.jrc.ec.europa.eu/download.php}{GHSL Download page}.
 \item \code{extent = "regions"}: The data will be downloaded in 9 pre-defined regions. The pre-defined regions are the smallest grouping of GHSL tiles possible while ensuring that no continuous land mass is split over two regions. The regions are constructed to execute the Degree of Urbanisation classification algorithms in a memory-efficient manner. For each of the regions, the data products will be downloaded and saved in a sub-directory of \code{output_directory} (e.g., for region \code{W_AME}, the directory \code{output_directory/W_AME} is created). For more information, see the documentation of \code{\link{GHSL_tiles_per_region}}.
 }}
-
-\item{filenames}{character. Filenames for the output files}
 }
 \value{
 path to the created files.
@@ -56,35 +56,18 @@ These are also the three data products that are required for the grid cell class
 \emph{Note that the land grid is only available for epoch 2018 and release R2022A on the GHSL website. The land grid will consequently always be downloaded with these specifications, regardless of the epoch and release specified in the arguments (a warning message is printed).}
 }
 \examples{
-\dontrun{
-# Download the data required for the grid cell classification at a global scale
+\donttest{
+# Download the population grid for epoch 2000 for specific tiles
 download_GHSLdata(
-  output_directory = "data/global",
-  extent = "global"
-)
-
-# Download the data required for the grid cell classification
-# for specific GHSL_ids
-download_GHSLdata(
-  output_directory = "data/tiles",
-  extent = c("R3_C19", "R4_C19")
-)
-
-# Download the data required for the grid cell classification
-# in the pre-defined regions
-download_GHSLdata(
-  output_directory = "data/regions",
-  extent = "regions"
-)
-
-# Download the population grid for epoch 2000 in a resolution of 100 m
-download_GHSLdata(
-  output_directory = "data/population",
+  output_directory = tempdir(),
+  filename = "POP_2000.tif",
   products = "POP",
   extent = c("R3_C19", "R4_C19"),
   epoch = 2000,
-  resolution = 100,
-  filenames = "POP_100.tif"
 )
+\dontshow{
+ unlink(file.path(tempdir(), 'POP_2000.tif'))
+ unlink(file.path(tempdir(), 'POP_2000.json'))
+}
 }
 }

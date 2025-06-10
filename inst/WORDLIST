@@ -18,7 +18,6 @@ Dingel
 Directie
 EPSG
 Eddelbuettel
-FWO
 Florczyk
 Friedl
 GHS
@@ -59,7 +58,6 @@ Statistiek
 Tatem
 UNPD
 VIIRS
-WGS
 WorldPop
 Yetman
 alt
@@ -83,3 +81,4 @@ sr
 th
 urba
 uri
+zenodo

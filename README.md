@@ -28,17 +28,10 @@ Science, 51(7), 1706-1714.*
 
 ## Installation
 
-You need the `devtools` package to install R packages from GitHub. If
-you don’t have it installed, run:
+The `flexurba` package can be installed as follows:
 
 ``` r
-install.packages("devtools")
-```
-
-Afterwards, the `flexurba` package can be installed as follows:
-
-``` r
-devtools::install_github("cvmigero/flexurba")
+install.packages("flexurba")
 ```
 
 *Important notes for installation:*
@@ -143,9 +136,10 @@ night-time light data.
 proxy_data_belgium <- load_proxies_belgium()
 
 # apply the threshold
-builtupclassification <- apply_threshold(proxy_data_belgium$built, 
-                                         type="predefined",
-                                         threshold_value = 0.15)
+builtupclassification <- apply_threshold(proxy_data_belgium$built,
+  type = "predefined",
+  threshold_value = 0.15
+)
 
 # plot the resulting urban boundaries
 terra::plot(builtupclassification$rboundaries)
@@ -157,9 +151,10 @@ terra::plot(builtupclassification$rboundaries)
 # (2) predefined threshold of 15 nW/cm³/sr
 
 # apply the threshold
-lightclassification <- apply_threshold(proxy_data_belgium$light, 
-                                         type="predefined",
-                                         threshold_value = 15)
+lightclassification <- apply_threshold(proxy_data_belgium$light,
+  type = "predefined",
+  threshold_value = 15
+)
 
 # plot the resulting urban boundaries
 terra::plot(lightclassification$rboundaries)

@@ -11,6 +11,7 @@
 #'
 #' *Note that the land grid is only available for epoch 2018 and release R2022A on the GHSL website. The land grid will consequently always be downloaded with these specifications, regardless of the epoch and release specified in the arguments (a warning message is printed).*
 #' @param output_directory character. Path to the output directory
+#' @param filenames vector of the output filenames to save the downloaded products.
 #' @param products vector with the types of the data products: `"BUILT_S"`, `"POP"` and/or `"LAND"` for the built-up area grid, the population grid and the land grid respectively
 #' @param epoch integer. Epoch
 #' @param release character. Release code (only release `"R2022A"` and `"R2023A"` are supported)
@@ -25,48 +26,31 @@
 #' @param filenames character. Filenames for the output files
 #' @return path to the created files.
 #' @examples
-#' \dontrun{
-#' # Download the data required for the grid cell classification at a global scale
+#' \donttest{
+#' # Download the population grid for epoch 2000 for specific tiles
 #' download_GHSLdata(
-#'   output_directory = "data/global",
-#'   extent = "global"
-#' )
-#'
-#' # Download the data required for the grid cell classification
-#' # for specific GHSL_ids
-#' download_GHSLdata(
-#'   output_directory = "data/tiles",
-#'   extent = c("R3_C19", "R4_C19")
-#' )
-#'
-#' # Download the data required for the grid cell classification
-#' # in the pre-defined regions
-#' download_GHSLdata(
-#'   output_directory = "data/regions",
-#'   extent = "regions"
-#' )
-#'
-#' # Download the population grid for epoch 2000 in a resolution of 100 m
-#' download_GHSLdata(
-#'   output_directory = "data/population",
+#'   output_directory = tempdir(),
+#'   filename = "POP_2000.tif",
 #'   products = "POP",
 #'   extent = c("R3_C19", "R4_C19"),
 #'   epoch = 2000,
-#'   resolution = 100,
-#'   filenames = "POP_100.tif"
 #' )
+#' \dontshow{
+#'  unlink(file.path(tempdir(), 'POP_2000.tif'))
+#'  unlink(file.path(tempdir(), 'POP_2000.json'))
+#' }
 #' }
 #' @export
 download_GHSLdata <- function(
   output_directory,
-  products = c("POP", "BUILT_S", "LAND"),
+  filenames,
+  products = c("BUILT_S", "POP", "LAND"),
   epoch = 2020,
   release = "R2023A",
   crs = 54009,
   resolution = 1000,
   version = c("V1", "0"),
-  extent = "global",
-  filenames = c("POP.tif", "BUILT_S.tif", "LAND.tif")
+  extent = "global"
 ) {
   # create metadata list
   metadata <- as.list(environment())
@@ -76,6 +60,11 @@ download_GHSLdata <- function(
   )
   metadata$version <- paste(metadata$version, collapse = "_")
 
+  # check if filenames are provided
+  if (missing(filenames)) {
+    stop("Invalid argument: 'filenames' is now required (as per CRAN policies)")
+  }
+  
   # if directory does not exist: create it
   if (!dir.exists(output_directory)) {
     dir.create(output_directory, recursive = TRUE)

@@ -3,14 +3,34 @@ test_that("crop_GHSLdata() works", {
     crop_GHSLdata(
       extent=terra::ext(350000, 400000, 5950000, 6000000),
       global_directory='doesnotexist',
-      output_directory=tempdir()
+      output_directory=tempdir(),
+      output_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif'),
+      global_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif')
   ))
+  
+  expect_error(
+    crop_GHSLdata(
+      extent=terra::ext(350000, 400000, 5950000, 6000000),
+      global_directory=system.file("extdata", "belgium", package = "flexurba"),
+      output_directory=tempdir(),
+      output_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif')
+    ))
+  
+  expect_error(
+    crop_GHSLdata(
+      extent=terra::ext(350000, 400000, 5950000, 6000000),
+      global_directory=system.file("extdata", "belgium", package = "flexurba"),
+      output_directory=tempdir(),
+      global_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif')
+    ))
   
   expect_error(
     crop_GHSLdata(
       extent='wrong',
       global_directory=system.file("extdata", "belgium", package = "flexurba"),
-      output_directory=tempdir()
+      output_directory=tempdir(),
+      output_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif'),
+      global_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif')
     ))
   
   expect_error(
@@ -18,7 +38,9 @@ test_that("crop_GHSLdata() works", {
       extent=terra::ext(350000, 400000, 5950000, 6000000),
       global_directory=system.file("extdata", "belgium", package = "flexurba"),
       buffer='wrong',
-      output_directory=tempdir()
+      output_directory=tempdir(),
+      output_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif'),
+      global_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif')
     ))
   
   expect_error(
@@ -36,7 +58,13 @@ test_that("crop_GHSLdata() works", {
       global_directory=system.file("extdata", "belgium", 
                                    package = "flexurba"),
       output_directory=tempdir(),
-      # random filenames
-      output_filenames=paste0(replicate(3, paste0(sample(letters, 8, replace = TRUE), collapse = "")), '.tif')
+      output_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif'),
+      global_filenames = c('BUILT_S.tif', 'POP.tif', 'LAND.tif')
     ))
+  unlink(file.path(tempdir(), 'LAND.tif'))
+  unlink(file.path(tempdir(), 'LAND.json'))
+  unlink(file.path(tempdir(), 'POP.tif'))
+  unlink(file.path(tempdir(), 'POP.json'))
+  unlink(file.path(tempdir(), 'BUILT_S.tif'))
+  unlink(file.path(tempdir(), 'BUILT_S.json'))
 })
