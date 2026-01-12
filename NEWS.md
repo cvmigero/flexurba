@@ -1,3 +1,7 @@
+# flexurba 0.2.3
+
+Process CRAN feedback on invalid relative paths in package URLs.
+
 # flexurba 0.2.2
 
 Process CRAN feedback:
