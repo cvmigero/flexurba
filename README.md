@@ -218,3 +218,11 @@ implementation. For the official documents, readers can consult
 (2021)](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Applying_the_degree_of_urbanisation_manual)
 and the [Global Human Settlement Layer
 website](https://ghsl.jrc.ec.europa.eu/degurba.php).*
+
+## Related Work
+
+- GHSL Tools with Graphical User Interface:
+  <https://ghsl.jrc.ec.europa.eu/tools.php>
+- An exploratory implementation of the DEGURBA grid-cell classification
+  and its superimposition onto postcode areas:
+  <https://github.com/saschagobel/degurba-postcode-areas>
