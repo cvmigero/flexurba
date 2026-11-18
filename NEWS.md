@@ -1,3 +1,9 @@
+# flexurba 0.2.4
+
+* Fix issue with the unit classification of Semi-dense towns and Suburbs and peri-urban areas in the function `apply_unit_classification_rules()`. The classification rules for these two classes were switched. 
+
+* Minor updates to the documentation.
+
 # flexurba 0.2.3
 
 Process CRAN feedback on invalid relative paths in package URLs.
