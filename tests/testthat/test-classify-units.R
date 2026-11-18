@@ -137,7 +137,7 @@ test_that("DoU_classify_units() works", {
 
   expect_equal(
     as.vector(units_classification2$flexurba_L2)[20:30],
-    c("21", "23", "13", "30", "22", "22", "13", "22", "23", "22", "30")
+    c("21", "23", "13", "30", "21", "21", "13", "21", "23", "21", "30")
   )
 
   # deprecated functions

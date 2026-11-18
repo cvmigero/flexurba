@@ -45,7 +45,8 @@ options(timeout = 500)
 
 # download the GHSL data on a global scale and save it in
 # the directory "data/global"
-download_GHSLdata(output_directory = "data/global")
+download_GHSLdata(output_directory = "data/global",
+                  filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"))
 
 # crop the global grid to a custom extent (here: Belgium) and save it
 # in the directory "data/belgium"
@@ -53,7 +54,9 @@ download_GHSLdata(output_directory = "data/global")
 crop_GHSLdata(
   extent = terra::ext(192000, 485000, 5821000, 6030000),
   global_directory = "data/global",
-  output_directory = "data/belgium"
+  global_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif"),
+  output_directory = "data/belgium",
+  output_filenames = c("BUILT_S.tif", "POP.tif", "LAND.tif")
 )
 ```
 

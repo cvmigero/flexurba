@@ -141,7 +141,7 @@ units_classification2 <- DoU_classify_units(
 )
 
 # plot the classifications
-plot_units(
+DoU_plot_units(
   units = data_units2$units,
   classification = units_classification2,
   level1 = FALSE

@@ -625,9 +625,9 @@ apply_unit_classification_rules <- function(
                   values[2],
                 (flexurba_L1 == 2) &
                   ((UCentre_share + DUC_share) < 0.5) &
-                  ((SDUC_share + Rural_share) < 0.5) ~
+                  ((SUrb_share + Rural_share) < 0.5) ~
                   values[3],
-                (flexurba_L1 == 2) & ((SDUC_share + Rural_share) >= 0.5) ~
+                (flexurba_L1 == 2) & ((SUrb_share + Rural_share) >= 0.5) ~
                   values[4],
                 (flexurba_L1 == 1) &
                   (RC_share + UCentre_share + UCluster_share >= 0.5) ~
